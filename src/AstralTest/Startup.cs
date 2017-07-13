@@ -33,7 +33,8 @@ namespace AstralTest
         {
             // Add framework services.
             services.AddDbContext<AstralContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
+                , x => x.MigrationsAssembly("AstralTest")));
 
             services.AddMvc();
 

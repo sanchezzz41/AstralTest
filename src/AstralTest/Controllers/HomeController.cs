@@ -21,7 +21,7 @@ namespace AstralTest.Controllers
         {
         
             _context = context;
-            var result = _context.Users.First(x => x.Id.ToString() == "43b0b0ad-119f-43c7-acb6-d6fa8531b9b6");
+            var result = _context.Users.FirstOrDefault();
         } 
 
         [HttpGet("GetUsers")]

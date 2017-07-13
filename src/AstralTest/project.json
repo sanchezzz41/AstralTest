@@ -16,13 +16,13 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",
+    "Microsoft.EntityFrameworkCore.Design": "1.1.2",
     "AstralTest.Domain": "1.0.0-*",
-    "Swashbuckle.AspNetCore": "1.0.0",
-    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.0.0-preview3-final",
-    "Microsoft.EntityFrameworkCore.Tools": "1.1.1"
+    "Swashbuckle.AspNetCore": "1.0.0"
   },
 
   "tools": {
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
   },
 
