@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Interface
 {
-      public interface IUser
+    public interface INote
     {
-        IEnumerable<User> Users { get; }
-        void AddUser(User user);
-        void DeleteUser(User user);
-        void EditUser(User user);
+        IEnumerable<Note> Notes { get; }
+        void AddNote(User user,Note note);
+        void DeleteNote(Note note);
+        void EditNote(Note note);
     }
 }

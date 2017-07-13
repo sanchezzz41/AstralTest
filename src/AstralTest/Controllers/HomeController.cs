@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Model;
-using AstralTest.Domain.Model.RealizeInterface;
-using AstralTest.Domain;
+using AstralTest.Domain.Interface;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

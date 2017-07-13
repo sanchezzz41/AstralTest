@@ -1,4 +1,5 @@
 ﻿using AstralTest.Domain.Context;
+using AstralTest.Domain.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Model.RealizeInterface
 {
-    public class UserControl : IUser
+    public class UserWork : IUser
     {
         private AstralContext _context { get; }
 
@@ -19,7 +20,7 @@ namespace AstralTest.Domain.Model.RealizeInterface
             }
         }
 
-        public UserControl(AstralContext context)
+        public UserWork(AstralContext context)
         {
             _context = context;
         }

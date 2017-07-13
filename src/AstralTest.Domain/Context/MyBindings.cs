@@ -1,4 +1,5 @@
-﻿using AstralTest.Domain.Model.RealizeInterface;
+﻿using AstralTest.Domain.Interface;
+using AstralTest.Domain.Model.RealizeInterface;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace AstralTest.Domain.Context
     {
           public static IServiceCollection AddMyBindings(this IServiceCollection service)
         {
-            service.AddScoped<IUser, UserControl>();
+            service.AddScoped<IUser, UserWork>();
+            service.AddScoped<INote, NoteWork>();
             return service;
         }
     }
