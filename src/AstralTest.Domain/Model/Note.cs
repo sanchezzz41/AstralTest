@@ -20,8 +20,7 @@ namespace AstralTest.Domain.Model
         public string Text { get; set; }
 
         [Column("iduser")]
-        public Guid? MasterId { get; set; }
-
+        public Guid? MasterId { get; set; }      
        
         public  User Master { get; set; }    
     }

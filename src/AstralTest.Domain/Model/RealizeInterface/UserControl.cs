@@ -1,4 +1,5 @@
 ﻿using AstralTest.Domain.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace AstralTest.Domain.Model.RealizeInterface
         {
             get
             {
-               return _context.Users.ToList();
+                return _context.Users.Include(x => x.Notes).ToList();
             }
         }
 

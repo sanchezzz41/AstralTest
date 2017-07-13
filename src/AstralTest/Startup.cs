@@ -63,7 +63,9 @@ namespace AstralTest
             {
                 x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
             });
-           
+         
+
+
         }                                       
     }
 }
