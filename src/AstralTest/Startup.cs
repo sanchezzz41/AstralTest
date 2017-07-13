@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using AstralTest.Domain.Context;
 
 namespace AstralTest
 {
@@ -28,6 +30,8 @@ namespace AstralTest
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddDbContext<AstralContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
         }
 
@@ -38,6 +42,7 @@ namespace AstralTest
             loggerFactory.AddDebug();
 
             app.UseMvc();
-        }
+            env.
+        }                                       
     }
 }
