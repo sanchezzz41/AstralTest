@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Context;
+using Swashbuckle.AspNetCore.Swagger;
+using AstralTest.Domain.Model;
 
 namespace AstralTest
 {
@@ -32,7 +34,15 @@ namespace AstralTest
             // Add framework services.
             services.AddDbContext<AstralContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc();
+
+            services.AddMyBindings();
+          
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +51,18 @@ namespace AstralTest
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
-            env.
+            app.UseMvc(route=>                              
+            {
+                route.MapRoute("Default", "{controller=Home}/{action=GetUsers}/{id?}");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
+            });
+           
         }                                       
     }
 }

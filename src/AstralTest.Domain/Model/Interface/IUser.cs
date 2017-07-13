@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace AstralTest.Domain
 {
-    interface IUser
+      public interface IUser
     {
+        IEnumerable<User> Users { get; }
         void AddUser(User user);
         void DeleteUser(User user);
-        void ChangeUser(User user);
+        void EditUser(User user);
     }
 }
