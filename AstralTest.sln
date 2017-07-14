@@ -14,6 +14,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest", "src\AstralTes
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.Domain", "src\AstralTest.Domain\AstralTest.Domain.xproj", "{29322B51-9E1B-4E93-B808-28DE974DB8B0}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.ContextDb", "src\AstralTest.ContextDb\AstralTest.ContextDb.xproj", "{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.DataClassForDb", "src\AstralTest.DataDb\AstralTest.DataClassForDb.xproj", "{BAF55B32-197E-4B72-A088-E3F49B81CED7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +32,14 @@ Global
 		{29322B51-9E1B-4E93-B808-28DE974DB8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29322B51-9E1B-4E93-B808-28DE974DB8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29322B51-9E1B-4E93-B808-28DE974DB8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF55B32-197E-4B72-A088-E3F49B81CED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF55B32-197E-4B72-A088-E3F49B81CED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF55B32-197E-4B72-A088-E3F49B81CED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF55B32-197E-4B72-A088-E3F49B81CED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,5 +47,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5A0FB288-9739-412F-BC92-9CECA6A33DA2} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 		{29322B51-9E1B-4E93-B808-28DE974DB8B0} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
+		{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
+		{BAF55B32-197E-4B72-A088-E3F49B81CED7} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 	EndGlobalSection
 EndGlobal

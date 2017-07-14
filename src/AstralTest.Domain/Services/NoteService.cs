@@ -1,4 +1,5 @@
-﻿using AstralTest.Domain.Context;
+﻿using AstralTest.ContextDb;
+using AstralTest.DataDb;
 using AstralTest.Domain.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Model.RealizeInterface
+namespace AstralTest.Domain.Service
 {
-    public class NoteWork : INote
+    public class NoteService : INote
     {
         private AstralContext _context { get; }
 
-        public NoteWork(AstralContext context)
+        public NoteService(AstralContext context)
         {
             _context = context;
         }
@@ -20,7 +21,7 @@ namespace AstralTest.Domain.Model.RealizeInterface
         public IEnumerable<Note> Notes
         {
             get
-            {
+            {        
                return _context.Notes.Include(x=>x.Master).ToList();
             }
         }

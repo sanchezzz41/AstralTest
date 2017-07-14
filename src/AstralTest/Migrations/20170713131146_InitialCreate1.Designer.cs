@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using AstralTest.Domain.Context;
+using AstralTest.Domain.ContextDb;
+using AstralTest.ContextDb;
 
 namespace AstralTest.Migrations
 {

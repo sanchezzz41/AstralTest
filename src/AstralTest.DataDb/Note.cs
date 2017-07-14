@@ -5,22 +5,21 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AstralTest.Domain.Model
+namespace AstralTest.DataDb
 {
-    public class User
+    public class Note
     {
-     
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("id")]
         public Guid Id { get; set; }
 
         [Required]
-        [Column("name")]
-        public string Name { get; set; }
+        public string Text { get; set; }
 
-        public  ICollection<Note> Notes { get; set; }
-
+        [ForeignKey(nameof(Master))]
+        public Guid? MasterId { get; set; }      
+       
+        public virtual User Master { get; set; }    
     }
 }

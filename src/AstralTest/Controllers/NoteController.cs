@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interface;
 using AstralTest.Model;
-using AstralTest.Domain.Model;
+using AstralTest.DataDb;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,8 +41,8 @@ namespace AstralTest.Controllers
         [HttpPost("AddNote")]
         public IActionResult AddNote([FromBody]NoteModel mod)
         {
-            _context.AddNote(new Domain.Model.User { Id = mod.IdMaster },
-                new Domain.Model.Note { Id = Guid.NewGuid(), Text = mod.Text });
+            _context.AddNote(new User { Id = mod.IdMaster },
+                new Note { Id = Guid.NewGuid(), Text = mod.Text });
             return View();
         }
 

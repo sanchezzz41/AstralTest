@@ -1,8 +1,5 @@
-﻿using AstralTest.Domain.Model;
-using System;
+﻿using AstralTest.DataDb;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Interface
 {

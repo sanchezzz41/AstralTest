@@ -1,14 +1,14 @@
-﻿using AstralTest.Domain.Context;
+﻿using AstralTest.DataDb;
 using AstralTest.Domain.Interface;
+using AstralTest.ContextDb;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Model.RealizeInterface
+namespace AstralTest.Domain.Service
 {
-    public class UserWork : IUser
+    public class UserService : IUser
     {
         private AstralContext _context { get; }
 
@@ -20,7 +20,7 @@ namespace AstralTest.Domain.Model.RealizeInterface
             }
         }
 
-        public UserWork(AstralContext context)
+        public UserService(AstralContext context)
         {
             _context = context;
         }

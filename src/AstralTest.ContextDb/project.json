@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "AstralTest.DataDb": "1.0.0-*",
+    "NETStandard.Library": "1.6.1",
+    "Microsoft.EntityFrameworkCore": "1.1.2",
+    "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

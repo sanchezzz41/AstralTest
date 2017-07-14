@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using AstralTest.Domain.Model;
+using AstralTest.DataDb;
 
-namespace AstralTest.Domain.Context
+namespace AstralTest.ContextDb
 {
     public class AstralContext:DbContext
     {
@@ -25,7 +25,7 @@ namespace AstralTest.Domain.Context
             modelBuilder.Entity<Note>()
                 .HasOne(x => x.Master)
                 .WithMany(x => x.Notes)
-                .HasForeignKey(x=>x.MasterId);
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
         }
     }
 }

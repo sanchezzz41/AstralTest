@@ -1,4 +1,4 @@
-﻿using AstralTest.Domain.Model;
+﻿using AstralTest.DataDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;

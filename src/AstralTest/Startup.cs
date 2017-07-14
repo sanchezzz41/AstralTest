@@ -8,9 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using AstralTest.Domain.Context;
+using AstralTest.Domain.ContextDb;
 using Swashbuckle.AspNetCore.Swagger;
-using AstralTest.Domain.Model;
+using AstralTest.ContextDb;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.AspNetCore.Http;
 
 namespace AstralTest
 {
@@ -38,8 +40,9 @@ namespace AstralTest
 
             services.AddMvc();
 
+
             services.AddMyBindings();
-          
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -52,7 +55,7 @@ namespace AstralTest
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc(route=>                              
+            app.UseMvc(route =>
             {
                 route.MapRoute("Default", "{controller=Home}/{action=GetUsers}/{id?}");
             });
@@ -63,9 +66,11 @@ namespace AstralTest
             {
                 x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
             });
-         
 
+            app.ApplicationServices.GetService<AstralContext>().Database.Migrate();
+        }
 
-        }                                       
     }
+
 }
+
