@@ -1,38 +1,38 @@
-﻿using AstralTest.DataDb;
+﻿using AstralTest.Domain.Entities;
+using AstralTest.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Interface
+namespace AstralTest.Domain.Interfaces
 {
     /// <summary>
     /// Интерфейс для работы с заметками пользователя, включает стандартные операции CRUD
     /// </summary>
-    public interface INote
+    public interface INoteService
     {
         IEnumerable<Note> Notes { get; }
 
-        /// <summary>
-        /// Добавляет заметку в бд
-        /// </summary>
-        /// <param name="user">Владелек заметки</param>
-        /// <param name="note">Заетка для добавления в бд</param>
-        /// <returns></returns>
-        Task<Guid> AddAsync(User user,Note note);
+      /// <summary>
+      /// Добавляет заметку в бд
+      /// </summary>
+      /// <param name="noteModel"></param>
+      /// <returns></returns>
+        Task<Guid> AddAsync(NoteModel noteModel);
 
         /// <summary>
         /// Удаляет заметку из бд
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="id">id Заметки</param>
         /// <returns></returns>
-        Task DeleteAsync(Note note);
+        Task DeleteAsync(Guid id);
 
         /// <summary>
         /// Изменяет заметку
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        Task EditAsync(Note note);
+        Task EditAsync(NoteModel newNote);
 
         /// <summary>
         /// Получает заметки из БД

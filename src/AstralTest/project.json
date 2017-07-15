@@ -18,9 +18,9 @@
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.2",
     "Swashbuckle.AspNetCore": "1.0.0",
-    "AstralTest.ContextDb": "1.0.0-*",
-    "AstralTest.DataDb": "1.0.0-*",
-    "AstralTest.Domain": "1.0.0-*"
+    "AstralTest.Domain": "1.0.0-*",
+    "AstralTest.Database": "1.0.0-*",
+    "AstralTest.Domain.Entities": "1.0.0-*"
   },
 
   "tools": {

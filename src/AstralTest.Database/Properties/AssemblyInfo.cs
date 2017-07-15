@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AstralTest.Domain.Entities")]
+[assembly: AssemblyProduct("AstralTest.Database")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("baf55b32-197e-4b72-a088-e3f49b81ced7")]
+[assembly: Guid("9cb28280-3044-4a1e-b303-c657d33be0d2")]

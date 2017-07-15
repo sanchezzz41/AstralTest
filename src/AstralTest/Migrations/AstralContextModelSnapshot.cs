@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using AstralTest.ContextDb;
+using AstralTest.Database;
 
 namespace AstralTest.Migrations
 {
-    [DbContext(typeof(AstralContext))]
+    [DbContext(typeof(DatabaseContext))]
     partial class AstralContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -16,11 +16,11 @@ namespace AstralTest.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "1.1.2");
 
-            modelBuilder.Entity("AstralTest.DataDb.Note", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<Guid?>("MasterId");
+                    b.Property<Guid>("MasterId");
 
                     b.Property<string>("Text")
                         .IsRequired();
@@ -32,7 +32,7 @@ namespace AstralTest.Migrations
                     b.ToTable("notes");
                 });
 
-            modelBuilder.Entity("AstralTest.DataDb.User", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id");
 
@@ -44,9 +44,9 @@ namespace AstralTest.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("AstralTest.DataDb.Note", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
-                    b.HasOne("AstralTest.DataDb.User", "Master")
+                    b.HasOne("AstralTest.Domain.Entities.User", "Master")
                         .WithMany("Notes")
                         .HasForeignKey("MasterId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Model
+namespace AstralTest.Domain.Models
 {
     /// <summary>
     /// Класс для работы с пользователем в контролере
@@ -16,5 +16,10 @@ namespace AstralTest.Domain.Model
         /// </summary>
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Id пользователя
+        /// </summary>
+        public Guid Id { get; set; }
     }
 }

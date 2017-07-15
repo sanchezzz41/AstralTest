@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>af21e142-23a5-4a1a-b6be-c27c1dfc1b80</ProjectGuid>
-    <RootNamespace>AstralTest.ContextDb</RootNamespace>
+    <ProjectGuid>9cb28280-3044-4a1e-b303-c657d33be0d2</ProjectGuid>
+    <RootNamespace>AstralTest.Database</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

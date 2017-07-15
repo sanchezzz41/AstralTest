@@ -1,4 +1,4 @@
-﻿using AstralTest.Domain.Interface;
+﻿using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Service;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +7,7 @@ namespace AstralTest.Domain.ContextDb
     /// <summary>
     ///  Класс для добавления серсисов
     /// </summary>
-    public static class MyServices
+    public static class DomainServices
     {
 
         /// <summary>
@@ -15,10 +15,10 @@ namespace AstralTest.Domain.ContextDb
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMyServices(this IServiceCollection service)
+        public static IServiceCollection AddServices(this IServiceCollection service)
         {
-            service.AddScoped<IUser, UserService>();
-            service.AddScoped<INote, NoteService>();
+            service.AddScoped<IUserService, UserService>();
+            service.AddScoped<INoteService, NoteService>();
             return service;
         }
     }

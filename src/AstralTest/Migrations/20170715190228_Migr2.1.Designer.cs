@@ -8,8 +8,8 @@ using AstralTest.Database;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170713124217_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20170715190228_Migr2.1")]
+    partial class Migr21
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,17 +17,14 @@ namespace AstralTest.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "1.1.2");
 
-            modelBuilder.Entity("AstralTest.Domain.Model.Note", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id");
+                    b.Property<Guid>("Id");
 
-                    b.Property<Guid?>("MasterId")
-                        .HasColumnName("iduser");
+                    b.Property<Guid>("MasterId");
 
                     b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnName("text");
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -36,25 +33,24 @@ namespace AstralTest.Migrations
                     b.ToTable("notes");
                 });
 
-            modelBuilder.Entity("AstralTest.Domain.Model.User", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id");
+                    b.Property<Guid>("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("AstralTest.Domain.Model.Note", b =>
+            modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
-                    b.HasOne("AstralTest.Domain.Model.User", "Master")
+                    b.HasOne("AstralTest.Domain.Entities.User", "Master")
                         .WithMany("Notes")
-                        .HasForeignKey("MasterId");
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

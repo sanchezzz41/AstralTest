@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AstralTest.DataDb
+namespace AstralTest.Domain.Entities
 {
     /// <summary>
     /// Класс предоставляющей заметку дял пользователя
@@ -28,7 +28,7 @@ namespace AstralTest.DataDb
         /// Id Пользоваетля
         /// </summary>
         [ForeignKey(nameof(Master))]
-        public Guid? MasterId { get; set; }
+        public Guid MasterId { get; set; }
 
         /// <summary>
         ///  Пользователь 

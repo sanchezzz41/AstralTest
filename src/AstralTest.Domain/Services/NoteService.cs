@@ -1,6 +1,7 @@
-﻿using AstralTest.ContextDb;
-using AstralTest.DataDb;
-using AstralTest.Domain.Interface;
+﻿using AstralTest.Database;
+using AstralTest.Domain.Entities;
+using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,11 @@ namespace AstralTest.Domain.Service
     /// <summary>
     /// Класс для работы с заметками
     /// </summary>
-    public class NoteService : INote
+    public class NoteService : INoteService
     {
-        private AstralContext _context { get; }
+        private DatabaseContext _context { get; }
 
-        public NoteService(AstralContext context)
+        public NoteService(DatabaseContext context)
         {
             _context = context;
         }
@@ -33,27 +34,31 @@ namespace AstralTest.Domain.Service
         /// <summary>
         /// Добавляет заметку в бд
         /// </summary>
-        /// <param name="user">Владелек заметки</param>
-        /// <param name="note">Заетка для добавления в бд</param>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(User user, Note note)
+        public async Task<Guid> AddAsync(NoteModel noteModel)
         {
-            if (user == null
-                && note == null)
+            if(noteModel==null && noteModel.IdMaster==null)
             {
                 throw new Exception("NullException");
             }
-            var resUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
+            var resUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == noteModel.IdMaster);
+
             if (resUser == null)
             {
                 throw new Exception("NullException");
             }
-            note.Master = resUser;
-            note.MasterId = resUser.Id;
-            await _context.Notes.AddAsync(note);
 
+            var result = new Note(noteModel.Text, noteModel.IdMaster);
+
+            if (_context.Notes.Any(x=>x.Id==result.Id))
+            {
+                throw new Exception("IdExists");
+            }
+            //note.Master = resUser;
+            //note.MasterId = resUser.Id;
+            await _context.Notes.AddAsync(result);
             await _context.SaveChangesAsync();
-            return note.Id;
+            return result.Id;
         }
 
         /// <summary>
@@ -61,14 +66,15 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(Note note)
+        public async Task DeleteAsync(Guid id)
         {
-            if (note == null)
+            if (id == null)
             {
-                throw new Exception("NullException");
-
+                throw new Exception("IdEqualNullException");
             }
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == note.Id);
+
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == id);
+
             if (result == null)
             {
                 throw new Exception("NullException");
@@ -83,21 +89,20 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        public async Task EditAsync(Note note)
+        public async Task EditAsync(NoteModel newNote)
         {
-            if (note == null)
+            if(newNote!=null && newNote.Id==null)
             {
                 throw new Exception("NullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == note.Id);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == newNote.Id);
             if (result == null)
             {
                 throw new Exception("NullException");
             }
-            result.Text = note.Text;
-            _context.Notes.Attach(result);
-            _context.Entry(result).Property(x => x.Text).IsModified = true;
+           
+            result.Text = newNote.Text;
             await _context.SaveChangesAsync();
         }
 

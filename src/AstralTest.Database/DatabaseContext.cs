@@ -7,9 +7,9 @@ using AstralTest.Domain.Entities;
 
 namespace AstralTest.Database
 {
-    public class AstralContext:DbContext
+    public class DatabaseContext:DbContext
     {
-        public AstralContext(DbContextOptions<AstralContext> opt):base(opt)
+        public DatabaseContext(DbContextOptions<DatabaseContext> opt):base(opt)
         {
 
         }
@@ -22,10 +22,11 @@ namespace AstralTest.Database
         {
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Note>().ToTable("notes");
-            //modelBuilder.Entity<Note>()
-            //    .HasOne(x => x.Master)
-            //    .WithMany(x => x.Notes)
-            //    .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+            //Каскадое удаление не заработало, если это закоментить и просто указать внешний ключ
+            modelBuilder.Entity<Note>()
+                .HasOne(x => x.Master)
+                .WithMany(x => x.Notes)
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
         }
     }
 }

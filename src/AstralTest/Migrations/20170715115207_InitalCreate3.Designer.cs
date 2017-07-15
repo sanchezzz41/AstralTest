@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using AstralTest.ContextDb;
+using AstralTest.Database;
 
 namespace AstralTest.Migrations
 {
-    [DbContext(typeof(AstralContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20170715115207_InitalCreate3")]
     partial class InitalCreate3
     {
