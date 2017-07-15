@@ -8,9 +8,10 @@ using AstralTest.ContextDb;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(AstralContext))]
-    partial class AstralContextModelSnapshot : ModelSnapshot
+    [Migration("20170715115207_InitalCreate3")]
+    partial class InitalCreate3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)

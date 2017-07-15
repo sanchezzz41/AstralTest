@@ -16,7 +16,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.Domain", "src\As
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.ContextDb", "src\AstralTest.ContextDb\AstralTest.ContextDb.xproj", "{AF21E142-23A5-4A1A-B6BE-C27C1DFC1B80}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.DataClassForDb", "src\AstralTest.DataDb\AstralTest.DataClassForDb.xproj", "{BAF55B32-197E-4B72-A088-E3F49B81CED7}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AstralTest.DataDb", "src\AstralTest.DataDb\AstralTest.DataDb.xproj", "{BAF55B32-197E-4B72-A088-E3F49B81CED7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

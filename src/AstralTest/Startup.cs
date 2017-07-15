@@ -40,8 +40,8 @@ namespace AstralTest
 
             services.AddMvc();
 
-
-            services.AddMyBindings();
+            //Тут добавляются наши биндинги интерфейсов
+            services.AddMyServices();
 
             services.AddSwaggerGen(c =>
             {
@@ -60,13 +60,14 @@ namespace AstralTest
                 route.MapRoute("Default", "{controller=Home}/{action=GetUsers}/{id?}");
             });
 
+            //Используем swagger для проверки контроллеров
             app.UseSwagger();
 
             app.UseSwaggerUI(x =>
             {
                 x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
             });
-
+            //Тут делается миграция бд, если бд не существует
             app.ApplicationServices.GetService<AstralContext>().Database.Migrate();
         }
 

@@ -7,46 +7,54 @@ using AstralTest.Domain.ContextDb;
 using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Interface;
 using AstralTest.DataDb;
+using AstralTest.Domain.Model;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AstralTest.Controllers
 {
+    /// <summary>
+    /// Контроллер для работы с пользователем
+    /// </summary>
     [Route("User")]
     public class UserController : Controller
     {
         private readonly IUser _context;
         public UserController(IUser context)
         {
-        
             _context = context;
-            var result = _context.Users.FirstOrDefault();
         } 
 
+        //Возвращает всех пользователей
         [HttpGet("")]
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return  _context.Users;
+            return await _context.GetAsync();
         }
 
+        //Удаляет пользователя по Id
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async  Task<IActionResult> Delete(Guid id)
         {
-            _context.DeleteUser(new User { Id = id });
+            await _context.DeleteAsync(new User { Id = id });
             return RedirectToAction("GetUsers");
         }
 
+        //Добавляет пользователя
         [HttpPost("")]
-        public IActionResult AddUser([FromBody] User us)
+        public async Task<Guid> AddUser([FromBody] UserModel us)
         {
-            _context.AddUser(us);
-            return View(us.Name);
+            var user = new User { Name = us.Name };
+            var result = await _context.AddAsync(user);
+            return result;
         }
 
+        //Изменяет пользователя
         [HttpPut("")]
-        public IActionResult EditUser([FromBody] User us)
+        public async Task<IActionResult> EditUser([FromBody] UserEditModel us)
         {
-            _context.EditUser(us);
+            var userForEdit = new User { Id = us.IdUser, Name = us.Name };
+            await _context.EditAsync(userForEdit);
             return View(us.Name);
         }
     }

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Service
 {
+
+    /// <summary>
+    /// Класс для работы с заметками
+    /// </summary>
     public class NoteService : INote
     {
         private AstralContext _context { get; }
@@ -21,73 +25,91 @@ namespace AstralTest.Domain.Service
         public IEnumerable<Note> Notes
         {
             get
-            {        
-               return _context.Notes.Include(x=>x.Master).ToList();
+            {
+                return _context.Notes.Include(x => x.Master).ToList();
             }
         }
 
-        public void AddNote(User user, Note note)
+        /// <summary>
+        /// Добавляет заметку в бд
+        /// </summary>
+        /// <param name="user">Владелек заметки</param>
+        /// <param name="note">Заетка для добавления в бд</param>
+        /// <returns></returns>
+        public async Task<Guid> AddAsync(User user, Note note)
         {
-            if (user != null 
-                && note != null)
-            {
-                var resUser = _context.Users.FirstOrDefault(x => x.Id == user.Id);
-                if (resUser != null)
-                {
-                    //1й вариант
-                    note.Master = resUser;
-                    note.MasterId = resUser.Id;
-                    _context.Notes.Add(note);
-
-                    //2й вариант - Не работает(потом разобраться)
-                    //resUser.Notes.Add(note);
-                    //_context.Users.Attach(resUser);
-                    //_context.Entry(resUser).Property(x => x.Notes).IsModified = true;
-
-
-                    _context.SaveChanges();
-                }
-            }
-            else
+            if (user == null
+                && note == null)
             {
                 throw new Exception("NullException");
             }
-        }
-
-        public void DeleteNote(Note note)
-        {
-            if (note != null)
-            {
-                var result = _context.Notes.FirstOrDefault(x => x.Id == note.Id);
-                if (result != null)
-                {
-                    _context.Notes.Remove(result);
-                   _context.SaveChanges();
-                }
-            }
-            else
+            var resUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
+            if (resUser == null)
             {
                 throw new Exception("NullException");
             }
+            note.Master = resUser;
+            note.MasterId = resUser.Id;
+            await _context.Notes.AddAsync(note);
+
+            await _context.SaveChangesAsync();
+            return note.Id;
         }
 
-        public void EditNote(Note note)
+        /// <summary>
+        /// Удаляет заметку из бд
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
+        public async Task DeleteAsync(Note note)
         {
-            if (note != null)
+            if (note == null)
             {
-                var result = _context.Notes.FirstOrDefault(x => x.Id == note.Id);
-                if (result != null)
-                {
-                    result.Text = note.Text;
-                    _context.Notes.Attach(result);
-                    _context.Entry(result).Property(x => x.Text).IsModified = true;
-                    _context.SaveChanges();
-                }
+                throw new Exception("NullException");
+
             }
-            else
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == note.Id);
+            if (result == null)
             {
                 throw new Exception("NullException");
             }
+            _context.Notes.Remove(result);
+            await _context.SaveChangesAsync();
+
         }
+
+        /// <summary>
+        /// Изменяет заметку
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
+        public async Task EditAsync(Note note)
+        {
+            if (note == null)
+            {
+                throw new Exception("NullException");
+            }
+
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == note.Id);
+            if (result == null)
+            {
+                throw new Exception("NullException");
+            }
+            result.Text = note.Text;
+            _context.Notes.Attach(result);
+            _context.Entry(result).Property(x => x.Text).IsModified = true;
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Получает заметки из БД
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Note>> GetAsync()
+        {
+            var result = await _context.Notes.ToListAsync();
+            return result;
+        }
+
     }
 }
