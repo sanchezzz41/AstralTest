@@ -48,10 +48,10 @@ namespace AstralTest.Controllers
         }
 
         //Изменяет пользователя
-        [HttpPut]
-        public async Task EditUser([FromBody] UserModel us)
+        [HttpPut("{id}")]
+        public async Task EditUser([FromBody] UserModel us,Guid id)
         {
-             await _context.EditAsync(us);
+             await _context.EditAsync(us,id);
         }
     }
 

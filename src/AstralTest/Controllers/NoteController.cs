@@ -44,10 +44,10 @@ namespace AstralTest.Controllers
         }
 
         //Добавляет заметку
-        [HttpPost]
-        public async Task<Guid> AddNote([FromBody]NoteModel mod)
+        [HttpPost("{idMaster}")]
+        public async Task<Guid> AddNote([FromBody] NoteModel mod, Guid idMaster)
         {
-            var resultId = await _context.AddAsync(mod);
+            var resultId = await _context.AddAsync(mod,idMaster);
             return resultId;
         }
 
@@ -58,13 +58,11 @@ namespace AstralTest.Controllers
             await _context.DeleteAsync(id);
         }
 
-
-
         //Изменяет запись
-        [HttpPut]
-        public async Task EditNote([FromBody]NoteModel mod)
+        [HttpPut("{idNote}")]
+        public async Task EditNote([FromBody]NoteModel mod,Guid idNote)
         {
-            await _context.EditAsync(mod);
+            await _context.EditAsync(mod,idNote);
 
         }
     }

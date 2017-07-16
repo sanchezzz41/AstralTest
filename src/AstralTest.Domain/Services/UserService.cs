@@ -39,7 +39,7 @@ namespace AstralTest.Domain.Service
         /// <returns>Id пользователя</returns>
         public async Task<Guid> AddAsync(UserModel user)
         {
-            if (user == null && user.Id==null)
+            if (user == null)
             {
                 throw new Exception("User is null");
             }
@@ -61,13 +61,13 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        public async Task EditAsync(UserModel user)
+        public async Task EditAsync(UserModel user, Guid id)
         {
-            if (user == null && user.Id == null)
+            if (user == null && id == null)
             {
                 throw new Exception("User is null");
             }
-            var result = await _context.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
+            var result = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
             {

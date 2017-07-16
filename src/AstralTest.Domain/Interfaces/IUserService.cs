@@ -34,7 +34,7 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        Task EditAsync(UserModel user);
+        Task EditAsync(UserModel user,Guid id);
 
         /// <summary>
         /// Получает пользователей из БД 

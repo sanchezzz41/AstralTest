@@ -17,9 +17,9 @@ namespace AstralTest.Domain.Models
         [Required]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Id пользователя
-        /// </summary>
-        public Guid Id { get; set; }
+        ///// <summary>
+        ///// Id пользователя
+        ///// </summary>
+        //public Guid Id { get; set; }
     }
 }

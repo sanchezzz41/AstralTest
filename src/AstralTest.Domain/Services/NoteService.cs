@@ -35,20 +35,20 @@ namespace AstralTest.Domain.Service
         /// Добавляет заметку в бд
         /// </summary>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(NoteModel noteModel)
+        public async Task<Guid> AddAsync(NoteModel noteModel, Guid idMaster)
         {
-            if(noteModel==null && noteModel.IdMaster==null)
+            if(noteModel==null && idMaster== null)
             {
                 throw new Exception("NullException");
             }
-            var resUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == noteModel.IdMaster);
+            var resUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == idMaster);
 
             if (resUser == null)
             {
                 throw new Exception("NullException");
             }
 
-            var result = new Note(noteModel.Text, noteModel.IdMaster);
+            var result = new Note(noteModel.Text, idMaster);
 
             if (_context.Notes.Any(x=>x.Id==result.Id))
             {
@@ -89,19 +89,19 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        public async Task EditAsync(NoteModel newNote)
+        public async Task EditAsync(NoteModel newNote, Guid IdNote)
         {
-            if(newNote!=null && newNote.Id==null)
+            if (newNote != null && IdNote == null)
             {
                 throw new Exception("NullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == newNote.Id);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == IdNote);
             if (result == null)
             {
                 throw new Exception("NullException");
             }
-           
+
             result.Text = newNote.Text;
             await _context.SaveChangesAsync();
         }
