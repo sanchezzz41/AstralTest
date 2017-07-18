@@ -38,6 +38,8 @@ namespace AstralTest
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
                 , x => x.MigrationsAssembly("AstralTest")));
 
+
+
             services.AddMvc();
 
             //Тут добавляются наши биндинги интерфейсов

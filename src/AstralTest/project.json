@@ -20,7 +20,9 @@
     "Swashbuckle.AspNetCore": "1.0.0",
     "AstralTest.Domain": "1.0.0-*",
     "AstralTest.Database": "1.0.0-*",
-    "AstralTest.Domain.Entities": "1.0.0-*"
+    "AstralTest.Domain.Entities": "1.0.0-*",
+    "Microsoft.AspNetCore.Identity": "1.0.0",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
   },
 
   "tools": {
