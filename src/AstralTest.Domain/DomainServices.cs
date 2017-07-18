@@ -1,5 +1,7 @@
-﻿using AstralTest.Domain.Interfaces;
+﻿using AstralTest.Domain.Entities;
+using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AstralTest.Domain.ContextDb
@@ -11,7 +13,7 @@ namespace AstralTest.Domain.ContextDb
     {
 
         /// <summary>
-        /// Добавляет сервисы в IServiceCollection 
+        /// Добавляет сервисы из Domain в IServiceCollection 
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>

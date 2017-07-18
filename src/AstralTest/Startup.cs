@@ -13,6 +13,10 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.AspNetCore.Http;
 using AstralTest.Database;
+using AstralTest.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AstralTest
 {
@@ -38,13 +42,14 @@ namespace AstralTest
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
                 , x => x.MigrationsAssembly("AstralTest")));
 
-
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DatabaseContext>();
 
             services.AddMvc();
 
+
             //Тут добавляются наши биндинги интерфейсов
             services.AddServices();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -57,10 +62,7 @@ namespace AstralTest
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc(route =>
-            {
-                route.MapRoute("Default", "{controller=Home}/{action=GetUsers}/{id?}");
-            });
+          
 
             //Используем swagger для проверки контроллеров
 
@@ -74,11 +76,16 @@ namespace AstralTest
                     x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
                 });
             }
+
+            app.UseIdentity();
+            app.UseMvc(route =>
+            {
+                route.MapRoute("Default", "{controller=Home}/{action=GetUsers}/{id?}");
+            });
             //Тут делается миграция бд, если бд не существует
             app.ApplicationServices.GetService<DatabaseContext>().Database.Migrate();
         }
 
     }
-
 }
 

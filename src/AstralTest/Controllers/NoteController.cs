@@ -36,7 +36,7 @@ namespace AstralTest.Controllers
             if (minVal > 0 && minVal < maxVal)
             {
                 var prom = await _context.GetAsync();
-                var result = prom.OrderBy(x => x.Master.Name).Skip(minVal).Take(maxVal - minVal).ToList();
+                var result = prom.OrderBy(x => x.Master.UserName).Skip(minVal).Take(maxVal - minVal).ToList();
                 return result;
             }
             return null;
@@ -45,7 +45,7 @@ namespace AstralTest.Controllers
 
         //Добавляет заметку
         [HttpPost("{idMaster}")]
-        public async Task<Guid> AddNote([FromBody] NoteModel mod, Guid idMaster)
+        public async Task<Guid> AddNote([FromBody] NoteModel mod, string idMaster)
         {
             var resultId = await _context.AddAsync(mod,idMaster);
             return resultId;
@@ -59,7 +59,7 @@ namespace AstralTest.Controllers
         }
 
         //Изменяет запись
-        [HttpPut("{idNote}")]
+        [HttpPut("{idNotes}")]
         public async Task EditNote([FromBody]NoteModel mod,Guid idNote)
         {
             await _context.EditAsync(mod,idNote);

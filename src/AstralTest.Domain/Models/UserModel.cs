@@ -15,7 +15,18 @@ namespace AstralTest.Domain.Models
         /// Имя пользователя
         /// </summary>
         [Required]
-        public string Name { get; set; }
+        [Display(Name="Имя пользователя")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]   
+        public string Email { get; set; }
+
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
 
         ///// <summary>
         ///// Id пользователя

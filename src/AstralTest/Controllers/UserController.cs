@@ -19,10 +19,12 @@ namespace AstralTest.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _context;
+
         public UserController(IUserService context)
         {
             _context = context;
-        } 
+        }
+
 
         //Возвращает всех пользователей
         [HttpGet]
@@ -33,7 +35,7 @@ namespace AstralTest.Controllers
 
         //Удаляет пользователя по Id
         [HttpDelete("{id}")]
-        public async  Task Delete(Guid id)
+        public async  Task Delete(string id)
         {
             await _context.DeleteAsync(id);
             
@@ -49,7 +51,7 @@ namespace AstralTest.Controllers
 
         //Изменяет пользователя
         [HttpPut("{id}")]
-        public async Task EditUser([FromBody] UserModel us,Guid id)
+        public async Task EditUser([FromBody] UserModel us, string id)
         {
              await _context.EditAsync(us,id);
         }

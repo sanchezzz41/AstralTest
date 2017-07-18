@@ -35,7 +35,7 @@ namespace AstralTest.Domain.Service
         /// Добавляет заметку в бд
         /// </summary>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(NoteModel noteModel, Guid idMaster)
+        public async Task<Guid> AddAsync(NoteModel noteModel, string idMaster)
         {
             if(noteModel==null && idMaster== null)
             {
@@ -48,7 +48,7 @@ namespace AstralTest.Domain.Service
                 throw new Exception("NullException");
             }
 
-            var result = new Note(noteModel.Text, idMaster);
+            var result = new Note { Text = noteModel.Text, IdUser = idMaster };
 
             if (_context.Notes.Any(x=>x.Id==result.Id))
             {

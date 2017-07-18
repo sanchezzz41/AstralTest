@@ -27,14 +27,14 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <param name="idUser">id пользователя</param>
         /// <returns></returns>
-        Task DeleteAsync(Guid idUser);
+        Task DeleteAsync(string idUser);
 
         /// <summary>
         /// Изменяет пользователя
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        Task EditAsync(UserModel user,Guid id);
+        Task EditAsync(UserModel user, string id);
 
         /// <summary>
         /// Получает пользователей из БД 

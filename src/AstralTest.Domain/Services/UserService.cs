@@ -8,6 +8,7 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Database;
 using AstralTest.Domain.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AstralTest.Domain.Service
 {
@@ -18,6 +19,7 @@ namespace AstralTest.Domain.Service
     public class UserService : IUserService
     {
         private DatabaseContext _context { get; }
+        private UserManager<User> _userManager;
 
         public IEnumerable<User> Users
         {
@@ -27,9 +29,10 @@ namespace AstralTest.Domain.Service
             }
         }
 
-        public UserService(DatabaseContext context)
+        public UserService(DatabaseContext context, UserManager<User> userManage)
         {
             _context = context;
+            _userManager = userManage;
         }
 
         /// <summary>
@@ -44,16 +47,22 @@ namespace AstralTest.Domain.Service
                 throw new Exception("User is null");
             }
 
-            var result = new User { Name = user.Name };
+            var result = new User { UserName = user.UserName,
+            Email=user.Email};
 
             if (_context.Users.Any(x=>x.Id==result.Id))
             {       
                 throw new Exception("User with same Id is exist");
-            }     
-            
-            await _context.Users.AddAsync(result);
-            await _context.SaveChangesAsync();
-            return result.Id;
+            }
+            var newUser = await _userManager.CreateAsync(result, user.Password);
+            if (newUser.Succeeded)
+            {
+                var idstring= await _userManager.GetUserIdAsync(result);
+
+                return Guid.Parse(idstring);
+            }
+
+            return Guid.Empty;
         }
 
         /// <summary>
@@ -61,7 +70,7 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        public async Task EditAsync(UserModel user, Guid id)
+        public async Task EditAsync(UserModel user, string id)
         {
             if (user == null && id == null)
             {
@@ -74,7 +83,7 @@ namespace AstralTest.Domain.Service
                 throw new Exception("User with same Id is not exist");
             }
 
-            result.Name = user.Name;
+            result.UserName = user.UserName;
             await _context.SaveChangesAsync();
         }
 
@@ -83,7 +92,7 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="user">Пользователь для удаления(у пользователя можно указать только id)</param>
         /// <returns></returns>
-        public async Task DeleteAsync(Guid idUser)
+        public async Task DeleteAsync(string idUser)
         {
             if (idUser == null)
             {

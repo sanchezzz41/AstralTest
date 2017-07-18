@@ -4,29 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AstralTest.Database
 {
-    public class DatabaseContext:DbContext
+    //public class DatabaseContext:IdentityDbContext<User, ApplicationRole, Guid>
+    //{
+    public class DatabaseContext : IdentityDbContext<User>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> opt):base(opt)
         {
-
         }
     
-
-        public DbSet<User> Users { get; set; }
         public DbSet<Note> Notes { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<Note>().ToTable("notes");
-            //Каскадое удаление не заработало, если это закоментить и просто указать внешний ключ
-            modelBuilder.Entity<Note>()
-                .HasOne(x => x.Master)
-                .WithMany(x => x.Notes)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Ignore<IdentityUserLogin<string>>();
+        //    modelBuilder.Ignore<IdentityUserToken<string>>();
+        //    modelBuilder.Ignore<IdentityRoleClaim<int>>();
+        //    modelBuilder.Ignore<IdentityUserClaim<int>>();
+
+        //    modelBuilder.Entity<IdentityUserRole<string>>()
+        //        .HasKey(x => new { x.RoleId, x.UserId });
+
+        //    //Каскадое удаление не заработало, если это закоментить и просто указать внешний ключ
+        //    modelBuilder.Entity<Note>()
+        //        .HasOne(x => x.Master)
+        //        .WithMany(x => x.Notes)
+        //        .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+
+        //}
     }
 }

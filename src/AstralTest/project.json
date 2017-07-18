@@ -4,6 +4,10 @@
       "version": "1.1.2",
       "type": "platform"
     },
+    "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    },
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Routing": "1.0.1",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
@@ -15,17 +19,20 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.2",
     "Swashbuckle.AspNetCore": "1.0.0",
     "AstralTest.Domain": "1.0.0-*",
     "AstralTest.Database": "1.0.0-*",
     "AstralTest.Domain.Entities": "1.0.0-*",
-    "Microsoft.AspNetCore.Identity": "1.0.0",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
+    "Microsoft.AspNetCore.Identity": "1.1.2",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.2"
   },
 
   "tools": {
+    "BundlerMinifier.Core": "2.0.238",
+    "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
   },

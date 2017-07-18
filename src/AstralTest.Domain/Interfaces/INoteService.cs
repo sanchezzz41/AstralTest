@@ -18,7 +18,7 @@ namespace AstralTest.Domain.Interfaces
       /// </summary>
       /// <param name="noteModel"></param>
       /// <returns></returns>
-        Task<Guid> AddAsync(NoteModel noteModel,Guid idMaster);
+        Task<Guid> AddAsync(NoteModel noteModel, string idMaster);
 
         /// <summary>
         /// Удаляет заметку из бд
