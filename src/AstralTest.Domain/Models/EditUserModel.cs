@@ -9,7 +9,7 @@ namespace AstralTest.Domain.Models
     /// <summary>
     /// Класс для работы с пользователем в контролере
     /// </summary>
-    public class UserModel
+    public class EditUserModel
     {
         /// <summary>
         /// Имя пользователя
@@ -21,12 +21,6 @@ namespace AstralTest.Domain.Models
         [Required]
         [Display(Name = "Email")]   
         public string Email { get; set; }
-
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
 
         ///// <summary>
         ///// Id пользователя

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,6 +15,7 @@ namespace AstralTest.Controllers
 {
     //Контроллер для работы с заметками
     [Route("Note")]
+    [Authorize]
     public class NoteController : Controller
     {
         private readonly INoteService _context;
@@ -59,10 +61,10 @@ namespace AstralTest.Controllers
         }
 
         //Изменяет запись
-        [HttpPut("{idNotes}")]
-        public async Task EditNote([FromBody]NoteModel mod,Guid idNote)
+        [HttpPut("{id}")]
+        public async Task EditNote([FromBody]NoteModel mod,Guid id)
         {
-            await _context.EditAsync(mod,idNote);
+            await _context.EditAsync(mod,id);
 
         }
     }

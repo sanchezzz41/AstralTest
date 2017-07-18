@@ -8,8 +8,8 @@ using AstralTest.Database;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170718101820_Migr8")]
-    partial class Migr8
+    [Migration("20170718142700_Migr1")]
+    partial class Migr1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,8 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
-                    b.Property<Guid>("Id");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("IdUser");
 

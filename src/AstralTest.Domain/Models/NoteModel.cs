@@ -12,16 +12,6 @@ namespace AstralTest.Domain.Models
     public class NoteModel
     {
 
-        ///// <summary>
-        ///// Id заметки
-        ///// </summary>
-        //public Guid Id { get; set; }
-
-        ///// <summary>
-        ///// ID пользователя
-        ///// </summary>       
-        //public Guid IdMaster { get; set; }
-
         /// <summary>
         /// Текст заметки
         /// </summary>

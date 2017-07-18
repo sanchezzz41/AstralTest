@@ -1,13 +1,13 @@
-﻿@model WebApplication8.Models.LoginViewModel
+﻿@model AstralTest.Domain.Models.LoginViewModel
 
 <h2>Вход в приложение</h2>
 <form method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label asp-for="Login"></label><br />
-        <input asp-for="Login" />
-        <span asp-validation-for="Login"></span>
+        <label asp-for="UserName"></label><br />
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
     </div>
     <div>
         <label asp-for="Password"></label><br />

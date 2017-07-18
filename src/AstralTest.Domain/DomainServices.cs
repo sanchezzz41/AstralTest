@@ -21,6 +21,7 @@ namespace AstralTest.Domain.ContextDb
         {
             service.AddScoped<IUserService, UserService>();
             service.AddScoped<INoteService, NoteService>();
+            service.AddScoped<IEmailSender, EmailSenderService>();
             return service;
         }
     }

@@ -19,6 +19,7 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         public virtual List<Note> Notes { get; set; }
 
+        #region Optinal
         ///// <summary>
         ///// Id пользователя
         ///// </summary>
@@ -50,6 +51,6 @@ namespace AstralTest.Domain.Entities
         //    //Id = Guid.NewGuid();
         //    UserName = name;
         //}
-
+        #endregion
     }
 }

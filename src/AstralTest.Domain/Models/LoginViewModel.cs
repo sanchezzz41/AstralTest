@@ -11,11 +11,16 @@ namespace AstralTest.Domain.Models
     /// </summary>
     public class LoginViewModel
     {
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
         public bool RememberMe { get; set; }
+
         [Required]
-        public string Login { get; set; }
+        [Display(Name ="Логин")]
+        public string UserName { get; set; }
+
         public string ReturnUrl { get; set; }
     }
 }

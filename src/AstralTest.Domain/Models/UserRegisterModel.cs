@@ -9,26 +9,31 @@ namespace AstralTest.Domain.Models
     /// <summary>
     /// Класс модель для регистрации пользователя в приложение
     /// </summary>
-    public class RegisterViewModel
+    public class UserRegisterModel
     {
+        /// <summary>
+        /// Имя
+        /// </summary>
         [Required]
-        [Display(Name = "Login")]
-        public string Name { get; set; }
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
 
+        /// <summary>
+        /// Email 
+        /// </summary>
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-
+        /// <summary>
+        /// Пароль
+        /// </summary>
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
-        public string PasswordConfirm { get; set; }
+
+        public string RoleName { get; set; } = "user";
     }
 }

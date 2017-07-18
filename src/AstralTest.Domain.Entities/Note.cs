@@ -32,6 +32,7 @@ namespace AstralTest.Domain.Entities
         /// </summary>  
         public virtual User Master { get; set; }
 
+        #region Optinal
         ///// <summary>
         ///// Иницилизирует класс для заметки(Id автоматически создаётся)
         ///// </summary>
@@ -51,5 +52,6 @@ namespace AstralTest.Domain.Entities
         //    Text = text;
         //    IdUser = idMaster;
         //}
+        #endregion
     }
 }

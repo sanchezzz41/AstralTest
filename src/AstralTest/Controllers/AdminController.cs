@@ -7,24 +7,26 @@ using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AstralTest.Controllers
 {
     /// <summary>
-    /// Контроллер для работы с пользователем
+    /// Контроллер для работы с пользователем,
+    /// Доступен только для админов
     /// </summary>
-    [Route("User")]
-    public class UserController : Controller
+    [Route("AdminPanel")]
+    [Authorize(Roles = "admin")]
+    public class AdminController : Controller
     {
         private readonly IUserService _context;
 
-        public UserController(IUserService context)
+        public AdminController(IUserService context)
         {
             _context = context;
         }
-
 
         //Возвращает всех пользователей
         [HttpGet]
@@ -43,7 +45,7 @@ namespace AstralTest.Controllers
 
         //Добавляет пользователя
         [HttpPost]
-        public async Task<Guid> AddUser([FromBody] UserModel us)
+        public async Task<Guid> AddUser([FromBody] UserRegisterModel us)
         {
             var result = await _context.AddAsync(us);
             return result;
@@ -51,7 +53,7 @@ namespace AstralTest.Controllers
 
         //Изменяет пользователя
         [HttpPut("{id}")]
-        public async Task EditUser([FromBody] UserModel us, string id)
+        public async Task EditUser([FromBody] EditUserModel us, string id)
         {
              await _context.EditAsync(us,id);
         }

@@ -9,6 +9,7 @@ using AstralTest.Domain.Interfaces;
 using AstralTest.Database;
 using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AstralTest.Domain.Service
 {
@@ -40,25 +41,28 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Id пользователя</returns>
-        public async Task<Guid> AddAsync(UserModel user)
+        public async Task<Guid> AddAsync(UserRegisterModel user)
         {
             if (user == null)
             {
                 throw new Exception("User is null");
             }
-
-            var result = new User { UserName = user.UserName,
+            //Пользователь, которого добавят в бд
+            var resultUser = new User { UserName = user.UserName,
             Email=user.Email};
 
-            if (_context.Users.Any(x=>x.Id==result.Id))
+            if (_context.Users.Any(x=>x.Id==resultUser.Id))
             {       
                 throw new Exception("User with same Id is exist");
             }
-            var newUser = await _userManager.CreateAsync(result, user.Password);
-            if (newUser.Succeeded)
-            {
-                var idstring= await _userManager.GetUserIdAsync(result);
 
+            var createUser = await _userManager.CreateAsync(resultUser, user.Password);
+
+            if (createUser.Succeeded)
+            {
+                //TODO: Прикрутить проверку, на существование такой роли
+                await _userManager.AddToRoleAsync(resultUser, user.RoleName);
+                var idstring = await _userManager.GetUserIdAsync(resultUser);  
                 return Guid.Parse(idstring);
             }
 
@@ -66,25 +70,26 @@ namespace AstralTest.Domain.Service
         }
 
         /// <summary>
-        /// Изменяет пользователя
+        /// Изменяет имя пользователя и пароль
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        public async Task EditAsync(UserModel user, string id)
+        public async Task EditAsync(EditUserModel user, string id)
         {
+
             if (user == null && id == null)
             {
                 throw new Exception("User is null");
             }
-            var result = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
-
-            if (result == null)
+            var result = await _userManager.FindByIdAsync(id);
+            if (result==null)
             {
                 throw new Exception("User with same Id is not exist");
             }
-
+            //TODO:Скорей всего ещё надо добавить изменение роли
+            result.Email = user.Email;
             result.UserName = user.UserName;
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(result);
         }
 
         /// <summary>
