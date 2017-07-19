@@ -81,7 +81,7 @@ namespace AstralTest
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseStaticFiles();
             app.UseIdentity();
 
             //Используем swagger для проверки контроллеров

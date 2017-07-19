@@ -21,6 +21,7 @@ namespace AstralTest.Domain.Service
     {
         private DatabaseContext _context { get; }
         private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
         public IEnumerable<User> Users
         {
@@ -30,10 +31,11 @@ namespace AstralTest.Domain.Service
             }
         }
 
-        public UserService(DatabaseContext context, UserManager<User> userManage)
+        public UserService(DatabaseContext context, UserManager<User> userManage,RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManage;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -60,8 +62,8 @@ namespace AstralTest.Domain.Service
 
             if (createUser.Succeeded)
             {
-                //TODO: Прикрутить проверку, на существование такой роли
-                await _userManager.AddToRoleAsync(resultUser, user.RoleName);
+                var resultRole = await GetRoleOrDefault(user.RoleName);
+                await _userManager.AddToRoleAsync(resultUser, resultRole);
                 var idstring = await _userManager.GetUserIdAsync(resultUser);  
                 return Guid.Parse(idstring);
             }
@@ -89,6 +91,9 @@ namespace AstralTest.Domain.Service
             //TODO:Скорей всего ещё надо добавить изменение роли
             result.Email = user.Email;
             result.UserName = user.UserName;
+            var resultRole = await GetRoleOrDefault(user.RoleName);
+            await _userManager.AddToRoleAsync(result, resultRole);
+           
             await _userManager.UpdateAsync(result);
         }
 
@@ -119,8 +124,47 @@ namespace AstralTest.Domain.Service
         /// <returns></returns>
         public async Task<List<User>> GetAsync()
         {
-            var result =await _context.Users.ToListAsync();
+            var result =await _context.Users.Include(x=>x.Notes).ToListAsync();
             return result;
+        }
+
+        /// <summary>
+        /// Изменяет пароль пользователя.Возвращает 1 если пароль успешно сменён, 0 если возникли ошибки
+        /// </summary>
+        /// <param name="editModel">Модель содержащая oldPasswordn и newPassword</param>
+        ///  /// <param name="userName">Имя пользователя</param>
+        /// <returns></returns>
+        public async Task<int> EditPasswordAsync(string userName,EditPasswordModel model)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if(user!=null)
+            {
+                var result =await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if(result.Succeeded)
+                {
+                    return await Task.FromResult(1);
+                }
+            }
+            return await Task.FromResult(0);
+        }
+
+
+        /// <summary>
+        /// Проверяет, существует ли такая роль, возвращает название роли если существует, или стандартное название роли user.
+        /// </summary>
+        /// <param name="roleName">Название роли</param>
+        /// <returns></returns>
+        private async Task<string> GetRoleOrDefault(string roleName)
+        {
+            if(await _roleManager.RoleExistsAsync(roleName))
+            {
+                return roleName;
+            }
+            if(!await _roleManager.RoleExistsAsync("user"))
+            {
+               await _roleManager.CreateAsync(new IdentityRole("user"));
+            }
+            return "user";
         }
     }
 }

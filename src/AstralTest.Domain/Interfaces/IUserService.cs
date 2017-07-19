@@ -41,5 +41,13 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<List<User>> GetAsync();
+
+        /// <summary>
+        /// Изменяет пароль пользователя.Возвращает 1 если пароль успешно сменён, 0 если возникли ошибки
+        /// </summary>
+        /// <param name="editModel">Модель содержащая oldPasswordn и newPassword</param>
+        /// <param name="userName">Имя пользователя</param>
+        /// <returns></returns>
+        Task<int> EditPasswordAsync(string userName,EditPasswordModel editModel);
     }
 }

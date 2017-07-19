@@ -112,7 +112,7 @@ namespace AstralTest.Domain.Service
         /// <returns></returns>
         public async Task<List<Note>> GetAsync()
         {
-            var result = await _context.Notes.ToListAsync();
+            var result = await _context.Notes.Include(x=>x.Master).ToListAsync();
             return result;
         }
 

@@ -32,6 +32,7 @@ namespace AstralTest.Controllers
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
         {
+            //Тут почему то возвращает вообще одни Note
             return await _context.GetAsync();
         }
 
@@ -43,7 +44,7 @@ namespace AstralTest.Controllers
             
         }
 
-        //Добавляет пользователя
+        //Добавляет пользователя, скорей всего не нужно(как админ может кого то добавить, не спрашиваю его)
         [HttpPost]
         public async Task<Guid> AddUser([FromBody] UserRegisterModel us)
         {
