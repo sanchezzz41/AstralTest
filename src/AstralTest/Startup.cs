@@ -17,6 +17,11 @@ using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Service;
+using AstralTest.IdentityContext;
+using AstralTest.Models;
+using AstralTest.Extensions;
 
 namespace AstralTest
 {
@@ -44,20 +49,29 @@ namespace AstralTest
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
                 , x => x.MigrationsAssembly("AstralTest")));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<DatabaseContext>()
+            //Сервисы для аутификации и валидации пароля
+            services.AddScoped<IHashProvider, Md5HashService>();
+            services.AddScoped<IPasswordHasher<User>, Md5PasswordHasher>();
+            //Сервсис для регистрации
+            services.AddScoped<AuthorizationService>();
+
+            services.AddIdentity<User, Role>()
+                .AddRoleStore<RoleStore>()
+                .AddUserStore<IdentityStore>()
+                .AddPasswordValidator<Md5PasswordValidator>()
                 .AddDefaultTokenProviders();
 
+
             if (_env.IsDevelopment())
-            {                
+            {
                 //Временные настройки для авторизации
                 services.Configure<IdentityOptions>(opt =>
                 {
                     opt.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
                     opt.Cookies.ApplicationCookie.LogoutPath = "/Account/Logout";
 
-                //Pass settings
-                opt.Password.RequiredLength = 5;
+                    //Pass settings
+                    opt.Password.RequiredLength = 5;
                     opt.Password.RequireDigit = false;
                     opt.Password.RequireUppercase = false;
                     opt.Password.RequireLowercase = false;
@@ -69,11 +83,14 @@ namespace AstralTest
                     c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
                 });
             }
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(opt =>
+                 opt.Filters.AddService(typeof(ErrorFilter))
+            );
+
+            services.AddScoped<ErrorFilter>();
 
             //Тут добавляются наши биндинги интерфейсов
             services.AddServices();
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,7 +98,9 @@ namespace AstralTest
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
             app.UseStaticFiles();
+
             app.UseIdentity();
 
             //Используем swagger для проверки контроллеров
@@ -102,37 +121,37 @@ namespace AstralTest
             //Тут делается миграция бд, если бд не существует
             app.ApplicationServices.GetService<DatabaseContext>().Database.Migrate();
             //Иницилизурем 2 роли и 1го пользователя, если таковых нет
-            DatabaseInitialize(app.ApplicationServices).Wait();
+            app.ApplicationServices.GetService<DatabaseContext>().Initialize(app.ApplicationServices).Wait();
         }
 
-        public async Task DatabaseInitialize(IServiceProvider serviceProvider)
-        {
-            UserManager<User> userManager =
-                serviceProvider.GetRequiredService<UserManager<User>>();
-            RoleManager<IdentityRole> roleManager =
-                serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //public async Task DatabaseInitialize(IServiceProvider serviceProvider)
+        //{
+        //    UserManager<User> userManager =
+        //        serviceProvider.GetRequiredService<UserManager<User>>();
+        //    RoleManager<IdentityRole> roleManager =
+        //        serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            string adminEmail = "admin@gmail.com";
-            string userName = "admin";
-            string password = "admin";
-            if (await roleManager.FindByNameAsync("admin") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
-            }
-            if (await roleManager.FindByNameAsync("user") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("user"));
-            }
-            if (await userManager.FindByNameAsync(userName) == null)
-            {
-                User admin = new User { Email = adminEmail, UserName = userName };
-                IdentityResult result = await userManager.CreateAsync(admin, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                }
-            }
-        }
+        //    string adminEmail = "admin@gmail.com";
+        //    string userName = "admin";
+        //    string password = "admin";
+        //    if (await roleManager.FindByNameAsync("admin") == null)
+        //    {
+        //        await roleManager.CreateAsync(new IdentityRole("admin"));
+        //    }
+        //    if (await roleManager.FindByNameAsync("user") == null)
+        //    {
+        //        await roleManager.CreateAsync(new IdentityRole("user"));
+        //    }
+        //    if (await userManager.FindByNameAsync(userName) == null)
+        //    {
+        //        User admin = new User { Email = adminEmail, UserName = userName };
+        //        IdentityResult result = await userManager.CreateAsync(admin, password);
+        //        if (result.Succeeded)
+        //        {
+        //            await userManager.AddToRoleAsync(admin, "admin");
+        //        }
+        //    }
+        //}
 
     }
 }

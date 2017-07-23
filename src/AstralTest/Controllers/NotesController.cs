@@ -7,6 +7,7 @@ using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using AstralTest.Extensions;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,40 +17,36 @@ namespace AstralTest.Controllers
     //Контроллер для работы с заметками
     [Route("Note")]
     [Authorize]
-    public class NoteController : Controller
+    public class NotesController : Controller
     {
         private readonly INoteService _context;
-        public NoteController(INoteService context)
+        public NotesController(INoteService context)
         {
             _context = context;
         }
 
         //Возвращает все заметки
         [HttpGet]
-        public async Task<List<Note>> List()
+        public async Task<object> List()
         {
-            return await _context.GetAsync();
+            var result = await _context.GetAsync();
+            return result.NotesView();
         }
 
         //Возвращает заметки в опр. интервале
         [HttpGet("List")]
-        public async Task<List<Note>> List(int minVal, int maxVal)
+        public async Task<object> List(int offSet, int count)
         {
-            if (minVal > 0 && minVal < maxVal)
-            {
-                var prom = await _context.GetAsync();
-                var result = prom.OrderBy(x => x.Master.UserName).Skip(minVal).Take(maxVal - minVal).ToList();
-                return result;
-            }
-            return null;
-
+            var prom = await _context.GetAsync();
+            var result = prom.OrderBy(x => x.Master.UserName).Skip(offSet).Take(count).ToList();
+            return result.NotesView();
         }
 
         //Добавляет заметку
         [HttpPost("{idMaster}")]
-        public async Task<Guid> AddNote([FromBody] NoteModel mod, string idMaster)
+        public async Task<Guid> AddNote([FromBody] NoteModel mod, Guid idMaster)
         {
-            var resultId = await _context.AddAsync(mod,idMaster);
+            var resultId = await _context.AddAsync(mod, idMaster);
             return resultId;
         }
 
@@ -62,9 +59,9 @@ namespace AstralTest.Controllers
 
         //Изменяет запись
         [HttpPut("{id}")]
-        public async Task EditNote([FromBody]NoteModel mod,Guid id)
+        public async Task EditNote([FromBody]NoteModel mod, Guid id)
         {
-            await _context.EditAsync(mod,id);
+            await _context.EditAsync(mod, id);
 
         }
     }

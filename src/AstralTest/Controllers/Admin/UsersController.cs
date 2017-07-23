@@ -8,6 +8,7 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using AstralTest.Extensions;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,35 +18,35 @@ namespace AstralTest.Controllers
     /// Контроллер для работы с пользователем,
     /// Доступен только для админов
     /// </summary>
-    [Route("AdminPanel")]
+    [Route("AdminControl")]
     [Authorize(Roles = "admin")]
-    public class AdminController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserService _context;
 
-        public AdminController(IUserService context)
+        public UsersController(IUserService context)
         {
             _context = context;
         }
 
         //Возвращает всех пользователей
-        [HttpGet]
-        public async Task<IEnumerable<User>> GetUsers()
+        [HttpGet("GetUsers")]
+        public async Task<object> GetUsers()
         {
-            //Тут почему то возвращает вообще одни Note
-            return await _context.GetAsync();
+            var result = await _context.GetAsync();
+            return result.UsersForAdminView(HttpContext);
         }
 
         //Удаляет пользователя по Id
-        [HttpDelete("{id}")]
-        public async  Task Delete(string id)
+        [HttpDelete("DeleteUser/{id}")]
+        public async Task DeleteUser(Guid id)
         {
             await _context.DeleteAsync(id);
-            
+
         }
 
         //Добавляет пользователя, скорей всего не нужно(как админ может кого то добавить, не спрашиваю его)
-        [HttpPost]
+        [HttpPost("AddUser")]
         public async Task<Guid> AddUser([FromBody] UserRegisterModel us)
         {
             var result = await _context.AddAsync(us);
@@ -53,11 +54,10 @@ namespace AstralTest.Controllers
         }
 
         //Изменяет пользователя
-        [HttpPut("{id}")]
-        public async Task EditUser([FromBody] EditUserModel us, string id)
+        [HttpPut("EditUser/{id}")]
+        public async Task EditUser([FromBody] EditUserModel us, Guid id)
         {
-             await _context.EditAsync(us,id);
+            await _context.EditAsync(us, id);
         }
     }
-
 }

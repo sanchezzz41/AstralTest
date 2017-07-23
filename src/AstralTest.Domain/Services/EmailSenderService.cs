@@ -13,6 +13,7 @@ namespace AstralTest.Domain.Service
     public class EmailSenderService : IEmailSender
     {
         private ILogger _logs;
+        public int MyProperty { get; set; }
         public EmailSenderService(ILogger<EmailSenderService> log)
         {
             _logs = log;

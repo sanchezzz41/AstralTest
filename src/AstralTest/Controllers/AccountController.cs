@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Interfaces;
+using AstralTest.Models;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,78 +17,70 @@ namespace AstralTest.Controllers
 {
     //Контроллер для авторизации пользователей
     [Authorize]
+    [Route("Auth")]
     public class AccountController : Controller
     {
         private readonly SignInManager<User> _signManager;
-        //Интерфейс для работы с пользователями
         private readonly IUserService _userService;
         private IEmailSender _emailService;
-        public AccountController(SignInManager<User> sign,IUserService userService,IEmailSender email)
+        private AuthorizationService _authorizationService;
+
+        public AccountController(SignInManager<User> sign, AuthorizationService authService, IUserService userService,IEmailSender email)
         {
             _signManager = sign;
             _userService = userService;
             _emailService = email;
+            _authorizationService = authService;
         }
 
-        //Get:Возвращает окно регистрации
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return View();
-        }
 
         //Post:Регистрация пользователя
-        [HttpPost]
+        [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<ActionResult> Register([FromForm]UserRegisterModel model)
+        public async Task<object> Register([FromBody]UserRegisterModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return ModelState.Select(x => new { Key = x.Key, Error = x.Value.Errors.Select(a => a.ErrorMessage) });
             }
             var resultId = await _userService.AddAsync(model);
-            if (resultId != Guid.Empty)
-            {
+          
                 //Тут отправляем сообщение пользователю(либо для подверждения, либо ещё
                 //для чего либо, но пока только в логи записываем это)
-                await _emailService.SendEmail(model.Email, model.UserName, "Регистрация прошла успешна");
+                await _emailService.SendEmail(model.Email, model.UserName, "Регистрация прошла успешна.");
                 //Ищем добавленного пользователя, и авторезируем его
                 var newList =await _userService.GetAsync();
-                var newUser = newList.Single(x => x.Id == resultId.ToString());
+                var newUser = newList.Single(x => x.UserId == resultId);
 
                 await _signManager.SignInAsync(newUser, false);
-                return LocalRedirect("/swagger");
-            }
-            return View(model);
-        }
-
-        //Get: Возвращает окно для входа
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult> Login(string ReturnUrl = "")
-        {
-            return View(new LoginViewModel { ReturnUrl = ReturnUrl });
+                return "Вы успешно зарегестрировались.";
         }
 
         //Post: Вход в приложение
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login([FromForm]LoginViewModel model)
+        public async Task<object> Login([FromBody]LoginViewModel model)
         {
-            var res = await _signManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
-            if (res.Succeeded)
+            if (!ModelState.IsValid)
             {
-                return LocalRedirect("/swagger");
+                return ModelState.Select(x => new { Key = x.Key, Error = x.Value.Errors.Select(a => a.ErrorMessage) });
             }
-            return View(model);
+            var user = _authorizationService.Authorization(model.UserName, model.Password);
+            if (user != null)
+            {
+                await _signManager.SignInAsync(user, model.RememberMe);
+                return "Авторизация прошла успешна.";
+            }
+            return "Авторизация не удалась.";
         }
 
         //Выход из приложения
-        public async Task<IActionResult> Logout()
+        [Authorize]
+        [HttpDelete]
+        public async Task<object> Logout()
         {
             await _signManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return "Вы вышли из приложения";
         }
     }
 }

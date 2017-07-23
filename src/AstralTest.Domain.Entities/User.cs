@@ -12,45 +12,85 @@ namespace AstralTest.Domain.Entities
     /// <summary>
     /// Предоставляет класс для пользоваетля
     /// </summary>
-    public class User:IdentityUser
+    public class User
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid UserId { get; set; }
+
         /// <summary>
-        /// Заметки пользователя
+        /// Хэш пароля
+        /// </summary>
+        [Required]
+        public string PasswordHash { get; set; }
+
+        /// <summary>
+        /// Имя(Nick name)
+        /// </summary>
+        [Required]
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// Email
+        /// </summary>
+        [Required]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Соль для хэша
+        /// </summary>
+        public string PasswordSalt { get; internal set; }
+        
+        /// <summary>
+        /// Id роли
+        /// </summary>
+        [ForeignKey(nameof(Role))]
+        public RolesAuthorize RoleId { get; set; }
+
+        /// <summary>
+        /// Роль
+        /// </summary>
+        public virtual Role Role { get; set; }
+
+        /// <summary>
+        /// Список заметок
         /// </summary>
         public virtual List<Note> Notes { get; set; }
 
-        #region Optinal
-        ///// <summary>
-        ///// Id пользователя
-        ///// </summary>
-        //[Key]
-        //[Required]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
-        //public override Guid Id { get; set; }
 
-        ///// <summary>
-        ///// Имя пользователя
-        ///// </summary>
-        //[Required]
-        //public override string UserName { get; set; }
+        /// <summary>
+        /// Создаёт экземпляр класса User 
+        /// </summary>
+        /// <param name="roleId">Id роли</param>
+        public User()
+        {
+            UserId = Guid.NewGuid();
 
-        ///// <summary>
-        ///// Иницилизирует класс для пользоваетля(Id автоматически создаётся)
-        ///// </summary>
-        //public User():base()
-        //{
-        //    //Id = Guid.NewGuid();
-        //}
+            PasswordSalt = GetPassSalt();
+        }
 
-        ///// <summary>
-        ///// Иницилизирует класс для пользоваетля (id создаётся автоматически)
-        ///// </summary>
-        ///// <param name="name">Имя пользователя</param>
-        //public User(string name):base()
-        //{
-        //    //Id = Guid.NewGuid();
-        //    UserName = name;
-        //}
-        #endregion
+        /// <summary>
+        /// Создаёт экземпляр класса User 
+        /// </summary>
+        /// <param name="roleId">Id роли</param>
+        public User(int roleId)
+        {
+            UserId = Guid.NewGuid();
+            RoleId = RoleId;
+            PasswordSalt = GetPassSalt();
+        }
+
+
+        private string GetPassSalt()
+        {
+            string str = "qwertyuiopasdfghjklzxvcbnm1234567890";
+            Random rand = new Random();
+            string result = "";
+            for (int i = 0; i < 8; i++)
+            {
+                result += str[rand.Next(0, str.Length - 1)];
+            }
+            return result;
+        }
     }
 }

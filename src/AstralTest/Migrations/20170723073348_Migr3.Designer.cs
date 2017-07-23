@@ -9,9 +9,10 @@ using AstralTest.Domain.Entities;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170723073348_Migr3")]
+    partial class Migr3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -37,7 +38,7 @@ namespace AstralTest.Migrations
                 {
                     b.Property<int>("RoleId");
 
-                    b.Property<string>("RoleName");
+                    b.Property<int>("RoleName");
 
                     b.HasKey("RoleId");
 

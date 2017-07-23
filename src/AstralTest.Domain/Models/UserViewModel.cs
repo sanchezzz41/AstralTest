@@ -21,7 +21,7 @@ namespace AstralTest.Domain.Models
         public string Email { get; set; }
 
         
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         
         public List<Note> Notes { get; set; }

@@ -27,27 +27,19 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <param name="idUser">id пользователя</param>
         /// <returns></returns>
-        Task DeleteAsync(string idUser);
+        Task DeleteAsync(Guid idUser);
 
         /// <summary>
         /// Изменяет пользователя
         /// </summary>
         /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
         /// <returns></returns>
-        Task EditAsync(EditUserModel user, string id);
+        Task EditAsync(EditUserModel user, Guid id);
 
         /// <summary>
         /// Получает пользователей из БД 
         /// </summary>
         /// <returns></returns>
         Task<List<User>> GetAsync();
-
-        /// <summary>
-        /// Изменяет пароль пользователя.Возвращает 1 если пароль успешно сменён, 0 если возникли ошибки
-        /// </summary>
-        /// <param name="editModel">Модель содержащая oldPasswordn и newPassword</param>
-        /// <param name="userName">Имя пользователя</param>
-        /// <returns></returns>
-        Task<int> EditPasswordAsync(string userName,EditPasswordModel editModel);
     }
 }

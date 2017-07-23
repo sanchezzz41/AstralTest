@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AstralTest.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,6 +35,6 @@ namespace AstralTest.Domain.Models
         public string Password { get; set; }
 
 
-        public string RoleName { get; set; } = "user";
+        public string RoleName { get; set; } = RolesAuthorize.user.ToString();
     }
 }

@@ -27,7 +27,8 @@
     "AstralTest.Database": "1.0.0-*",
     "AstralTest.Domain.Entities": "1.0.0-*",
     "Microsoft.AspNetCore.Identity": "1.1.2",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.2"
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.2",
+    "AstralTest.IdentityContext": "1.0.0-*"
   },
 
   "tools": {

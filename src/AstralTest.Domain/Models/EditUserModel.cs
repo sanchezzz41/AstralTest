@@ -7,24 +7,30 @@ using System.Threading.Tasks;
 namespace AstralTest.Domain.Models
 {
     /// <summary>
-    /// Класс для работы с пользователем в контролере
+    /// Класс для изменения пользователя
     /// </summary>
     public class EditUserModel
     {
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        [Required]
         [Display(Name="Имя пользователя")]
         public string UserName { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Email 
+        /// </summary>
         [Display(Name = "Email")]   
         public string Email { get; set; }
 
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
         [Display(Name ="Роль")]
-        [Required]
         public string RoleName { get; set; }
+
+        //Если надо будет изменять пароль
+        //public string Password { get; set; }
 
         ///// <summary>
         ///// Id пользователя

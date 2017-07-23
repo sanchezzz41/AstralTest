@@ -13,7 +13,7 @@ namespace AstralTest.Domain.Entities
     public class Note
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace AstralTest.Domain.Entities
 
 
         [ForeignKey(nameof(Master))]
-        public string IdUser { get; set; }
+        public Guid IdUser { get; set; }
 
 
         /// <summary>
@@ -32,26 +32,24 @@ namespace AstralTest.Domain.Entities
         /// </summary>  
         public virtual User Master { get; set; }
 
-        #region Optinal
-        ///// <summary>
-        ///// Иницилизирует класс для заметки(Id автоматически создаётся)
-        ///// </summary>
-        //public Note()
-        //{
-        //    Id = Guid.NewGuid();
-        //}
+        /// <summary>
+        /// Иницилизирует класс для заметки(Id автоматически создаётся)
+        /// </summary>
+        public Note()
+        {
+            Id = Guid.NewGuid();
+        }
 
-        ///// <summary>
-        ///// Иницилизирует класс для заметки(Id создаётся автоматически)
-        ///// </summary>
-        ///// <param name="text">Текст заметки</param>
-        ///// <param name="idMaster">Id владельца заметки</param>
-        //public Note(string text, string idMaster)
-        //{
-        //    Id = Guid.NewGuid();
-        //    Text = text;
-        //    IdUser = idMaster;
-        //}
-        #endregion
+        /// <summary>
+        /// Иницилизирует класс для заметки(Id создаётся автоматически)
+        /// </summary>
+        /// <param name="text">Текст заметки</param>
+        /// <param name="idMaster">Id владельца заметки</param>
+        public Note(string text, Guid idMaster)
+        {
+            Id = Guid.NewGuid();
+            Text = text;
+            IdUser = idMaster;
+        }
     }
 }

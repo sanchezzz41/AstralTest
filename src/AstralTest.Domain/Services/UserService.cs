@@ -20,8 +20,8 @@ namespace AstralTest.Domain.Service
     public class UserService : IUserService
     {
         private DatabaseContext _context { get; }
-        private UserManager<User> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        IPasswordHasher<User> _passwordHasher;
+
 
         public IEnumerable<User> Users
         {
@@ -31,70 +31,107 @@ namespace AstralTest.Domain.Service
             }
         }
 
-        public UserService(DatabaseContext context, UserManager<User> userManage,RoleManager<IdentityRole> roleManager)
+        public UserService(DatabaseContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
-            _userManager = userManage;
-            _roleManager = roleManager;
+            _passwordHasher = passwordHasher;
         }
 
         /// <summary>
         /// Добавления пользователя в БД
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="userModel"></param>
         /// <returns>Id пользователя</returns>
-        public async Task<Guid> AddAsync(UserRegisterModel user)
+        public async Task<Guid> AddAsync(UserRegisterModel userModel)
         {
-            if (user == null)
+            if (userModel == null)
             {
                 throw new Exception("User is null");
             }
-            //Пользователь, которого добавят в бд
-            var resultUser = new User { UserName = user.UserName,
-            Email=user.Email};
-
-            if (_context.Users.Any(x=>x.Id==resultUser.Id))
-            {       
+            //Создаём пользователя
+            var resultUser = new User
+            {
+                UserName = userModel.UserName,
+                Email = userModel.Email
+            };
+            if (_context.Users.Any(x => x.UserId == resultUser.UserId))
+            {
                 throw new Exception("User with same Id is exist");
             }
-
-            var createUser = await _userManager.CreateAsync(resultUser, user.Password);
-
-            if (createUser.Succeeded)
+            //Проверяем наличие роли, и если есть добавляем
+            var resRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleName == userModel.RoleName.ToLower());
+            if (resRole != null)
             {
-                var resultRole = await GetRoleOrDefault(user.RoleName);
-                await _userManager.AddToRoleAsync(resultUser, resultRole);
-                var idstring = await _userManager.GetUserIdAsync(resultUser);  
-                return Guid.Parse(idstring);
+                resultUser.RoleId = resRole.RoleId;
             }
+            else
+            {
+                resRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleId == RolesAuthorize.user);
+                resultUser.RoleId = resRole.RoleId;
+            }
+            //Создаем хэш пароля и добавляем его пользователю
+            var passworhHash = _passwordHasher.HashPassword(resultUser, userModel.Password);
+            resultUser.PasswordHash = passworhHash;
+            //Сохраняем пользователя
+            await _context.AddAsync(resultUser);
+            await _context.SaveChangesAsync();
 
-            return Guid.Empty;
+            return resultUser.UserId;
         }
 
         /// <summary>
         /// Изменяет имя пользователя и пароль
         /// </summary>
-        /// <param name="user">Пользователь с тем же Id, но с новыми данными</param>
+        /// <param name="user">Модель пользователя для изменения. Можно указывать не все параметры.</param>
+        /// <param name="id">Id пользователя.</param>
         /// <returns></returns>
-        public async Task EditAsync(EditUserModel user, string id)
+        public async Task EditAsync(EditUserModel user, Guid id)
         {
 
-            if (user == null && id == null)
+            if (user == null || id == null || id == Guid.Empty)
             {
                 throw new Exception("User is null");
             }
-            var result = await _userManager.FindByIdAsync(id);
-            if (result==null)
+            var result = await _context.Users.SingleOrDefaultAsync(x => x.UserId == id);
+            if (result == null)
             {
                 throw new Exception("User with same Id is not exist");
             }
-            //TODO:Скорей всего ещё надо добавить изменение роли
-            result.Email = user.Email;
-            result.UserName = user.UserName;
-            var resultRole = await GetRoleOrDefault(user.RoleName);
-            await _userManager.AddToRoleAsync(result, resultRole);
-           
-            await _userManager.UpdateAsync(result);
+            //Обновление значений пользователя
+
+            //Обновления Email
+            if (!string.IsNullOrWhiteSpace(user.Email))
+            {
+                result.Email = user.Email;
+            }
+            //Обновления имени
+            if (!string.IsNullOrWhiteSpace(user.UserName))
+            {
+                result.UserName = user.UserName;
+            }
+
+            //Обновления пароля, если понадобиться
+            //if (!string.IsNullOrWhiteSpace(user.Password))
+            //{
+            //    result.PasswordHash = _passwordHasher.HashPassword(result, user.Password);
+            //}
+
+            //Обновления роли
+            if (!string.IsNullOrWhiteSpace(user.RoleName))
+            {
+                var newRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleName == user.RoleName.ToLower());
+                if (newRole != null)
+                {
+                    result.RoleId = newRole.RoleId;
+                }
+                else
+                {
+                    newRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleId == RolesAuthorize.user);
+                    result.RoleId = newRole.RoleId;
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -102,17 +139,17 @@ namespace AstralTest.Domain.Service
         /// </summary>
         /// <param name="user">Пользователь для удаления(у пользователя можно указать только id)</param>
         /// <returns></returns>
-        public async Task DeleteAsync(string idUser)
+        public async Task DeleteAsync(Guid idUser)
         {
             if (idUser == null)
             {
                 throw new Exception("User is null");
             }
 
-            var result = await _context.Users.SingleOrDefaultAsync(x => x.Id == idUser);
+            var result = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idUser);
             if (result == null)
             {
-                throw new Exception("User with same Id is not exist");    
+                throw new Exception("User with same Id is not exist");
             }
             _context.Users.Remove(result);
             await _context.SaveChangesAsync();
@@ -124,47 +161,8 @@ namespace AstralTest.Domain.Service
         /// <returns></returns>
         public async Task<List<User>> GetAsync()
         {
-            var result =await _context.Users.Include(x=>x.Notes).ToListAsync();
+            var result = await _context.Users.Include(x => x.Notes).Include(x=>x.Role).ToListAsync();
             return result;
-        }
-
-        /// <summary>
-        /// Изменяет пароль пользователя.Возвращает 1 если пароль успешно сменён, 0 если возникли ошибки
-        /// </summary>
-        /// <param name="editModel">Модель содержащая oldPasswordn и newPassword</param>
-        ///  /// <param name="userName">Имя пользователя</param>
-        /// <returns></returns>
-        public async Task<int> EditPasswordAsync(string userName,EditPasswordModel model)
-        {
-            var user = await _userManager.FindByNameAsync(userName);
-            if(user!=null)
-            {
-                var result =await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                if(result.Succeeded)
-                {
-                    return await Task.FromResult(1);
-                }
-            }
-            return await Task.FromResult(0);
-        }
-
-
-        /// <summary>
-        /// Проверяет, существует ли такая роль, возвращает название роли если существует, или стандартное название роли user.
-        /// </summary>
-        /// <param name="roleName">Название роли</param>
-        /// <returns></returns>
-        private async Task<string> GetRoleOrDefault(string roleName)
-        {
-            if(await _roleManager.RoleExistsAsync(roleName))
-            {
-                return roleName;
-            }
-            if(!await _roleManager.RoleExistsAsync("user"))
-            {
-               await _roleManager.CreateAsync(new IdentityRole("user"));
-            }
-            return "user";
         }
     }
 }
