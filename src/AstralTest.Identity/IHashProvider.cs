@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AstralTest.IdentityContext
+﻿namespace AstralTest.Identity
 {
     /// <summary>
     /// Интерфейс для хэширования пароля методом MD5

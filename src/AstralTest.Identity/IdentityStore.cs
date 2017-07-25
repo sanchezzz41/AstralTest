@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AstralTest.IdentityContext
+namespace AstralTest.Identity
 {
-   public class IdentityStore : IUserLockoutStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
+    public class IdentityStore : IUserLockoutStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
     {
         private readonly DatabaseContext _context;
 

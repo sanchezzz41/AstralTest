@@ -1,9 +1,7 @@
 ﻿using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AstralTest.Extensions
 {
@@ -46,7 +44,7 @@ namespace AstralTest.Extensions
         /// <returns></returns>
         public static object UsersForAdminView(this IEnumerable<User> users, HttpContext httpContext)
         {
-            if (httpContext.User.IsInRole(RolesAuthorize.admin.ToString()))
+            if (httpContext.User.IsInRole(RolesOption.Admin.ToString()))
             {
                 return users.Select(x =>
                  new
@@ -72,6 +70,7 @@ namespace AstralTest.Extensions
         /// <returns></returns>
         public static object NotesView(this IEnumerable<Note> notes)
         {
+            if (notes == null) return null;
             return notes.Select(x =>
             new
             {

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
@@ -18,8 +15,8 @@ namespace AstralTest.Controllers
     /// Контроллер для работы с пользователем,
     /// Доступен только для админов
     /// </summary>
-    [Route("AdminControl")]
-    [Authorize(Roles = "admin")]
+    [Route("Admin")]
+    [Authorize(Roles = nameof(RolesOption.Admin))]
     public class UsersController : Controller
     {
         private readonly IUserService _context;
@@ -30,7 +27,7 @@ namespace AstralTest.Controllers
         }
 
         //Возвращает всех пользователей
-        [HttpGet("GetUsers")]
+        [HttpGet("Users")]
         public async Task<object> GetUsers()
         {
             var result = await _context.GetAsync();
@@ -38,9 +35,13 @@ namespace AstralTest.Controllers
         }
 
         //Удаляет пользователя по Id
-        [HttpDelete("DeleteUser/{id}")]
+        [HttpDelete("Users/{id}")]
         public async Task DeleteUser(Guid id)
         {
+            if(HttpContext.User.IsInRole(RolesOption.Admin.ToString()))
+            {
+                var resultUser = await _context.GetAsync();
+            }
             await _context.DeleteAsync(id);
 
         }

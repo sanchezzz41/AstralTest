@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Database;
 using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AstralTest.Domain.Service
 {
@@ -58,16 +56,15 @@ namespace AstralTest.Domain.Service
             {
                 throw new Exception("User with same Id is exist");
             }
+
             //Проверяем наличие роли, и если есть добавляем
-            var resRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleName == userModel.RoleName.ToLower());
-            if (resRole != null)
+            if (userModel.RoleName==RolesOption.Admin)
             {
-                resultUser.RoleId = resRole.RoleId;
+                resultUser.RoleId = userModel.RoleName;
             }
-            else
+            else 
             {
-                resRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleId == RolesAuthorize.user);
-                resultUser.RoleId = resRole.RoleId;
+                resultUser.RoleId = RolesOption.User;
             }
             //Создаем хэш пароля и добавляем его пользователю
             var passworhHash = _passwordHasher.HashPassword(resultUser, userModel.Password);
@@ -117,18 +114,13 @@ namespace AstralTest.Domain.Service
             //}
 
             //Обновления роли
-            if (!string.IsNullOrWhiteSpace(user.RoleName))
+            if (user.RoleName == RolesOption.Admin)
             {
-                var newRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleName == user.RoleName.ToLower());
-                if (newRole != null)
-                {
-                    result.RoleId = newRole.RoleId;
-                }
-                else
-                {
-                    newRole = await _context.Roles.SingleOrDefaultAsync(x => x.RoleId == RolesAuthorize.user);
-                    result.RoleId = newRole.RoleId;
-                }
+                result.RoleId = user.RoleName;
+            }
+            else
+            {
+                result.RoleId = RolesOption.User;
             }
 
             await _context.SaveChangesAsync();

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AstralTest.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Models
 {
@@ -27,7 +24,7 @@ namespace AstralTest.Domain.Models
         /// Роль пользователя
         /// </summary>
         [Display(Name ="Роль")]
-        public string RoleName { get; set; }
+        public RolesOption RoleName { get; set; }
 
         //Если надо будет изменять пароль
         //public string Password { get; set; }

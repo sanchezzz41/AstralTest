@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AstralTest.IdentityContext")]
+[assembly: AssemblyProduct("AstralTest.Identity")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("15f1a3dd-055f-4494-b54e-7cc04ae6e0a8")]
+[assembly: Guid("f3712f0d-d140-4e60-9d62-4a6ea33c8e0e")]

@@ -1,12 +1,7 @@
-﻿using AstralTest.Database;
-using AstralTest.Domain.Entities;
+﻿using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
-using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AstralTest.Models
 {

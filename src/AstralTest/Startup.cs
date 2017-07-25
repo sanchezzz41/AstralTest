@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,16 +6,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AstralTest.Domain.ContextDb;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.AspNetCore.Http;
 using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using AstralTest.Domain.Interfaces;
-using AstralTest.Domain.Service;
-using AstralTest.IdentityContext;
+using AstralTest.Identity;
 using AstralTest.Models;
 using AstralTest.Extensions;
 
@@ -123,36 +113,6 @@ namespace AstralTest
             //Иницилизурем 2 роли и 1го пользователя, если таковых нет
             app.ApplicationServices.GetService<DatabaseContext>().Initialize(app.ApplicationServices).Wait();
         }
-
-        //public async Task DatabaseInitialize(IServiceProvider serviceProvider)
-        //{
-        //    UserManager<User> userManager =
-        //        serviceProvider.GetRequiredService<UserManager<User>>();
-        //    RoleManager<IdentityRole> roleManager =
-        //        serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        //    string adminEmail = "admin@gmail.com";
-        //    string userName = "admin";
-        //    string password = "admin";
-        //    if (await roleManager.FindByNameAsync("admin") == null)
-        //    {
-        //        await roleManager.CreateAsync(new IdentityRole("admin"));
-        //    }
-        //    if (await roleManager.FindByNameAsync("user") == null)
-        //    {
-        //        await roleManager.CreateAsync(new IdentityRole("user"));
-        //    }
-        //    if (await userManager.FindByNameAsync(userName) == null)
-        //    {
-        //        User admin = new User { Email = adminEmail, UserName = userName };
-        //        IdentityResult result = await userManager.CreateAsync(admin, password);
-        //        if (result.Succeeded)
-        //        {
-        //            await userManager.AddToRoleAsync(admin, "admin");
-        //        }
-        //    }
-        //}
-
     }
 }
 

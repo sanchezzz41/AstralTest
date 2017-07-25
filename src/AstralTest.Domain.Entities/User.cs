@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AstralTest.Domain.Entities.StaticClasses;
 
 namespace AstralTest.Domain.Entities
 {
@@ -45,7 +43,7 @@ namespace AstralTest.Domain.Entities
         /// Id роли
         /// </summary>
         [ForeignKey(nameof(Role))]
-        public RolesAuthorize RoleId { get; set; }
+        public RolesOption RoleId { get; set; }
 
         /// <summary>
         /// Роль
@@ -61,12 +59,10 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Создаёт экземпляр класса User 
         /// </summary>
-        /// <param name="roleId">Id роли</param>
         public User()
         {
             UserId = Guid.NewGuid();
-
-            PasswordSalt = GetPassSalt();
+            PasswordSalt = Randomizer.GetString(8);
         }
 
         /// <summary>
@@ -77,20 +73,8 @@ namespace AstralTest.Domain.Entities
         {
             UserId = Guid.NewGuid();
             RoleId = RoleId;
-            PasswordSalt = GetPassSalt();
+            PasswordSalt = Randomizer.GetString(8);
         }
 
-
-        private string GetPassSalt()
-        {
-            string str = "qwertyuiopasdfghjklzxvcbnm1234567890";
-            Random rand = new Random();
-            string result = "";
-            for (int i = 0; i < 8; i++)
-            {
-                result += str[rand.Next(0, str.Length - 1)];
-            }
-            return result;
-        }
     }
 }

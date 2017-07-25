@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AstralTest.Domain.Entities
 {
@@ -17,7 +14,7 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public RolesAuthorize RoleId { get; set; }
+        public RolesOption RoleId { get; set; }
 
         /// <summary>
         /// Название роли
@@ -36,22 +33,14 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Иницилизурет новый экземляр класса Role 
         /// </summary>
-        /// <param name="role">Имя роли</param>
-        public Role(RolesAuthorize role)
+        /// <param name="role">Сама роль</param>
+        /// <param name="RoleName">Имя роли</param>
+        public Role(RolesOption role,string roleName)
         {
 
-            RoleName = Enum.GetName(typeof(RolesAuthorize), role);
+            RoleName = roleName;
             RoleId = role;
         }
-    }
-
-    /// <summary>
-    /// Предоставляет перечесление для ролей
-    /// </summary>
-    public enum RolesAuthorize
-    {
-        user = 1,
-        admin = 2
     }
 }
  

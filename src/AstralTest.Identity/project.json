@@ -5,8 +5,7 @@
     "AstralTest.Database": "1.0.0-*",
     "AstralTest.Domain.Entities": "1.0.0-*",
     "Microsoft.AspNetCore.Identity": "1.1.2",
-    "NETStandard.Library": "1.6.1",
-    "System.ComponentModel.Annotations": "4.3.0"
+    "NETStandard.Library": "1.6.1"
   },
 
   "frameworks": {
