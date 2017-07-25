@@ -14,7 +14,7 @@ using AstralTest.Extensions;
 namespace AstralTest.Controllers
 {
     //Контроллер для работы с заметками
-    [Route("Note")]
+    [Route("Notes")]
     [Authorize(Roles =nameof(RolesOption.User))]
     public class NotesController : Controller
     {
@@ -25,15 +25,15 @@ namespace AstralTest.Controllers
         }
 
         //Возвращает все заметки для определенного пользователя
-        [HttpGet]
-        public async Task<object> List(Guid idMaster)
+        [HttpGet("{id}")]
+        public async Task<object> List(Guid id)
         {
             var result = await _noteService.GetAsync();
-            return result.Where(x=>x.IdUser==idMaster).NotesView();
+            return result.Where(x=>x.IdUser== id).NotesView();
         }
 
         //Возвращает заметки в опр. интервале
-        [HttpGet("List")]
+        [HttpGet]
         public async Task<object> List(int offSet, int count)
         {
             var prom = await _noteService.GetAsync();

@@ -9,7 +9,7 @@ using AstralTest.Extensions;
 namespace AstralTest.Controllers
 {
     //Контроллер для редактирования пользователя, самим собой
-    [Route("User")]
+    [Route("Users")]
     [Authorize]
     public class UserController : Controller
     {

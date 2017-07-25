@@ -38,16 +38,13 @@ namespace AstralTest.Controllers
         [HttpDelete("Users/{id}")]
         public async Task DeleteUser(Guid id)
         {
-            if(HttpContext.User.IsInRole(RolesOption.Admin.ToString()))
-            {
-                var resultUser = await _context.GetAsync();
-            }
+            var resultUser = await _context.GetAsync();
             await _context.DeleteAsync(id);
 
         }
 
         //Добавляет пользователя, скорей всего не нужно(как админ может кого то добавить, не спрашиваю его)
-        [HttpPost("AddUser")]
+        [HttpPost("Users")]
         public async Task<Guid> AddUser([FromBody] UserRegisterModel us)
         {
             var result = await _context.AddAsync(us);
@@ -55,7 +52,7 @@ namespace AstralTest.Controllers
         }
 
         //Изменяет пользователя
-        [HttpPut("EditUser/{id}")]
+        [HttpPut("Users/{id}")]
         public async Task EditUser([FromBody] EditUserModel us, Guid id)
         {
             await _context.EditAsync(us, id);
