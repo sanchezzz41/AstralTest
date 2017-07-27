@@ -1,14 +1,14 @@
-﻿using AstralTest.Database;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Service
+namespace AstralTest.Domain.Services
 {
 
     /// <summary>
@@ -16,7 +16,7 @@ namespace AstralTest.Domain.Service
     /// </summary>
     public class NoteService : INoteService
     {
-        private DatabaseContext _context { get; }
+        private readonly DatabaseContext _context;
 
         public NoteService(DatabaseContext context)
         {
@@ -25,10 +25,7 @@ namespace AstralTest.Domain.Service
 
         public IEnumerable<Note> Notes
         {
-            get
-            {
-                return _context.Notes.Include(x => x.Master).ToList();
-            }
+            get { return _context.Notes.Include(x => x.Master).ToList(); }
         }
 
         /// <summary>
@@ -37,7 +34,7 @@ namespace AstralTest.Domain.Service
         /// <returns></returns>
         public async Task<Guid> AddAsync(NoteModel noteModel, Guid idMaster)
         {
-            if(noteModel==null && idMaster== null)
+            if (noteModel == null && idMaster == null)
             {
                 throw new Exception("NullException");
             }
@@ -48,9 +45,9 @@ namespace AstralTest.Domain.Service
                 throw new Exception("NullException");
             }
 
-            var result = new Note { Text = noteModel.Text, IdUser = idMaster };
+            var result = new Note {Text = noteModel.Text, IdUser = idMaster};
 
-            if (_context.Notes.Any(x=>x.Id==result.Id))
+            if (_context.Notes.Any(x => x.Id == result.Id))
             {
                 throw new Exception("IdExists");
             }
@@ -64,16 +61,16 @@ namespace AstralTest.Domain.Service
         /// <summary>
         /// Удаляет заметку из бд
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="idNote"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid idNote)
         {
-            if (id == null)
+            if (idNote == null)
             {
                 throw new Exception("IdEqualNullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == id);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == idNote);
 
             if (result == null)
             {
@@ -87,16 +84,16 @@ namespace AstralTest.Domain.Service
         /// <summary>
         /// Изменяет заметку
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="idNote"></param>
         /// <returns></returns>
-        public async Task EditAsync(NoteModel newNote, Guid IdNote)
+        public async Task EditAsync(NoteModel newNote, Guid idNote)
         {
-            if (newNote != null && IdNote == null)
+            if (newNote != null && idNote == null)
             {
                 throw new Exception("NullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == IdNote);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == idNote);
             if (result == null)
             {
                 throw new Exception("NullException");
@@ -112,7 +109,7 @@ namespace AstralTest.Domain.Service
         /// <returns></returns>
         public async Task<List<Note>> GetAsync()
         {
-            var result = await _context.Notes.Include(x=>x.Master).ToListAsync();
+            var result = await _context.Notes.Include(x => x.Master).ToListAsync();
             return result;
         }
 

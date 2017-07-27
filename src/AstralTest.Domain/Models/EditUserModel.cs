@@ -24,7 +24,7 @@ namespace AstralTest.Domain.Models
         /// Роль пользователя
         /// </summary>
         [Display(Name ="Роль")]
-        public RolesOption RoleName { get; set; }
+        public RolesOption RoleId { get; set; }
 
         //Если надо будет изменять пароль
         //public string Password { get; set; }

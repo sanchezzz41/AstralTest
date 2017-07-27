@@ -1,10 +1,8 @@
-﻿using AstralTest.Domain.Entities;
-using AstralTest.Domain.Interfaces;
-using AstralTest.Domain.Service;
-using Microsoft.AspNetCore.Identity;
+﻿using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AstralTest.Domain.ContextDb
+namespace AstralTest.Domain
 {
     /// <summary>
     ///  Класс для добавления серсисов
@@ -21,7 +19,10 @@ namespace AstralTest.Domain.ContextDb
         {
             service.AddScoped<IUserService, UserService>();
             service.AddScoped<INoteService, NoteService>();
+            service.AddScoped<IAuthorizationService, AuthorizationService>();
             service.AddScoped<IEmailSender, EmailSenderService>();
+            service.AddScoped<IUserTaskService, UserTaskService>();
+            service.AddScoped<ITasksContainerService, TasksContainerService>();
             return service;
         }
     }

@@ -4,13 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using AstralTest.Domain.ContextDb;
 using Swashbuckle.AspNetCore.Swagger;
 using AstralTest.Database;
+using AstralTest.Domain;
 using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using AstralTest.Identity;
-using AstralTest.Models;
 using AstralTest.Extensions;
 
 namespace AstralTest
@@ -42,8 +41,6 @@ namespace AstralTest
             //Сервисы для аутификации и валидации пароля
             services.AddScoped<IHashProvider, Md5HashService>();
             services.AddScoped<IPasswordHasher<User>, Md5PasswordHasher>();
-            //Сервсис для регистрации
-            services.AddScoped<AuthorizationService>();
 
             services.AddIdentity<User, Role>()
                 .AddRoleStore<RoleStore>()
@@ -103,7 +100,6 @@ namespace AstralTest
                     x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
                 });
             }
-
             app.UseMvc(route =>
             {
                 route.MapRoute("Default", "{controller=Account}/{action=Login}/{id?}");

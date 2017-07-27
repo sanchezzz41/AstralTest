@@ -9,13 +9,31 @@ using AstralTest.Domain.Entities;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170727105703_Migr8")]
+    partial class Migr8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "1.1.2");
+
+            modelBuilder.Entity("AstralTest.Domain.Entities.ListOfTasks", b =>
+                {
+                    b.Property<Guid>("ListId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("ListId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ListOfTasks");
+                });
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
@@ -42,22 +60,6 @@ namespace AstralTest.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("AstralTest.Domain.Entities.TasksContainer", b =>
-                {
-                    b.Property<Guid>("ListId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("ListId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TasksContainers");
                 });
 
             modelBuilder.Entity("AstralTest.Domain.Entities.User", b =>
@@ -89,7 +91,8 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.UserTask", b =>
                 {
-                    b.Property<Guid>("TaskId");
+                    b.Property<Guid>("TaskId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ActualTimeEnd");
 
@@ -104,7 +107,15 @@ namespace AstralTest.Migrations
 
                     b.HasIndex("ListId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("MyTasks");
+                });
+
+            modelBuilder.Entity("AstralTest.Domain.Entities.ListOfTasks", b =>
+                {
+                    b.HasOne("AstralTest.Domain.Entities.User", "Master")
+                        .WithMany("ListTaskses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
@@ -112,14 +123,6 @@ namespace AstralTest.Migrations
                     b.HasOne("AstralTest.Domain.Entities.User", "Master")
                         .WithMany("Notes")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AstralTest.Domain.Entities.TasksContainer", b =>
-                {
-                    b.HasOne("AstralTest.Domain.Entities.User", "Master")
-                        .WithMany("TasksContainers")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -133,7 +136,7 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.UserTask", b =>
                 {
-                    b.HasOne("AstralTest.Domain.Entities.TasksContainer", "MasterList")
+                    b.HasOne("AstralTest.Domain.Entities.ListOfTasks", "MasterList")
                         .WithMany("Tasks")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade);

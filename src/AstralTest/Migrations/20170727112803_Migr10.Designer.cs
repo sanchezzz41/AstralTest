@@ -9,9 +9,10 @@ using AstralTest.Domain.Entities;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170727112803_Migr10")]
+    partial class Migr10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -46,7 +47,8 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.TasksContainer", b =>
                 {
-                    b.Property<Guid>("ListId");
+                    b.Property<Guid>("ListId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -89,7 +91,8 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.UserTask", b =>
                 {
-                    b.Property<Guid>("TaskId");
+                    b.Property<Guid>("TaskId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ActualTimeEnd");
 

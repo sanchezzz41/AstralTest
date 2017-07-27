@@ -29,7 +29,7 @@ namespace AstralTest.Controllers
         public async Task<object> List(Guid id)
         {
             var result = await _noteService.GetAsync();
-            return result.Where(x=>x.IdUser== id).NotesView();
+            return result.Where(x=>x.IdUser== id).Select(x=>x.NoteView());
         }
 
         //Возвращает заметки в опр. интервале
@@ -38,7 +38,7 @@ namespace AstralTest.Controllers
         {
             var prom = await _noteService.GetAsync();
             var result = prom.OrderBy(x => x.Master.UserName).Skip(offSet).Take(count).ToList();
-            return result.NotesView();
+            return result.Select(x=>x.NoteView());
         }
 
         //Добавляет заметку

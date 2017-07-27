@@ -13,11 +13,12 @@ namespace AstralTest.Domain.Interfaces
     {
         IEnumerable<Note> Notes { get; }
 
-      /// <summary>
-      /// Добавляет заметку в бд
-      /// </summary>
-      /// <param name="noteModel"></param>
-      /// <returns></returns>
+        /// <summary>
+        /// Добавляет заметку в бд
+        /// </summary>
+        /// <param name="noteModel"></param>
+        /// <param name="idMaster"></param>
+        /// <returns></returns>
         Task<Guid> AddAsync(NoteModel noteModel, Guid idMaster);
 
         /// <summary>
@@ -30,7 +31,8 @@ namespace AstralTest.Domain.Interfaces
         /// <summary>
         /// Изменяет заметку
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="idNote"></param>
+        /// <param name="newNote"></param>
         /// <returns></returns>
         Task EditAsync(NoteModel newNote, Guid idNote);
 

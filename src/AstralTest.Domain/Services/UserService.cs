@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
-using AstralTest.Database;
 using AstralTest.Domain.Models;
+using AstralTest.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace AstralTest.Domain.Service
+namespace AstralTest.Domain.Services
 {
 
     /// <summary>
@@ -17,8 +18,8 @@ namespace AstralTest.Domain.Service
     /// </summary>
     public class UserService : IUserService
     {
-        private DatabaseContext _context { get; }
-        IPasswordHasher<User> _passwordHasher;
+        private readonly DatabaseContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
 
         public IEnumerable<User> Users
@@ -46,29 +47,10 @@ namespace AstralTest.Domain.Service
             {
                 throw new Exception("User is null");
             }
-            //Создаём пользователя
-            var resultUser = new User
-            {
-                UserName = userModel.UserName,
-                Email = userModel.Email
-            };
-            if (_context.Users.Any(x => x.UserId == resultUser.UserId))
-            {
-                throw new Exception("User with same Id is exist");
-            }
-
-            //Проверяем наличие роли, и если есть добавляем
-            if (userModel.RoleName==RolesOption.Admin)
-            {
-                resultUser.RoleId = userModel.RoleName;
-            }
-            else 
-            {
-                resultUser.RoleId = RolesOption.User;
-            }
-            //Создаем хэш пароля и добавляем его пользователю
-            var passworhHash = _passwordHasher.HashPassword(resultUser, userModel.Password);
-            resultUser.PasswordHash = passworhHash;
+            //Передаем пароль сразу с солью!!!
+            var passwordSalt = Randomizer.GetString(8);
+            var passworhHash = _passwordHasher.HashPassword(null, userModel.Password + passwordSalt);
+            var resultUser=new User(userModel.UserName,userModel.Email,passwordSalt,passworhHash,userModel.RoleId);
             //Сохраняем пользователя
             await _context.AddAsync(resultUser);
             await _context.SaveChangesAsync();
@@ -114,9 +96,9 @@ namespace AstralTest.Domain.Service
             //}
 
             //Обновления роли
-            if (user.RoleName == RolesOption.Admin)
+            if (user.RoleId == RolesOption.Admin)
             {
-                result.RoleId = user.RoleName;
+                result.RoleId = user.RoleId;
             }
             else
             {

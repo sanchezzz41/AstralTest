@@ -14,10 +14,12 @@ namespace AstralTest.Database
         public DatabaseContext(DbContextOptions<DatabaseContext> opt):base(opt)
         {
         }
-    
-        public DbSet<Note> Notes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Note> Notes { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<TasksContainer> TasksContainers { get; set; }
+        public DbSet<UserTask> Tasks { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

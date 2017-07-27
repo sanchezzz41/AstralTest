@@ -24,7 +24,7 @@ namespace AstralTest.Identity
             //Передаем с солью
             if (user == null)
             {
-                throw new ArgumentNullException("Сыллка на пользователя указывает на null.");
+                return _hashProvider.GetHash(password);
             }
             return _hashProvider.GetHash(password + user.PasswordSalt);
         }

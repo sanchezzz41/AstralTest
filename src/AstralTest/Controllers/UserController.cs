@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace AstralTest.Controllers
         public async Task<object> GetUsers()
         {
             var result = await _userService.GetAsync();
-            return result.UsersView(); 
+            return result.Select(x=>x.UserView()); 
         }
     }
 }

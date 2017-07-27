@@ -8,8 +8,8 @@
         /// <summary>
         /// Возвращает хэш пароля методом MD5
         /// </summary>
-        /// <param name="Pass"></param>
+        /// <param name="hashString"></param>
         /// <returns></returns>
-        string GetHash(string Pass);
+        string GetHash(string hashString);
     }
 }

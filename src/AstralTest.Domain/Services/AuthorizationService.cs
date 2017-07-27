@@ -1,17 +1,17 @@
-﻿using AstralTest.Domain.Entities;
+﻿using System.Linq;
+using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System.Linq;
 
-namespace AstralTest.Models
+namespace AstralTest.Domain.Services
 {
     /// <summary>
     /// Класс для авторизации пользователя
     /// </summary>
-    public class AuthorizationService
+    public class AuthorizationService : IAuthorizationService
     {
-        private IUserService _userService;
-        private IPasswordHasher<User> _passwordHasher;
+        private readonly IUserService _userService;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public AuthorizationService(IUserService context, IPasswordHasher<User> passwordHasher)
         {
@@ -19,10 +19,18 @@ namespace AstralTest.Models
             _passwordHasher = passwordHasher;
         }
 
+        /// <summary>
+        /// Возвращает пользователя, если он успешно прошёл авторизацию, в противном случае null
+        /// </summary>
+        /// <param name="userName">Имя пользователя</param>
+        /// <param name="password">Пароль</param>
+        /// <returns></returns>
         public User Authorization(string userName, string password)
         {
             if (userName == null)
-            { return null; }
+            {
+                return null;
+            }
             var user = _userService.Users.SingleOrDefault(x => x.UserName == userName);
             if (user == null)
             {
@@ -34,6 +42,6 @@ namespace AstralTest.Models
                 return null;
             }
             return user;
-        }    
-    }               
+        }
+    }
 }

@@ -1,8 +1,8 @@
-﻿using AstralTest.Domain.Interfaces;
+﻿using System.Threading.Tasks;
+using AstralTest.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Service
+namespace AstralTest.Domain.Services
 {
     /// <summary>
     /// Заглушка для отправки сообщений

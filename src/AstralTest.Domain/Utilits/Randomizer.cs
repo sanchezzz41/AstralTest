@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AstralTest.Domain.Entities.StaticClasses
+namespace AstralTest.Domain.Utilits
 {
     /// <summary>
     /// Статический класс с методами для Domain.Entites

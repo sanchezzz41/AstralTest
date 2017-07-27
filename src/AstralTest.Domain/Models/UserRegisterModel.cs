@@ -31,6 +31,6 @@ namespace AstralTest.Domain.Models
         public string Password { get; set; }
 
 
-        public RolesOption RoleName { get; set; } = RolesOption.User;
+        public RolesOption RoleId { get; set; } = RolesOption.User;
     }
 }

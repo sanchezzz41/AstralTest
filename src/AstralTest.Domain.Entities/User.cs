@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AstralTest.Domain.Entities.StaticClasses;
 
 namespace AstralTest.Domain.Entities
 {
@@ -16,11 +15,6 @@ namespace AstralTest.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid UserId { get; set; }
 
-        /// <summary>
-        /// Хэш пароля
-        /// </summary>
-        [Required]
-        public string PasswordHash { get; set; }
 
         /// <summary>
         /// Имя(Nick name)
@@ -38,7 +32,13 @@ namespace AstralTest.Domain.Entities
         /// Соль для хэша
         /// </summary>
         public string PasswordSalt { get; internal set; }
-        
+
+        /// <summary>
+        /// Хэш пароля
+        /// </summary>
+        [Required]
+        public string PasswordHash { get; set; }
+
         /// <summary>
         /// Id роли
         /// </summary>
@@ -55,6 +55,11 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         public virtual List<Note> Notes { get; set; }
 
+        /// <summary>
+        /// Список задач
+        /// </summary>
+        public List<TasksContainer> TasksContainers { get; set; }
+
 
         /// <summary>
         /// Создаёт экземпляр класса User 
@@ -62,19 +67,25 @@ namespace AstralTest.Domain.Entities
         public User()
         {
             UserId = Guid.NewGuid();
-            PasswordSalt = Randomizer.GetString(8);
+            PasswordSalt=Randomizer.GetString(8);
         }
 
         /// <summary>
         /// Создаёт экземпляр класса User 
         /// </summary>
-        /// <param name="roleId">Id роли</param>
-        public User(int roleId)
+        /// <param name="userName">Имя пользователя</param>
+        /// <param name="email">Еmail пользователя</param>
+        /// <param name="passwordSalt">Cоль для пароля</param>
+        /// <param name="passworhHash">Хэш пароля</param>
+        /// <param name="role">Роль</param>
+        public User(string userName,string email, string passwordSalt,string passworhHash,RolesOption role)
         {
             UserId = Guid.NewGuid();
-            RoleId = RoleId;
-            PasswordSalt = Randomizer.GetString(8);
+            UserName = userName;
+            Email = email;
+            PasswordSalt = passwordSalt;
+            PasswordHash = passworhHash;
+            RoleId = role;
         }
-
     }
 }

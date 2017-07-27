@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Interfaces;
-using AstralTest.Models;
+using AstralTest.Domain.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,10 +19,10 @@ namespace AstralTest.Controllers
     {
         private readonly SignInManager<User> _signManager;
         private readonly IUserService _userService;
-        private IEmailSender _emailService;
-        private AuthorizationService _authorizationService;
+        private readonly IEmailSender _emailService;
+        private readonly Domain.Interfaces.IAuthorizationService _authorizationService;
 
-        public AccountController(SignInManager<User> sign, AuthorizationService authService, IUserService userService,IEmailSender email)
+        public AccountController(SignInManager<User> sign, Domain.Interfaces.IAuthorizationService authService, IUserService userService,IEmailSender email)
         {
             _signManager = sign;
             _userService = userService;

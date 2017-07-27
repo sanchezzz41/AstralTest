@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
-using Microsoft.AspNetCore.Authorization;
 using AstralTest.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace AstralTest.Controllers
+namespace AstralTest.Controllers.Admin
 {
     /// <summary>
     /// Контроллер для работы с пользователем,
@@ -38,7 +38,6 @@ namespace AstralTest.Controllers
         [HttpDelete("Users/{id}")]
         public async Task DeleteUser(Guid id)
         {
-            var resultUser = await _context.GetAsync();
             await _context.DeleteAsync(id);
 
         }

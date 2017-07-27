@@ -11,27 +11,26 @@ namespace AstralTest.Extensions
     public static class ExtensionView
     {
         /// <summary>
-        /// Метод расширения для отображения пользоваетелей
+        /// Метод расширения для отображения пользоваетеля
         /// </summary>
-        /// <param name="users"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public static object UsersView(this IEnumerable<User> users)
+        public static object UserView(this User user)
         {
-            if (users != null)
+            if (user != null)
             {
-                return users.Select(x =>
-                new
+                return new
                 {
-                    Name = x.UserName,
-                    Email = x.Email,
-                    Id = x.UserId,
-                    Notes = x.Notes.Select(n =>
-                          new
-                          {
-                              Text = n.Text,
-                              Id = n.Id
-                          })
-                });
+                    Name = user.UserName,
+                    Email = user.Email,
+                    Id = user.UserId,
+                    Notes = user.Notes.Select(n =>
+                        new
+                        {
+                            Text = n.Text,
+                            Id = n.Id
+                        })
+                };
             }
             return null;
         }
@@ -47,38 +46,73 @@ namespace AstralTest.Extensions
             if (httpContext.User.IsInRole(RolesOption.Admin.ToString()))
             {
                 return users.Select(x =>
-                 new
-                 {
-                     Name = x.UserName,
-                     Email = x.Email,
-                     Id = x.UserId,
-                     Role = x.Role.RoleName,
-                     Notes = x.Notes.Select(n =>
-                           new
-                           {
-                               Text = n.Text,
-                               Id = n.Id
-                           })
-                 });
+                    new
+                    {
+                        Name = x.UserName,
+                        Email = x.Email,
+                        Id = x.UserId,
+                        Role = x.Role.RoleName,
+                        Notes = x.Notes.Select(n =>
+                            new
+                            {
+                                Text = n.Text,
+                                Id = n.Id
+                            })
+                    });
             }
             return null;
         }
+
         /// <summary>
-        /// Метод расширения для отображения заметак
+        /// Метод расширения для отображения заметки
         /// </summary>
-        /// <param name="notes"></param>
+        /// <param name="note"></param>
         /// <returns></returns>
-        public static object NotesView(this IEnumerable<Note> notes)
+        public static object NoteView(this Note note)
         {
-            if (notes == null) return null;
-            return notes.Select(x =>
-            new
+            if (note == null) return null;
+            return new
             {
-                Id = x.Id,
-                Text = x.Text,
-                User = x.Master.UserName
-            }
-            );
+                Id = note.Id,
+                Text = note.Text,
+                User = note.Master.UserName
+            };
+        }
+
+        /// <summary>
+        /// Метод расширения для отображение задачи пользователя 
+        /// </summary>
+        /// <param name="userTask"></param>
+        /// <returns></returns>
+        public static object UserTaskView(this UserTask userTask)
+        {
+            if (userTask != null)
+                return new
+                {
+                    IdTask = userTask.TaskId,
+                    UserName = userTask.MasterList.Master.UserName,
+                    Text = userTask.TextTask,
+                    EndTime = userTask.EndTime
+                };
+            return null;
+        }
+
+        /// <summary>
+        /// Метод расширения для отображения контейрена задач(отображает так же задачи)
+        /// </summary>
+        /// <param name="container"></param>
+        /// <returns></returns>
+        public static object TasksContainerView(this TasksContainer container)
+        {
+            if(container!=null)
+            return new
+            {
+                IdContainer = container.ListId,
+                NameContainer = container.Name,
+                UserName = container.Master.UserName,
+                Tasks = container.Tasks.Select(t => t.UserTaskView())
+            };
+            return null;
         }
     }
 }
