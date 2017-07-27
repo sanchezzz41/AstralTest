@@ -67,7 +67,6 @@ namespace AstralTest.Domain.Entities
         public User()
         {
             UserId = Guid.NewGuid();
-            PasswordSalt=Randomizer.GetString(8);
         }
 
         /// <summary>
