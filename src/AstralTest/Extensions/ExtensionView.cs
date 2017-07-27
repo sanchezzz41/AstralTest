@@ -29,6 +29,11 @@ namespace AstralTest.Extensions
                         {
                             Text = n.Text,
                             Id = n.Id
+                        }),
+                    NameContainers = user.TasksContainers
+                        .Select(x => new
+                        {
+                            Name = x.Name
                         })
                 };
             }
@@ -52,11 +57,11 @@ namespace AstralTest.Extensions
                         Email = x.Email,
                         Id = x.UserId,
                         Role = x.Role.RoleName,
-                        Notes = x.Notes.Select(n =>
-                            new
+                        Notes = x.Notes.Select(n => n.NoteView()),
+                        NameContainers = x.TasksContainers
+                            .Select(a => new
                             {
-                                Text = n.Text,
-                                Id = n.Id
+                                Name = a.Name
                             })
                     });
             }

@@ -31,7 +31,7 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Соль для хэша
         /// </summary>
-        public string PasswordSalt { get; internal set; }
+        public string PasswordSalt { get; set; }
 
         /// <summary>
         /// Хэш пароля

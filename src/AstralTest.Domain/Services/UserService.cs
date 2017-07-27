@@ -6,6 +6,7 @@ using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
+using AstralTest.Domain.Utilits;
 using AstralTest.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -135,7 +136,11 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task<List<User>> GetAsync()
         {
-            var result = await _context.Users.Include(x => x.Notes).Include(x=>x.Role).ToListAsync();
+            var result = await _context.Users
+                .Include(x => x.Notes)
+                .Include(x=>x.Role)
+                .Include(x=>x.TasksContainers)
+                .ToListAsync();
             return result;
         }
     }

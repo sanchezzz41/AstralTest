@@ -27,7 +27,13 @@ namespace AstralTest.Domain.Services
         /// </summary>
         public IEnumerable<UserTask> Tasks
         {
-            get { return _context.Tasks.Include(x => x.MasterList).ToList(); }
+            get
+            {
+                return _context.Tasks
+                    .Include(x => x.MasterList)
+                    .Include(x => x.MasterList.Master)
+                    .ToList();
+            }
         }
 
         /// <summary>
@@ -107,7 +113,10 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task<List<UserTask>> GetAsync()
         {
-            return await _context.Tasks.Include(x => x.MasterList).Include(x => x.MasterList.Master).ToListAsync();
+            return await _context.Tasks
+                .Include(x => x.MasterList)
+                .Include(x => x.MasterList.Master)
+                .ToListAsync();
         }
     }
 }
