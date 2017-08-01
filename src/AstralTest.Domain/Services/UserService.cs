@@ -46,9 +46,9 @@ namespace AstralTest.Domain.Services
         {
             if (userModel == null)
             {
-                throw new Exception("User is null");
+                throw new Exception($"Ссылка на пользователя указывате на Null.");
             }
-            //Передаем пароль сразу с солью!!!
+            //Передаем пароль сразу с солью(сначала пароль, потом соль)!!!
             var passwordSalt = Randomizer.GetString(8);
             var passworhHash = _passwordHasher.HashPassword(null, userModel.Password + passwordSalt);
             var resultUser=new User(userModel.UserName,userModel.Email,passwordSalt,passworhHash,userModel.RoleId);

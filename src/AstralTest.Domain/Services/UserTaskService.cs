@@ -79,14 +79,14 @@ namespace AstralTest.Domain.Services
                 throw new NullReferenceException();
             }
 
-            if (string.IsNullOrEmpty(task.TextTask))
+            if (!string.IsNullOrEmpty(task.TextTask))
             {
                 result.TextTask = task.TextTask;
             }
 
             result.EndTime = task.EndTime;
 
-            result.ActualTimeEnd = task.ActualTimeEnd.Value;
+            if (task.ActualTimeEnd != null) result.ActualTimeEnd = task.ActualTimeEnd.Value;
 
             await _context.SaveChangesAsync();
         }

@@ -13,9 +13,9 @@ namespace AstralTest.Domain.Services
         private readonly IUserService _userService;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AuthorizationService(IUserService context, IPasswordHasher<User> passwordHasher)
+        public AuthorizationService(IUserService userService, IPasswordHasher<User> passwordHasher)
         {
-            _userService = context;
+            _userService = userService;
             _passwordHasher = passwordHasher;
         }
 
@@ -37,6 +37,7 @@ namespace AstralTest.Domain.Services
                 return null;
             }
             var resultHash = _passwordHasher.HashPassword(user, password);
+
             if (resultHash != user.PasswordHash)
             {
                 return null;
