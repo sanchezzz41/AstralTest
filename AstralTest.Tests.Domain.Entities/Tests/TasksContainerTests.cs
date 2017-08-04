@@ -48,6 +48,8 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         public async Task Cleanup()
         {
             await TestInitializer.Provider.GetService<TasksContainerDataFactory>().Dispose();
+            await TestInitializer.Provider.GetService<UserDataFactory>().Dispose();
+
         }
 
         /// <summary>

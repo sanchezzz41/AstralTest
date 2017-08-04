@@ -50,6 +50,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         public async Task Cleanup()
         {
             await TestInitializer.Provider.GetService<NoteDataFactory>().Dispose();
+            await TestInitializer.Provider.GetService<UserDataFactory>().Dispose();
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
 
             //act
             var resultId = await _service.AddAsync(note, userId);
-            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.Id == resultId);
+            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == resultId);
 
             //assert
             Assert.AreEqual(note.Text, resultNote.Text);
@@ -80,7 +81,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         [Test]
         public async Task Update_Note_Success()
         {
-            var noteId = _context.Notes.First().Id;
+            var noteId = _context.Notes.First().NoteId;
             var note = new NoteModel
             {
                 Text = "Какой то новый текст"
@@ -88,7 +89,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
 
             //act
             await _service.EditAsync(note, noteId);
-            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.Id == noteId);
+            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == noteId);
 
             //assert
             Assert.AreEqual(note.Text, resultNote.Text);
@@ -101,11 +102,11 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         [Test]
         public async Task Delete_Note_Success()
         {
-            var noteId = _context.Notes.First().Id;
+            var noteId = _context.Notes.First().NoteId;
 
             //act
             await _service.DeleteAsync(noteId);
-            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.Id == noteId);
+            var resultNote = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == noteId);
 
             //assert
             Assert.IsNull(resultNote);

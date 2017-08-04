@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AstralTest.FileStore\AstralTest.FileStore.csproj" />
     <ProjectReference Include="..\AstralTest.Domain\AstralTest.Domain.csproj" />
     <ProjectReference Include="..\AstralTest.Database\AstralTest.Database.csproj" />
     <ProjectReference Include="..\AstralTest.Domain.Entities\AstralTest.Domain.Entities.csproj" />

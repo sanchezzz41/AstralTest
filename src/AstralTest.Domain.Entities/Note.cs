@@ -11,7 +11,7 @@ namespace AstralTest.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid Id { get; set; }
+        public Guid NoteId { get; set; }
 
         /// <summary>
         /// Текст в заметке
@@ -34,7 +34,7 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         public Note()
         {
-            Id = Guid.NewGuid();
+            NoteId = Guid.NewGuid();
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace AstralTest.Domain.Entities
         /// <param name="idMaster">Id владельца заметки</param>
         public Note(string text, Guid idMaster)
         {
-            Id = Guid.NewGuid();
+            NoteId = Guid.NewGuid();
             Text = text;
             IdUser = idMaster;
         }

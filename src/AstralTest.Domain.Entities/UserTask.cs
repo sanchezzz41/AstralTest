@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -42,7 +43,12 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Список задач
         /// </summary>
-        public TasksContainer MasterList { get; set; }
+        public virtual TasksContainer MasterList { get; set; }
+
+        /// <summary>
+        /// Файлы загрепленные за данной задачей
+        /// </summary>
+        public virtual List<AstralFile> Files { get; set; }
 
         /// <summary>
         /// Иницилизирует класс задача, автоматически создаёт Id

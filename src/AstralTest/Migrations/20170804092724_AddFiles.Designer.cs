@@ -9,9 +9,10 @@ using AstralTest.Domain.Entities;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170804092724_AddFiles")]
+    partial class AddFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -19,19 +20,16 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.AstralFile", b =>
                 {
-                    b.Property<Guid>("FileId");
+                    b.Property<Guid>("FIleId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedTime");
 
-                    b.Property<string>("NameFile")
-                        .IsRequired();
-
                     b.Property<Guid>("TaskId");
 
-                    b.Property<string>("TypeFile")
-                        .IsRequired();
+                    b.Property<string>("TypeFile");
 
-                    b.HasKey("FileId");
+                    b.HasKey("FIleId");
 
                     b.HasIndex("TaskId");
 
@@ -40,14 +38,14 @@ namespace AstralTest.Migrations
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>
                 {
-                    b.Property<Guid>("NoteId");
+                    b.Property<Guid>("Id");
 
                     b.Property<Guid>("IdUser");
 
                     b.Property<string>("Text")
                         .IsRequired();
 
-                    b.HasKey("NoteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdUser");
 

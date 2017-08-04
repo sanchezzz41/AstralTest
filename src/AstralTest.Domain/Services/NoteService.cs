@@ -25,7 +25,10 @@ namespace AstralTest.Domain.Services
 
         public IEnumerable<Note> Notes
         {
-            get { return _context.Notes.Include(x => x.Master).ToList(); }
+            get { return _context.Notes
+                    .Include(x => x.Master)
+                    .ToList();
+            }
         }
 
         /// <summary>
@@ -47,7 +50,7 @@ namespace AstralTest.Domain.Services
 
             var result = new Note {Text = noteModel.Text, IdUser = idMaster};
 
-            if (_context.Notes.Any(x => x.Id == result.Id))
+            if (_context.Notes.Any(x => x.NoteId == result.NoteId))
             {
                 throw new Exception("IdExists");
             }
@@ -55,7 +58,7 @@ namespace AstralTest.Domain.Services
             //note.MasterId = resUser.Id;
             await _context.Notes.AddAsync(result);
             await _context.SaveChangesAsync();
-            return result.Id;
+            return result.NoteId;
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace AstralTest.Domain.Services
                 throw new Exception("IdEqualNullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == idNote);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == idNote);
 
             if (result == null)
             {
@@ -93,7 +96,7 @@ namespace AstralTest.Domain.Services
                 throw new Exception("NullException");
             }
 
-            var result = await _context.Notes.SingleOrDefaultAsync(x => x.Id == idNote);
+            var result = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == idNote);
             if (result == null)
             {
                 throw new Exception("NullException");
@@ -109,7 +112,9 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task<List<Note>> GetAsync()
         {
-            var result = await _context.Notes.Include(x => x.Master).ToListAsync();
+            var result = await _context.Notes
+                .Include(x => x.Master)
+                .ToListAsync();
             return result;
         }
 

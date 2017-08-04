@@ -39,7 +39,7 @@ namespace AstralTest.Controllers
         }
 
         //Добавляет задачу в контейнер
-        [HttpPost("idContainer")]
+        [HttpPost("{idContainer}")]
         public async Task<Guid> AddTask([FromBody] UserTaskModel model, Guid idContainer)
         {
             return await _userTaskService.AddAsync(idContainer, model);

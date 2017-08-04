@@ -49,7 +49,9 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         [TearDown]
         public async Task Cleanup()
         {
+            await TestInitializer.Provider.GetService<UserDataFactory>().Dispose();
             await TestInitializer.Provider.GetService<TasksContainerDataFactory>().Dispose();
+            await TestInitializer.Provider.GetService<UserTaskDataFactory>().Dispose();
         }
 
         /// <summary>

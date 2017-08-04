@@ -23,6 +23,7 @@ namespace AstralTest.Domain
             service.AddScoped<IEmailSender, EmailSenderService>();
             service.AddScoped<IUserTaskService, UserTaskService>();
             service.AddScoped<ITasksContainerService, TasksContainerService>();
+            service.AddScoped<IFileService, FileService>();
             return service;
         }
     }

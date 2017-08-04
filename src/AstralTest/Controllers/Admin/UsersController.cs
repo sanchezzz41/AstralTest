@@ -4,6 +4,7 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using AstralTest.Extensions;
+using AstralTest.FileStore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

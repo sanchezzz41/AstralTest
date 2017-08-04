@@ -7,8 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AstralTest.Database
 {
-    //public class DatabaseContext:IdentityDbContext<User, ApplicationRole, Guid>
-    //{
+    //Контекст базы данных
     public class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> opt):base(opt)
@@ -19,6 +18,7 @@ namespace AstralTest.Database
         public DbSet<Role> Roles { get; set; }
         public DbSet<TasksContainer> TasksContainers { get; set; }
         public DbSet<UserTask> Tasks { get; set; }
+        public DbSet<AstralFile> Files { get; set; } 
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

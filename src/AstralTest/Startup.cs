@@ -11,6 +11,8 @@ using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using AstralTest.Identity;
 using AstralTest.Extensions;
+using AstralTest.FileStore;
+using Microsoft.Extensions.Options;
 
 namespace AstralTest
 {
@@ -78,6 +80,12 @@ namespace AstralTest
 
             //Тут добавляются наши биндинги интерфейсов
             services.AddServices();
+            services.AddFileStoreServices(opt =>
+            {
+                opt.LocalRepository = "C:/Users/Alexander/Desktop/AstralRepositoy";
+            });
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

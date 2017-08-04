@@ -28,7 +28,7 @@ namespace AstralTest.Extensions
                         new
                         {
                             Text = n.Text,
-                            Id = n.Id
+                            Id = n.NoteId
                         }),
                     NameContainers = user.TasksContainers
                         .Select(x => new
@@ -78,7 +78,7 @@ namespace AstralTest.Extensions
             if (note == null) return null;
             return new
             {
-                Id = note.Id,
+                Id = note.NoteId,
                 Text = note.Text,
                 User = note.Master.UserName
             };
@@ -109,14 +109,29 @@ namespace AstralTest.Extensions
         /// <returns></returns>
         public static object TasksContainerView(this TasksContainer container)
         {
-            if(container!=null)
-            return new
+            if (container != null)
+                return new
+                {
+                    IdContainer = container.ListId,
+                    NameContainer = container.Name,
+                    UserName = container.Master.UserName,
+                    Tasks = container.Tasks.Select(t => t.UserTaskView())
+                };
+            return null;
+        }
+
+        public static object FilesView(this AstralFile file)
+        {
+            if (file != null)
             {
-                IdContainer = container.ListId,
-                NameContainer = container.Name,
-                UserName = container.Master.UserName,
-                Tasks = container.Tasks.Select(t => t.UserTaskView())
-            };
+                return new
+                {
+                    idFile = file.FileId,
+                    NameFile = file.NameFile,
+                    TypeFile = file.TypeFile,
+                    CreatedTime = file.CreatedTime
+                };
+            }
             return null;
         }
     }
