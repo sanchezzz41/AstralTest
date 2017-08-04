@@ -18,14 +18,18 @@ namespace AstralTest.Database
         public DbSet<Role> Roles { get; set; }
         public DbSet<TasksContainer> TasksContainers { get; set; }
         public DbSet<UserTask> Tasks { get; set; }
-        public DbSet<AstralFile> Files { get; set; } 
+        public DbSet<File> Files { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasIndex(x => x.UserName)
+            modelBuilder.Entity<User>()
+                .HasIndex(x => x.UserName)
                 .IsUnique();
+            modelBuilder.Entity<Attachment>()
+                .HasKey(x => new {x.FileId, x.TaskId});
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Http;
+using File = AstralTest.Domain.Entities.File;
 
 namespace AstralTest.Domain.Interfaces
 {
@@ -18,9 +19,8 @@ namespace AstralTest.Domain.Interfaces
         /// Добавляет файл в бд и в локальное хранилище
         /// </summary>
         /// <param name="formFile">Интерфейс предоставляющий файл</param>
-        /// <param name="taskId">Id задачи, к которой будет закреплён файл</param>
         /// <returns></returns>
-        Task<Guid> AddAsynce(IFormFile formFile, Guid taskId);
+        Task<Guid> AddAsynce(IFormFile formFile);
 
         /// <summary>
         /// Возвращает модель в которой находится файл
@@ -40,6 +40,6 @@ namespace AstralTest.Domain.Interfaces
         /// Возвращает из бд все записи о файлах
         /// </summary>
         /// <returns></returns>
-        Task<List<AstralFile>> GetInfoAboutAllFilesAsync();
+        Task<List<File>> GetInfoAboutAllFilesAsync();
     }
 }

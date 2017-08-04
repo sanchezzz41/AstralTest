@@ -21,7 +21,7 @@ namespace AstralTest.FileStore
         /// </summary>
         /// <param name="nameFile">Название файла, который будет загружаться</param>
         /// <returns></returns>
-        Task<byte[]> Upload(string nameFile);
+        Task<byte[]> Download(string nameFile);
 
         /// <summary>
         /// Копирует файл в указанный путь

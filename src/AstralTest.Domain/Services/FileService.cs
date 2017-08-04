@@ -10,6 +10,7 @@ using AstralTest.Domain.Models;
 using AstralTest.FileStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using File = AstralTest.Domain.Entities.File;
 
 namespace AstralTest.Domain.Services
 {
@@ -30,21 +31,17 @@ namespace AstralTest.Domain.Services
         /// Добавляет файл в бд и в локальное хранилище
         /// </summary>
         /// <param name="formFile"></param>
-        /// <param name="taskId"></param>
         /// <returns></returns>
-        public async Task<Guid> AddAsynce(IFormFile formFile, Guid taskId)
+        public async Task<Guid> AddAsynce(IFormFile formFile)
         {
             if (formFile == null)
             {
                 throw new Exception("Файла для добавления нету.");
             }
-            var resultTask = await _context.Tasks.SingleOrDefaultAsync(x => x.TaskId == taskId);
-            if (resultTask == null)
-            {
-                throw new Exception("Задачи с таким id нету.");
-            }
 
-            var result = new AstralFile(taskId, formFile.ContentType, formFile.FileName);
+
+            //Доделать
+            var result = new File( formFile.ContentType, formFile.FileName);
             await _context.Files.AddAsync(result);
 
             var resultStream = new MemoryStream();
@@ -68,7 +65,7 @@ namespace AstralTest.Domain.Services
             {
                 throw new Exception("Файла с таким id нету.");
             }
-            var resultMass =await _fileStore.Upload(resultFile.FileId.ToString());
+            var resultMass =await _fileStore.Download(resultFile.FileId.ToString());
             if (resultMass == null && resultMass.Length == 0)
             {
                 throw new Exception("Файла с таким id нету в хранилище.");
@@ -105,10 +102,9 @@ namespace AstralTest.Domain.Services
         /// Возвращает из бд все записи о файлах
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AstralFile>> GetInfoAboutAllFilesAsync()
+        public async Task<List<File>> GetInfoAboutAllFilesAsync()
         {
             return await _context.Files
-                .Include(x=>x.MasterTask)
                 .ToListAsync();
         }
     }

@@ -9,7 +9,7 @@ namespace AstralTest.Domain.Entities
     /// <summary>
     /// Класс, предоставляющий файл 
     /// </summary>
-    public class AstralFile
+    public class File
     {
         /// <summary>
         /// Id файла, под ним файл храниться в локальном хранилище
@@ -35,18 +35,11 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         public DateTime CreatedTime { get; set; }
 
-        [ForeignKey("TaskId")]
-        public Guid TaskId { get; set; }
-        
-        /// <summary>
-        /// Задача, к которой принадлежит файл
-        /// </summary>
-        public virtual UserTask MasterTask { get; set; }
-
+   
         /// <summary>
         /// Иницилизирует новый экземпрял AstralFile
         /// </summary>
-        public AstralFile()
+        public File()
         {
             FileId = Guid.NewGuid();
             CreatedTime = DateTime.Now;
@@ -56,14 +49,12 @@ namespace AstralTest.Domain.Entities
         ///  Иницилизирует новый экземпрял AstralFile
         /// </summary>
         /// <param name="typeFile">Тип файла</param>
-        /// <param name="taskId">Id задачи, которой принадлежит файл</param>
         /// <param name="nameFile">Название файла</param>
-        public AstralFile( Guid taskId, string typeFile,string nameFile)
+        public File(string typeFile,string nameFile)
         {
             FileId = Guid.NewGuid();
             TypeFile = typeFile;
             NameFile = nameFile;
-            TaskId = taskId;
             CreatedTime = DateTime.Now;
         }
     }

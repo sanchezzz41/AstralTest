@@ -121,7 +121,7 @@ namespace AstralTest.Extensions
             return null;
         }
 
-        public static object FilesView(this AstralFile file)
+        public static object FilesView(this File file)
         {
             if (file != null)
             {

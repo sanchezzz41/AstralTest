@@ -82,7 +82,7 @@ namespace AstralTest
             services.AddServices();
             services.AddFileStoreServices(opt =>
             {
-                opt.LocalRepository = "C:/Users/Alexander/Desktop/AstralRepositoy";
+                opt.RootPath = "C:/Users/Alexander/Desktop/AstralRepositoy";
             });
 
            

@@ -18,15 +18,14 @@ namespace AstralTest.FileStore
         public static IServiceCollection AddFileStoreServices(this IServiceCollection service,
             Action<FileStoreOptions> configure)
         {
-            //Не работает так, последняя строчка не может принять параматр,
-            //принимает только тип
-            //var fileStoreOptions = new FileStoreOptions();
-            //configure(fileStoreOptions);
-            //service.AddScoped(fileStoreOptions);
-
             service.AddScoped<IFileStore, FileStore>();
-            service.Configure(configure);
-            service.AddScoped(x => x.GetService<IOptionsSnapshot<FileStoreOptions>>().Value);
+
+            var fileStoreOptions = new FileStoreOptions();
+            configure(fileStoreOptions);
+            service.AddSingleton(fileStoreOptions);
+
+            //service.Configure(configure);
+            //service.AddScoped(x => x.GetService<IOptionsSnapshot<FileStoreOptions>>().Value);
             return service;
         }
     }

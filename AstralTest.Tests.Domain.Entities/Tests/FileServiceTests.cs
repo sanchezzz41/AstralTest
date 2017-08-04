@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
+using File = AstralTest.Domain.Entities.File;
 
 namespace AstralTest.Tests.Domain.Entities.Tests
 {
@@ -29,7 +30,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         private IFileService _service;
 
         //Для проверки значений
-        private List<AstralFile> _files;
+        private List<File> _files;
 
         [SetUp]
         public async Task Initialize()
@@ -60,7 +61,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         {
             Mock<IFileStore> res = new Mock<IFileStore>();
             res.Setup(x => x.Create(It.IsAny<Stream>(), It.IsAny<string>()));
-            res.Setup(x => x.Upload(It.IsAny<string>())).Returns<string>(async x => new byte[] {0, 1, 2});
+            res.Setup(x => x.Download(It.IsAny<string>())).Returns<string>(async x => new byte[] {0, 1, 2});
 
             return res.Object;
         }

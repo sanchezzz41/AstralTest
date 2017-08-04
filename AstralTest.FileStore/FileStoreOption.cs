@@ -12,6 +12,6 @@ namespace AstralTest.FileStore
         /// <summary>
         /// Локальный путь, где будут храниться файлы
         /// </summary>
-        public string LocalRepository { get; set; }
+        public string RootPath { get; set; }
     }
 }

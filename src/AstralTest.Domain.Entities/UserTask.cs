@@ -46,9 +46,9 @@ namespace AstralTest.Domain.Entities
         public virtual TasksContainer MasterList { get; set; }
 
         /// <summary>
-        /// Файлы загрепленные за данной задачей
+        /// Файлы закрепленные за данной задачей
         /// </summary>
-        public virtual List<AstralFile> Files { get; set; }
+        public virtual List<Attachment> Files { get; set; }
 
         /// <summary>
         /// Иницилизирует класс задача, автоматически создаёт Id

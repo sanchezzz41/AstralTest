@@ -28,10 +28,10 @@ namespace AstralTest.Controllers
         }
 
         //Загружает файл на сервер в локальное хранилище
-        [HttpPost("{idTask}")]
-        public Task<Guid> UploadFile(IFormFile file, Guid idTask)
+        [HttpPost]
+        public Task<Guid> UploadFile(IFormFile file)
         {
-            return _service.AddAsynce(file, idTask);
+            return _service.AddAsynce(file);
         }
 
         //Возвращает файл пользователю

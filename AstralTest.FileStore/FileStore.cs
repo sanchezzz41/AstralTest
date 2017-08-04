@@ -18,9 +18,9 @@ namespace AstralTest.FileStore
         public FileStore(FileStoreOptions opt)
         {
             _fileStoreOption = opt;
-            if (!File.Exists(opt.LocalRepository))
+            if (!File.Exists(opt.RootPath))
             {
-                Directory.CreateDirectory(opt.LocalRepository);
+                Directory.CreateDirectory(opt.RootPath);
             }
         }
 
@@ -36,6 +36,7 @@ namespace AstralTest.FileStore
             {
                 throw new Exception("В потоке нету данных.");
             }
+            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
 
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -43,7 +44,7 @@ namespace AstralTest.FileStore
 
             stream.Read(resultMass, 0, resultMass.Length);
 
-            using (var fileStream = new FileStream(_fileStoreOption.LocalRepository + "/" + nameFile, FileMode.Create,
+            using (var fileStream = new FileStream(path, FileMode.Create,
                 FileAccess.Write))
             {
                 await fileStream.WriteAsync(resultMass, 0, resultMass.Length);
@@ -55,9 +56,9 @@ namespace AstralTest.FileStore
         /// </summary>
         /// <param name="nameFile">Название файла, который будет загружаться</param>
         /// <returns></returns>
-        public async Task<byte[]> Upload(string nameFile)
+        public async Task<byte[]> Download(string nameFile)
         {
-            string path = _fileStoreOption.LocalRepository + "/" + nameFile;
+            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
             if (!File.Exists(path))
             {
                 throw new Exception($"Такого файла {nameFile}  не существует!");
@@ -99,7 +100,7 @@ namespace AstralTest.FileStore
         /// <returns></returns>
         public async Task Delete(string nameFile)
         {
-            string path = _fileStoreOption.LocalRepository + "/" + nameFile;
+            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
             if (File.Exists(path))
             {
                 File.Delete(path);

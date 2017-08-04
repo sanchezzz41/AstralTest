@@ -23,10 +23,10 @@ namespace AstralTest.Tests.Domain.Entities.Factory
         public async Task CreateFiles()
         {
             var task = await _context.Tasks.FirstAsync();
-            var files = new List<AstralFile>
+            var files = new List<File>
             {
-                new AstralFile(task.TaskId,"testType1","testName1"),
-                new AstralFile(task.TaskId,"testType2","testName2")
+                new File("testType1","testName1"),
+                new File("testType2","testName2")
             };
             await _context.Files.AddRangeAsync(files);
             await _context.SaveChangesAsync();
