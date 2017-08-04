@@ -39,8 +39,6 @@ namespace AstralTest.Domain.Services
                 throw new Exception("Файла для добавления нету.");
             }
 
-
-            //Доделать
             var result = new File( formFile.ContentType, formFile.FileName);
             await _context.Files.AddAsync(result);
 
@@ -81,7 +79,7 @@ namespace AstralTest.Domain.Services
         }
 
         /// <summary>
-        /// Удаляет файд
+        /// Удаляет файл
         /// </summary>
         /// <param name="idFile">Id файла, по которому будет производиться удаление</param>
         /// <returns></returns>

@@ -24,5 +24,16 @@ namespace AstralTest.Domain.Entities
 
         public UserTask MasterTask { get; set; }
         public File MasterFile { get; set; }
+
+        /// <summary>
+        /// Иницилизирует новый экземпрял класса
+        /// </summary>
+        /// <param name="taskId">Id задачаи</param>
+        /// <param name="fileId">Id файла</param>
+        public Attachment(Guid taskId, Guid fileId)
+        {
+            TaskId = taskId;
+            FileId = fileId;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace AstralTest.Domain.Interfaces
         Task<FileModel> GetFileAsync(Guid idFile);
 
         /// <summary>
-        /// Удаляет файд
+        /// Удаляет файл
         /// </summary>
         /// <param name="idFile">Id файла, по которому будет производиться удаление</param>
         /// <returns></returns>
