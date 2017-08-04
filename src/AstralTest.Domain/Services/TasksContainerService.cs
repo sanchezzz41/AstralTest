@@ -27,10 +27,13 @@ namespace AstralTest.Domain.Services
         /// </summary>
         public IEnumerable<TasksContainer> TasksContainers
         {
-            get { return _context.TasksContainers
+            get
+            {
+                return _context.TasksContainers
                     .Include(x => x.Master)
                     .Include(x => x.Tasks)
-                    .ToList(); }
+                    .ToList();
+            }
         }
 
         /// <summary>

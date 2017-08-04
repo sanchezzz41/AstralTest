@@ -97,7 +97,7 @@ namespace AstralTest.Extensions
                     IdTask = userTask.TaskId,
                     UserName = userTask.MasterList.Master.UserName,
                     Text = userTask.TextTask,
-                    EndTime = userTask.EndTime
+                    EndTime = userTask.EndTime,
                 };
             return null;
         }
@@ -115,7 +115,8 @@ namespace AstralTest.Extensions
                     IdContainer = container.ListId,
                     NameContainer = container.Name,
                     UserName = container.Master.UserName,
-                    Tasks = container.Tasks.Select(t => t.UserTaskView())
+                    Tasks = container.Tasks
+                        .Select(t => t?.UserTaskView())
                 };
             return null;
         }

@@ -75,7 +75,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             var expect = _files.First();
             var file = await _context.Files.SingleOrDefaultAsync(x => x.FileId == expect.FileId);
             //Act
-            var result = await _service.GetFile(file.FileId);
+            var result = await _service.GetFileAsync(file.FileId);
 
             //Assert
             Assert.AreEqual(expect.NameFile, result.NameFile);

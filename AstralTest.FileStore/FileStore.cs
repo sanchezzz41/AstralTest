@@ -57,11 +57,12 @@ namespace AstralTest.FileStore
         /// <returns></returns>
         public async Task<byte[]> Upload(string nameFile)
         {
-            if (!File.Exists(_fileStoreOption.LocalRepository + "/" + nameFile))
+            string path = _fileStoreOption.LocalRepository + "/" + nameFile;
+            if (!File.Exists(path))
             {
                 throw new Exception($"Такого файла {nameFile}  не существует!");
             }
-            var result = File.ReadAllBytes(_fileStoreOption.LocalRepository + "/" + nameFile);
+            var result = File.ReadAllBytes(path);
             return result;
         }
 
@@ -89,6 +90,20 @@ namespace AstralTest.FileStore
             }
             var resultStream = new MemoryStream(bytes);
             return resultStream;
+        }
+
+        /// <summary>
+        /// Удаляет файл по имени
+        /// </summary>
+        /// <param name="nameFile">Имя файла</param>
+        /// <returns></returns>
+        public async Task Delete(string nameFile)
+        {
+            string path = _fileStoreOption.LocalRepository + "/" + nameFile;
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace AstralTest.FileStore
 {
     /// <summary>
-    /// Интерфейс для работы с файлами
+    /// Интерфейс для работы с файлами. Все файлы храняться в одном месте.
     /// </summary>
     public interface IFileStore
     {
@@ -38,5 +38,12 @@ namespace AstralTest.FileStore
         /// <param name="bytes">Массив байтов, которые будут записаны в поток</param>
         /// <returns></returns>
         Task<Stream> GetStreamFromBytes(byte[] bytes);
+
+        /// <summary>
+        /// Удаляет файл по имени
+        /// </summary>
+        /// <param name="nameFile">Имя файла</param>
+        /// <returns></returns>
+        Task Delete(string nameFile);
     }
 }

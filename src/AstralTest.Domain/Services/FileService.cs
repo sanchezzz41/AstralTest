@@ -61,7 +61,7 @@ namespace AstralTest.Domain.Services
         /// </summary>
         /// <param name="idFile">Id файла, который надо вернуть</param>
         /// <returns></returns>
-        public async Task<FileModel> GetFile(Guid idFile)
+        public async Task<FileModel> GetFileAsync(Guid idFile)
         {
             var resultFile = await _context.Files.SingleOrDefaultAsync(x => x.FileId == idFile);
             if (resultFile == null)
@@ -81,6 +81,35 @@ namespace AstralTest.Domain.Services
                 TypeFile=resultFile.TypeFile
             };
             return result;
+        }
+
+        /// <summary>
+        /// Удаляет файд
+        /// </summary>
+        /// <param name="idFile">Id файла, по которому будет производиться удаление</param>
+        /// <returns></returns>
+        public async Task DeleteAsync(Guid idFile)
+        {
+            var result = await _context.Files.SingleOrDefaultAsync(x => x.FileId == idFile);
+            if (result == null)
+            {
+                throw new Exception("Файла с таким id нету.");
+            }
+            await _fileStore.Delete(idFile.ToString());
+            _context.Files.Remove(result);
+
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Возвращает из бд все записи о файлах
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<AstralFile>> GetInfoAboutAllFilesAsync()
+        {
+            return await _context.Files
+                .Include(x=>x.MasterTask)
+                .ToListAsync();
         }
     }
 }
