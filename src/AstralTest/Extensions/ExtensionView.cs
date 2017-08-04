@@ -94,8 +94,8 @@ namespace AstralTest.Extensions
             if (userTask != null)
                 return new
                 {
+                    idContainer=userTask.ListId,
                     IdTask = userTask.TaskId,
-                    UserName = userTask.MasterList.Master.UserName,
                     Text = userTask.TextTask,
                     EndTime = userTask.EndTime,
                 };

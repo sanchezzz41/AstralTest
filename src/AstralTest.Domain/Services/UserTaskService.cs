@@ -32,7 +32,7 @@ namespace AstralTest.Domain.Services
                 return _context.Tasks
                     .Include(x => x.MasterList)
                     .Include(x => x.MasterList.Master)
-                    .Include(x => x.Files)
+                    .Include(x => x.Attachments)
                     .ToList();
             }
         }
@@ -115,9 +115,8 @@ namespace AstralTest.Domain.Services
         public async Task<List<UserTask>> GetAsync()
         {
             return await _context.Tasks
-                .Include(x => x.MasterList)
-                .Include(x => x.MasterList.Master)
-                .Include(x => x.Files)
+                //.Include(x => x.MasterList)
+                //.Include(x => x.Attachments)
                 .ToListAsync();
         }
     }
