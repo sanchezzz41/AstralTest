@@ -63,7 +63,7 @@ namespace AstralTest.Domain.Services
             {
                 throw new Exception("Файла с таким id нету.");
             }
-            var resultMass =await _fileStore.Download(resultFile.FileId.ToString());
+            var resultMass = await _fileStore.Download(resultFile.FileId.ToString());
             if (resultMass == null && resultMass.Length == 0)
             {
                 throw new Exception("Файла с таким id нету в хранилище.");
@@ -73,7 +73,7 @@ namespace AstralTest.Domain.Services
             {
                 Bytes = resultMass,
                 NameFile = resultFile.NameFile,
-                TypeFile=resultFile.TypeFile
+                TypeFile = resultFile.TypeFile
             };
             return result;
         }

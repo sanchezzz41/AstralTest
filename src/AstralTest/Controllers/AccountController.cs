@@ -72,7 +72,6 @@ namespace AstralTest.Controllers
         }
 
         //Выход из приложения
-        [Authorize]
         [HttpDelete]
         public async Task<object> Logout()
         {

@@ -50,7 +50,6 @@ namespace AstralTest
                 .AddPasswordValidator<Md5PasswordValidator>()
                 .AddDefaultTokenProviders();
 
-
             if (_env.IsDevelopment())
             {
                 //Временные настройки для авторизации

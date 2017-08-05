@@ -22,7 +22,6 @@ namespace AstralTest.Tests.Domain.Entities.Factory
         //Заполняет бд заметками
         public async Task CreateFiles()
         {
-            var task = await _context.Tasks.FirstAsync();
             var files = new List<File>
             {
                 new File("testType1","testName1"),
