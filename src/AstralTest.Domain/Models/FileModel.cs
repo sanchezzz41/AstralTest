@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace AstralTest.Domain.Models
 {
     /// <summary>
-    /// Модель файла, которая будет отправляться в respons'e
+    /// Модель файлa
     /// </summary>
     public class FileModel
     {
         /// <summary>
-        /// Массив байтов
+        /// Поток для файла
         /// </summary>
-        public byte[] Bytes { get; set; }
+        public Stream StreamFile { get; set; }
         
         /// <summary>
         /// Тип файла

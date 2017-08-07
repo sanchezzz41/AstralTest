@@ -28,8 +28,6 @@ namespace AstralTest.Database
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.UserName)
                 .IsUnique();
-            modelBuilder.Entity<Attachment>()
-                .HasKey(x => new {x.FileId, x.TaskId});
         }
     }
 }

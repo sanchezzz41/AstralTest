@@ -17,11 +17,18 @@ namespace AstralTest.Domain.Services
     /// <summary>
     /// Класс для работы с файлами
     /// </summary>
-    public class FileService:IFileService
+    public class FileService : IFileService
     {
+
+        public IEnumerable<File> Files
+        {
+            get { return _context.Files; }
+        }
+
         private readonly DatabaseContext _context;
         private readonly IFileStore _fileStore;
-        public FileService(DatabaseContext context,IFileStore filestroe)
+
+        public FileService(DatabaseContext context, IFileStore filestroe)
         {
             _context = context;
             _fileStore = filestroe;
@@ -30,21 +37,19 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Добавляет файл в бд и в локальное хранилище
         /// </summary>
-        /// <param name="formFile"></param>
+        /// <param name="fileModel"></param>
         /// <returns></returns>
-        public async Task<Guid> AddAsynce(IFormFile formFile)
+        public async Task<Guid> AddAsync(FileModel fileModel)
         {
-            if (formFile == null)
+            if (fileModel == null)
             {
                 throw new Exception("Файла для добавления нету.");
             }
 
-            var result = new File( formFile.ContentType, formFile.FileName);
+            var result = new File(fileModel.TypeFile, fileModel.NameFile);
             await _context.Files.AddAsync(result);
 
-            var resultStream = new MemoryStream();
-            await formFile.CopyToAsync(resultStream);
-            await _fileStore.Create(resultStream, result.FileId.ToString());
+            await _fileStore.Create(fileModel.StreamFile, result.FileId.ToString());
 
             await _context.SaveChangesAsync();
 
@@ -64,14 +69,14 @@ namespace AstralTest.Domain.Services
                 throw new Exception("Файла с таким id нету.");
             }
             var resultMass = await _fileStore.Download(resultFile.FileId.ToString());
-            if (resultMass == null && resultMass.Length == 0)
+            if (resultMass == null || resultMass.Length == 0)
             {
                 throw new Exception("Файла с таким id нету в хранилище.");
             }
 
             var result = new FileModel
             {
-                Bytes = resultMass,
+                StreamFile = new MemoryStream(resultMass),
                 NameFile = resultFile.NameFile,
                 TypeFile = resultFile.TypeFile
             };

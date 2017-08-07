@@ -36,13 +36,23 @@ namespace AstralTest.FileStore
             {
                 throw new Exception("В потоке нету данных.");
             }
-            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
+            var path = Path.Combine(_fileStoreOption.RootPath, nameFile);
 
             stream.Seek(0, SeekOrigin.Begin);
 
-            var resultMass = new byte[stream.Length];
+            byte[] resultMass;
 
-            stream.Read(resultMass, 0, resultMass.Length);
+            using (var resultStream = new MemoryStream())
+            {
+
+                await stream.CopyToAsync(resultStream);
+
+                resultStream.Seek(0, SeekOrigin.Begin);
+
+                resultMass = new byte[resultStream.Length];
+
+                resultStream.Read(resultMass, 0, resultMass.Length);
+            }
 
             using (var fileStream = new FileStream(path, FileMode.Create,
                 FileAccess.Write))
@@ -58,13 +68,12 @@ namespace AstralTest.FileStore
         /// <returns></returns>
         public async Task<byte[]> Download(string nameFile)
         {
-            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
+            var path = Path.Combine(_fileStoreOption.RootPath, nameFile);
             if (!File.Exists(path))
             {
                 throw new Exception($"Такого файла {nameFile}  не существует!");
             }
-            var result = File.ReadAllBytes(path);
-            return result;
+            return await Task.FromResult(File.ReadAllBytes(path));
         }
 
         /// <summary>
@@ -89,8 +98,7 @@ namespace AstralTest.FileStore
             {
                 return null;
             }
-            var resultStream = new MemoryStream(bytes);
-            return resultStream;
+            return await Task.FromResult(new MemoryStream(bytes));
         }
 
         /// <summary>
@@ -100,10 +108,10 @@ namespace AstralTest.FileStore
         /// <returns></returns>
         public async Task Delete(string nameFile)
         {
-            string path = Path.Combine(_fileStoreOption.RootPath, nameFile);
+            var path = Path.Combine(_fileStoreOption.RootPath, nameFile);
             if (File.Exists(path))
             {
-                File.Delete(path);
+                await Task.Run(() => File.Delete(path));
             }
         }
     }

@@ -120,8 +120,13 @@ namespace AstralTest.Extensions
                 };
             return null;
         }
-
-        public static object FilesView(this File file)
+        
+        /// <summary>
+        /// Метод расширения для отображения информации о файле
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static object FileView(this File file)
         {
             if (file != null)
             {
@@ -131,6 +136,25 @@ namespace AstralTest.Extensions
                     NameFile = file.NameFile,
                     TypeFile = file.TypeFile,
                     CreatedTime = file.CreatedTime
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Метод расширения для отображения информации о прикреплении
+        /// </summary>
+        /// <param name="attachment"></param>
+        /// <returns></returns>
+        public static object AttachmentView(this Attachment attachment)
+        {
+            if (attachment != null)
+            {
+                return new
+                {
+                    IdAttachment = attachment.AttachmentId,
+                    IdTask = attachment.TaskId,
+                    IdFile = attachment.FileId
                 };
             }
             return null;

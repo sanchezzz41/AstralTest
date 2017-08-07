@@ -16,11 +16,16 @@ namespace AstralTest.Domain.Interfaces
     public interface IFileService
     {
         /// <summary>
+        /// Список файлов
+        /// </summary>
+        IEnumerable<File> Files { get; }
+
+        /// <summary>
         /// Добавляет файл в бд и в локальное хранилище
         /// </summary>
-        /// <param name="formFile">Интерфейс предоставляющий файл</param>
+        /// <param name="fileModel"></param>
         /// <returns></returns>
-        Task<Guid> AddAsynce(IFormFile formFile);
+        Task<Guid> AddAsync(FileModel fileModel);
 
         /// <summary>
         /// Возвращает модель в которой находится файл

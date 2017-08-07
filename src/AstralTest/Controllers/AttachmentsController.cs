@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Models;
+using AstralTest.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +16,7 @@ namespace AstralTest.Controllers
 {
     //Контроллер для работы с привязками файлов к задачам
     [Route("Attachments")]
+    [Authorize(Roles = nameof(RolesOption.User))]
     public class AttachmentsController : Controller
     {
         private readonly IAttachmentsService _service;
@@ -19,25 +24,34 @@ namespace AstralTest.Controllers
         {
             _service = service;
         }
-        //Прикрепляет файл к задаче по Id's
+        //Прикрепляет файлы к задаче по Id's
         [HttpPost]
-        public async Task AttachFile([FromQuery]Guid idTask,[FromQuery]Guid idFile)
+        public async Task<List<Guid>> AttachFile([FromBody]AttachmentModel attachmentModel)
         {
-            await _service.AttachFileToTaskAsync(idTask, idFile);
-        }
-
-        //Прикрепляет новый файл к задаче
-        [HttpPost("{idTask}")]
-        public async Task AttachFile(Guid idTask, IFormFile file)
-        {
-            await _service.AttachFileToTaskAsync(idTask, file);
+           return await _service.AttachFileToTaskAsync(attachmentModel);
         }
 
         //Удаляет связывание 
-        [HttpDelete]
-        public async Task DeleteAttachment([FromQuery]Guid idTask, [FromQuery]Guid idFile)
+        [HttpDelete("{attachId}")]
+        public async Task DeleteAttachment(Guid attachId)
         {
-            await _service.DeleteAtachmentAsync(idTask, idFile);
+            await _service.DeleteAttachmentAsync(attachId);
+        }
+
+        //Возвращает все прикрепления
+        [HttpGet]
+        public async Task<object> GetAttachments()
+        {
+            var result = await _service.GetAllattachmentsAsync();
+            return result.Select(x => x.AttachmentView());
+        }
+
+        //Возвращает прикрепления одной задачи
+        [HttpGet("{idTask}")]
+        public async Task<object> GetAttachments(Guid idTask)
+        {
+            var result = await _service.GetAllattachmentsAsync(idTask);
+            return result.Select(x => x.AttachmentView());
         }
     }
 }

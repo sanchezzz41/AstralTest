@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AstralTest.Domain.Entities;
+using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace AstralTest.Domain.Interfaces
@@ -12,28 +14,35 @@ namespace AstralTest.Domain.Interfaces
     public interface IAttachmentsService
     {
         /// <summary>
-        /// Прикрепляет файл к задаче, используя id обоих
+        /// Список прикреплений
         /// </summary>
-        /// <param name="taskId">Id задачи</param>
-        /// <param name="fileId">Id файла</param>
-        /// <returns></returns>
-        Task AttachFileToTaskAsync(Guid taskId, Guid fileId);
+        IEnumerable<Attachment> Attachments { get; }
 
         /// <summary>
-        /// Прикрепляет файл к задаче
+        /// Прикрепляет файл к задаче, используя id обоих
         /// </summary>
-        /// <param name="taskId">Id задачи</param>
-        /// <param name="file">Файл, который будет прикреплён к задаче</param>
+        /// <param name="attachModel"></param>
         /// <returns></returns>
-        Task AttachFileToTaskAsync(Guid taskId, IFormFile file);
+        Task<List<Guid>> AttachFileToTaskAsync(AttachmentModel attachModel);
 
         /// <summary>
         /// Удаляет привязку между задачей и файлом
         /// </summary>
-        /// <param name="taskId">Id задачи</param>
-        /// <param name="fileId">Id файла</param>
+        /// <param name="attachId"></param>
         /// <returns></returns>
-        Task DeleteAtachmentAsync(Guid taskId, Guid fileId);
+        Task DeleteAttachmentAsync(Guid attachId);
+                                                    
+        /// <summary>
+        /// Возвращает список всех привязок
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Attachment>> GetAllattachmentsAsync();
 
+        /// <summary>
+        /// Возвращает список привязок по Id задачи
+        /// </summary>
+        /// <param name="idTask"></param>
+        /// <returns></returns>
+        Task<List<Attachment>> GetAllattachmentsAsync(Guid idTask);
     }
 }

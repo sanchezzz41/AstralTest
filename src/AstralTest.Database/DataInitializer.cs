@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AstralTest.Database.Utilits;
 
 namespace AstralTest.Database
 {
@@ -38,7 +35,7 @@ namespace AstralTest.Database
                 if (await context.Users.SingleOrDefaultAsync(x => x.UserName == "admin") == null)
                 {
                     var resRole = await context.Roles.SingleAsync(x => x.RoleName == RolesOption.Admin.ToString());
-                    var resultUser = new User {Email = "admin@mail.com", UserName = "admin", RoleId = resRole.RoleId, PasswordSalt = Randomizer.GetString(8) };
+                    var resultUser = new User {Email = "admin@mail.com", UserName = "admin", RoleId = resRole.RoleId, PasswordSalt = "qwer98kj" };
                     var hashProvider = serviceProvider.GetRequiredService<IPasswordHasher<User>>();
                     var resultHash = hashProvider.HashPassword(resultUser, "admin");
                     resultUser.PasswordHash = resultHash;

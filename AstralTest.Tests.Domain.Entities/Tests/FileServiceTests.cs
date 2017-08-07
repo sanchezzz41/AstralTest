@@ -38,7 +38,6 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         [SetUp]
         public async Task Initialize()
         {
-            _filesStore = new List<File>();
             //DbContext
             _context = TestInitializer.Provider.GetService<DatabaseContext>();
 
@@ -51,9 +50,10 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         }
 
         [TearDown]
-        public async Task Cleanup()
+        public async Task CleanUp()
         {
             await TestInitializer.Provider.GetService<FileDataFactory>().Dispose();
+            _filesStore.RemoveAll(x => true);
         }
 
         /// <summary>
@@ -62,20 +62,22 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         /// <returns></returns>
         public IFileStore GetIFileStore()
         {
-            Mock<IFileStore> res = new Mock<IFileStore>();
-            res.Setup(x => x.Create(It.IsAny<Stream>(), It.IsAny<string>()))
+            Mock<IFileStore> result = new Mock<IFileStore>();
+            result.Setup(x => x.Create(It.IsAny<Stream>(), It.IsAny<string>()))
                 .Returns<Stream, string>(async (a, b) =>
                 {
-                    _filesStore.Add(new File(b, "newName"));
+                    await Task.Run(() => _filesStore.Add(new File(b, "newName")));
                 });
-            res.Setup(x => x.Download(It.IsAny<string>())).Returns<string>(async x => new byte[] {0, 1, 2});
-            res.Setup(x => x.Delete(It.IsAny<string>())).Returns<string>(async x =>
+            result.Setup(x => x.Download(It.IsAny<string>())).Returns<string>(async x =>
+                await Task.FromResult(new byte[] {0, 1, 2}));
+            result.Setup(x => x.Delete(It.IsAny<string>())).Returns<string>(async x =>
             {
                 var file = _filesStore.SingleOrDefault(a => a.FileId.ToString() == x);
-                _filesStore.Remove(file);
+                if (file != null)
+                    await Task.Run(() => _filesStore.Remove(file));
             });
 
-            return res.Object;
+            return result.Object;
         }
 
         /// <summary>
@@ -85,15 +87,15 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         [Test]
         public async Task DownloadFile_Success()
         {
-            var expect = _files.First();
-            var file = await _context.Files.SingleOrDefaultAsync(x => x.FileId == expect.FileId);
+            var expected = _files.First();
+            var file = await _context.Files.SingleOrDefaultAsync(x => x.FileId == expected.FileId);
             //Act
             var result = await _service.GetFileAsync(file.FileId);
 
             //Assert
-            Assert.AreEqual(expect.NameFile, result.NameFile);
-            Assert.AreEqual(expect.TypeFile, result.TypeFile);
-            CollectionAssert.AreEqual(new byte[] {0, 1, 2}, result.Bytes);
+            Assert.AreEqual(expected.NameFile, result.NameFile);
+            Assert.AreEqual(expected.TypeFile, result.TypeFile);
+            //CollectionAssert.AreEqual(new byte[] {0, 1, 2}, result.StreamFile);
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task DeleteFile_UnCurrentId_Fail()
+        public void DeleteFile_UnCurrentId_Fail()
         {
             var randomGuid = Guid.NewGuid();
             //Act//Assert
@@ -141,8 +143,8 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             var resultFile = await _service.GetFileAsync(testFile.FileId);
 
             //Assert
-            Assert.AreEqual(testFile.NameFile,resultFile.NameFile);
-            Assert.AreEqual(testFile.TypeFile,resultFile.TypeFile);
+            Assert.AreEqual(testFile.NameFile, resultFile.NameFile);
+            Assert.AreEqual(testFile.TypeFile, resultFile.TypeFile);
         }
     }
 }

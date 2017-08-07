@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace AstralTest.Domain.Entities
 {
@@ -10,6 +9,13 @@ namespace AstralTest.Domain.Entities
     /// </summary>
     public class Attachment
     {
+        /// <summary>
+        /// PК Id прикрепления
+        /// </summary>
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid AttachmentId { get; set; }
+
         /// <summary>
         /// Id задачи
         /// </summary>
@@ -25,6 +31,11 @@ namespace AstralTest.Domain.Entities
         public UserTask MasterTask { get; set; }
         public File MasterFile { get; set; }
 
+        public Attachment()
+        {
+            AttachmentId=Guid.NewGuid();
+        }
+
         /// <summary>
         /// Иницилизирует новый экземпрял класса
         /// </summary>
@@ -32,6 +43,7 @@ namespace AstralTest.Domain.Entities
         /// <param name="fileId">Id файла</param>
         public Attachment(Guid taskId, Guid fileId)
         {
+            AttachmentId = Guid.NewGuid();
             TaskId = taskId;
             FileId = fileId;
         }

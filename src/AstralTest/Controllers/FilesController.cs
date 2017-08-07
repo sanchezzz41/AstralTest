@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Models;
 using AstralTest.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,18 +31,29 @@ namespace AstralTest.Controllers
 
         //Загружает файл на сервер в локальное хранилище
         [HttpPost]
-        public Task<Guid> UploadFile(IFormFile file)
+        public async Task<Guid> DownloadFile(IFormFile file)
         {
-            return _service.AddAsynce(file);
+
+            var resultStream = new MemoryStream();
+
+            await file.CopyToAsync(resultStream);
+
+            FileModel model = new FileModel
+            {
+                NameFile = file.FileName,
+                TypeFile = file.ContentType,
+                StreamFile = resultStream
+            };
+            return await _service.AddAsync(model);
         }
 
-        //Возвращает файл пользователю
+        //Возвращает файл по id
         [HttpGet("{idFile}")]
         public async Task<ActionResult> GetFile(Guid idFile)
         {
             var result = await _service.GetFileAsync(idFile);
 
-            return File(result.Bytes, result.TypeFile, result.NameFile);
+            return File(result.StreamFile, result.TypeFile, result.NameFile);
         }
 
         //Возвращает информацию о всех файлах
@@ -49,7 +62,7 @@ namespace AstralTest.Controllers
         {
             var resultView = await _service.GetInfoAboutAllFilesAsync();
             return resultView
-                .Select(x => x.FilesView());
+                .Select(x => x.FileView());
         }
 
         //Удаляет файл по Id
