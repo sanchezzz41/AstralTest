@@ -41,12 +41,12 @@ namespace AstralTest.Domain.Services
             var resultTask = await _context.Tasks.SingleOrDefaultAsync(x => x.TaskId == taskId);
             if (resultTask == null)
             {
-                throw new Exception("Задачи с таким id не существует");
+                throw new InvalidOperationException($"Задачи с таким id({taskId}) не существует");
             }
             var resultFile = await _context.Files.SingleOrDefaultAsync(x => x.FileId == fileId);
             if (resultFile == null)
             {
-                throw new Exception("Файла с таким id не существует");
+                throw new InvalidOperationException($"Файла с таким id({fileId}) не существует");
             }
             var result = new Attachment(resultTask.TaskId, resultFile.FileId);
             await _context.Attachments.AddAsync(result);
@@ -63,7 +63,7 @@ namespace AstralTest.Domain.Services
             var resultTask = await _context.Tasks.SingleOrDefaultAsync(x => x.TaskId == attachModel.TaskId);
             if (resultTask == null)
             {
-                throw new Exception("Задачи с таким id не существует");
+                throw new InvalidOperationException($"Задачи с таким id({attachModel.TaskId}) не существует");
             }
             var resultGuids = new List<Guid>();
             foreach (var fileId in attachModel.FileIds)
@@ -91,7 +91,7 @@ namespace AstralTest.Domain.Services
                 .SingleOrDefaultAsync(x => x.AttachmentId == attachId);
             if (resultAttachment == null)
             {
-                throw new Exception("Привязки с такими id не существует");
+                throw new InvalidOperationException($"Привязки с такими id({attachId}) не существует");
             }
             _context.Attachments.Remove(resultAttachment);
             await _context.SaveChangesAsync();

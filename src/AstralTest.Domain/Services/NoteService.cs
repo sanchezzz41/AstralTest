@@ -37,23 +37,19 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task<Guid> AddAsync(NoteModel noteModel, Guid idMaster)
         {
-            if (noteModel == null && idMaster == null)
+            if (noteModel == null || idMaster == null)
             {
-                throw new Exception("NullException");
+                throw new NullReferenceException("Объект равен Null");
             }
             var resUser = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idMaster);
 
             if (resUser == null)
             {
-                throw new Exception("NullException");
+                throw new NullReferenceException("Объект равен Null");
             }
 
             var result = new Note {Text = noteModel.Text, IdUser = idMaster};
 
-            if (_context.Notes.Any(x => x.NoteId == result.NoteId))
-            {
-                throw new Exception("IdExists");
-            }
             //note.Master = resUser;
             //note.MasterId = resUser.Id;
             await _context.Notes.AddAsync(result);
@@ -68,16 +64,12 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task DeleteAsync(Guid idNote)
         {
-            if (idNote == null)
-            {
-                throw new Exception("IdEqualNullException");
-            }
 
             var result = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == idNote);
 
             if (result == null)
             {
-                throw new Exception("NullException");
+                throw new NullReferenceException("Объект равен Null");
             }
             _context.Notes.Remove(result);
             await _context.SaveChangesAsync();
@@ -87,19 +79,20 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Изменяет заметку
         /// </summary>
+        /// <param name="newNote"></param>
         /// <param name="idNote"></param>
         /// <returns></returns>
         public async Task EditAsync(NoteModel newNote, Guid idNote)
         {
-            if (newNote != null && idNote == null)
+            if (newNote == null || idNote == null)
             {
-                throw new Exception("NullException");
+                throw new NullReferenceException("Объект равен Null");
             }
 
             var result = await _context.Notes.SingleOrDefaultAsync(x => x.NoteId == idNote);
             if (result == null)
             {
-                throw new Exception("NullException");
+                throw new NullReferenceException("Объект равен Null");
             }
 
             result.Text = newNote.Text;

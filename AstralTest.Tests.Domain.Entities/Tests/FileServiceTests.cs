@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AstralTest.Database;
-using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
+using AstralTest.Domain.Models;
 using AstralTest.Domain.Services;
 using AstralTest.FileStore;
 using AstralTest.Tests.Domain.Entities.Factory;
@@ -33,7 +32,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         private List<File> _files;
 
         //Вместо хранилища не компе
-        private List<File> _filesStore;
+        private List<string> _filesStore;
 
         [SetUp]
         public async Task Initialize()
@@ -44,7 +43,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             //Data
             await TestInitializer.Provider.GetService<FileDataFactory>().CreateFiles();
             _files = await _context.Files.ToListAsync();
-            _filesStore = await _context.Files.ToListAsync();
+            _filesStore = await _context.Files.Select(x=>x.FileId.ToString()).ToListAsync();
             //Services
             _service = new FileService(_context, GetIFileStore());
         }
@@ -63,21 +62,51 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         public IFileStore GetIFileStore()
         {
             Mock<IFileStore> result = new Mock<IFileStore>();
+
             result.Setup(x => x.Create(It.IsAny<Stream>(), It.IsAny<string>()))
                 .Returns<Stream, string>(async (a, b) =>
                 {
-                    await Task.Run(() => _filesStore.Add(new File(b, "newName")));
+                    await Task.Run(() => _filesStore.Add(b));
                 });
+
             result.Setup(x => x.Download(It.IsAny<string>())).Returns<string>(async x =>
                 await Task.FromResult(new byte[] {0, 1, 2}));
+
             result.Setup(x => x.Delete(It.IsAny<string>())).Returns<string>(async x =>
             {
-                var file = _filesStore.SingleOrDefault(a => a.FileId.ToString() == x);
+                var file = _filesStore.SingleOrDefault(a => a == x);
                 if (file != null)
                     await Task.Run(() => _filesStore.Remove(file));
             });
 
             return result.Object;
+        }
+
+        /// <summary>
+        /// Тест на создани файла(ожидается успех)
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task CreateFile_Success()
+        {
+            var mass = new byte[] {0, 1, 2, 3, 4, 5};
+            var expectFile=new FileModel
+            {
+                NameFile = "Test",
+                StreamFile = new MemoryStream(mass),
+                TypeFile = "jpg"
+            };
+
+            //Act
+            var resultId = await _service.AddAsync(expectFile);
+            var resuldFile = await _context.Files.SingleOrDefaultAsync(x => x.FileId == resultId);
+            var resultStoreFile = _filesStore.SingleOrDefault(x => x == resultId.ToString());
+
+            //Assert
+            Assert.AreEqual(expectFile.NameFile, resuldFile.NameFile);
+            Assert.AreEqual(expectFile.TypeFile, resuldFile.TypeFile);
+            //Такое сравнение, потому что в моке при добавление записываем тип длину(для примера), а название это Id
+            Assert.AreEqual(resultId.ToString(), resultStoreFile);
         }
 
         /// <summary>
@@ -91,11 +120,13 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             var file = await _context.Files.SingleOrDefaultAsync(x => x.FileId == expected.FileId);
             //Act
             var result = await _service.GetFileAsync(file.FileId);
+            var resustMass=new byte[result.StreamFile.Length];
+            await result.StreamFile.ReadAsync(resustMass, 0, resustMass.Length);
 
             //Assert
             Assert.AreEqual(expected.NameFile, result.NameFile);
             Assert.AreEqual(expected.TypeFile, result.TypeFile);
-            //CollectionAssert.AreEqual(new byte[] {0, 1, 2}, result.StreamFile);
+            CollectionAssert.AreEqual(new byte[] { 0, 1, 2 }, resustMass );
         }
 
         /// <summary>
@@ -110,7 +141,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             //Act
             await _service.DeleteAsync(fileId);
             var result1 = await _context.Files.SingleOrDefaultAsync(x => x.FileId == fileId);
-            var result2 = _filesStore.SingleOrDefault(x => x.FileId == fileId);
+            var result2 = _filesStore.SingleOrDefault(x => x == fileId.ToString());
 
             //Assert
             Assert.IsNull(result1);
@@ -127,7 +158,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         {
             var randomGuid = Guid.NewGuid();
             //Act//Assert
-            Assert.ThrowsAsync<Exception>(async () => await _service.DeleteAsync(randomGuid), "Файла с таким id нету.");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await _service.DeleteAsync(randomGuid), "Файла с таким id нету.");
         }
 
         /// <summary>

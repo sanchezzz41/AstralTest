@@ -43,7 +43,7 @@ namespace AstralTest.Domain.Services
         {
             if (fileModel == null)
             {
-                throw new Exception("Файла для добавления нету.");
+                throw new NullReferenceException("Файла для добавления нету.");
             }
 
             var result = new File(fileModel.TypeFile, fileModel.NameFile);
@@ -66,12 +66,12 @@ namespace AstralTest.Domain.Services
             var resultFile = await _context.Files.SingleOrDefaultAsync(x => x.FileId == idFile);
             if (resultFile == null)
             {
-                throw new Exception("Файла с таким id нету.");
+                throw new NullReferenceException($"Файла с таким id({idFile}) нету.");
             }
             var resultMass = await _fileStore.Download(resultFile.FileId.ToString());
             if (resultMass == null || resultMass.Length == 0)
             {
-                throw new Exception("Файла с таким id нету в хранилище.");
+                throw new InvalidOperationException("Файла с таким id нету в хранилище.");
             }
 
             var result = new FileModel
@@ -93,7 +93,7 @@ namespace AstralTest.Domain.Services
             var result = await _context.Files.SingleOrDefaultAsync(x => x.FileId == idFile);
             if (result == null)
             {
-                throw new Exception("Файла с таким id нету.");
+                throw new NullReferenceException($"Файла с таким id({idFile}) нету.");
             }
             await _fileStore.Delete(idFile.ToString());
             _context.Files.Remove(result);

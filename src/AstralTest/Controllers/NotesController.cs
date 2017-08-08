@@ -13,7 +13,9 @@ using AstralTest.Extensions;
 
 namespace AstralTest.Controllers
 {
-    //Контроллер для работы с заметками
+    /// <summary>
+    /// Контроллер для работы с заметками
+    /// </summary>
     [Route("Notes")]
     [Authorize(Roles =nameof(RolesOption.User))]
     public class NotesController : Controller
@@ -43,7 +45,7 @@ namespace AstralTest.Controllers
 
         //Добавляет заметку
         [HttpPost("{idMaster}")]
-        public async Task<Guid> AddNote([FromBody] NoteModel mod, Guid idMaster)
+        public async Task<object> AddNote([FromBody] NoteModel mod, Guid idMaster)
         {
             var resultId = await _noteService.AddAsync(mod, idMaster);
             return resultId;

@@ -24,5 +24,7 @@ namespace AstralTest.Domain.Models
         /// Имя файла
         /// </summary>
         public string NameFile { get; set; }
+
+        public byte[] Buffer { get; set; }
     }
 }

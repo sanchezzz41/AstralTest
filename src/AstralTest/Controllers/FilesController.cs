@@ -31,7 +31,7 @@ namespace AstralTest.Controllers
 
         //Загружает файл на сервер в локальное хранилище
         [HttpPost]
-        public async Task<Guid> DownloadFile(IFormFile file)
+        public async Task<object> DownloadFile(IFormFile file)
         {
 
             var resultStream = new MemoryStream();
@@ -49,7 +49,7 @@ namespace AstralTest.Controllers
 
         //Возвращает файл по id
         [HttpGet("{idFile}")]
-        public async Task<ActionResult> GetFile(Guid idFile)
+        public async Task<object> GetFile(Guid idFile)
         {
             var result = await _service.GetFileAsync(idFile);
 

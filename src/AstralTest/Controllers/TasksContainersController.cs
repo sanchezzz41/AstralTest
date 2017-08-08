@@ -39,7 +39,7 @@ namespace AstralTest.Controllers
 
         //Добавляет контейнер пользователю
         [HttpPost("{idUser}")]
-        public async Task<Guid> AddContainer([FromBody] TasksContainerModel model, Guid idUser)
+        public async Task<object> AddContainer([FromBody] TasksContainerModel model, Guid idUser)
         {
             return await _tasksContainerService.AddAsync(idUser, model);
         }
@@ -57,6 +57,5 @@ namespace AstralTest.Controllers
         {
             await _tasksContainerService.DeleteAsync(idContainer);
         }
-
     }
 }

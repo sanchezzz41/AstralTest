@@ -1,20 +1,25 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using AstralTest.Extensions;
+using AstralTest.XSSFConverter;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AstralTest.Controllers
 {
-    //Контроллер для редактирования пользователя, самим собой
+    /// <summary>
+    /// Контроллер для редактирования пользователя, самим собой
+    /// </summary>
     [Route("Users")]
-    [Authorize]
+    [Authorize(Roles=nameof(RolesOption.User))]
     public class UserController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
+
         public UserController(IUserService userService)
         {
             _userService = userService;

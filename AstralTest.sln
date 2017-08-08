@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.Tests.Domain.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.FileStore", "AstralTest.FileStore\AstralTest.FileStore.csproj", "{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstralTest.XSSFConverter", "src\AstralTest.XSSFConverter\AstralTest.XSSFConverter.csproj", "{8EAA813E-A737-4AFC-9310-F54E84A93E4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EAA813E-A737-4AFC-9310-F54E84A93E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EAA813E-A737-4AFC-9310-F54E84A93E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EAA813E-A737-4AFC-9310-F54E84A93E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EAA813E-A737-4AFC-9310-F54E84A93E4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{F3712F0D-D140-4E60-9D62-4A6EA33C8E0E} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 		{401A3100-048D-4A47-95C3-1785872C9A39} = {083F02BD-FD3A-42F2-B9CA-B72B3FB0C300}
 		{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
+		{8EAA813E-A737-4AFC-9310-F54E84A93E4A} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 	EndGlobalSection
 EndGlobal

@@ -22,6 +22,7 @@
     <ProjectReference Include="..\AstralTest.Database\AstralTest.Database.csproj" />
     <ProjectReference Include="..\AstralTest.Domain.Entities\AstralTest.Domain.Entities.csproj" />
     <ProjectReference Include="..\AstralTest.Identity\AstralTest.Identity.csproj" />
+    <ProjectReference Include="..\AstralTest.XSSFConverter\AstralTest.XSSFConverter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

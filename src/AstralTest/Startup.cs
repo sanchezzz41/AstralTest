@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using AstralTest.Identity;
 using AstralTest.Extensions;
 using AstralTest.FileStore;
+using AstralTest.XSSFConverter;
 using Microsoft.Extensions.Options;
 
 namespace AstralTest
@@ -83,8 +84,9 @@ namespace AstralTest
             {
                 opt.RootPath = "C:/Users/Alexander/Desktop/AstralRepositoy";
             });
+            services.AddConvertereServices();
 
-           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

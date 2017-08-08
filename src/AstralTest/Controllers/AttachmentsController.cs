@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AstralTest.Controllers
 {
-    //Контроллер для работы с привязками файлов к задачам
+    /// <summary>
+    /// Контроллер для работы с привязками файлов к задачам
+    /// </summary>
     [Route("Attachments")]
     [Authorize(Roles = nameof(RolesOption.User))]
     public class AttachmentsController : Controller

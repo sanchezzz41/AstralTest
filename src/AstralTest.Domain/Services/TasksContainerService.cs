@@ -46,12 +46,12 @@ namespace AstralTest.Domain.Services
         {
             if (containerModel == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("Модель равна Null");
             }
             var user = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idMaster);
             if (user == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException($"Пользователя с таким Id({idMaster}) нету");
             }
             var resultContainer = new TasksContainer(idMaster, containerModel.Name);
             await _context.TasksContainers.AddAsync(resultContainer);

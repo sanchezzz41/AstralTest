@@ -45,7 +45,7 @@ namespace AstralTest.Controllers.Admin
 
         //Добавляет пользователя, скорей всего не нужно(как админ может кого то добавить, не спрашиваю его)
         [HttpPost("Users")]
-        public async Task<Guid> AddUser([FromBody] UserRegisterModel us)
+        public async Task<object> AddUser([FromBody] UserRegisterModel us)
         {
             var result = await _context.AddAsync(us);
             return result;

@@ -86,7 +86,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         {
 
             //Act
-            var exception = Assert.ThrowsAsync<Exception>(async () => await _userService.AddAsync(null));
+            var exception = Assert.ThrowsAsync<NullReferenceException>(async () => await _userService.AddAsync(null));
 
             //Assrt
             Assert.AreEqual(exception.Message, "Ссылка на пользователя указывате на Null.");

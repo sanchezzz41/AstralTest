@@ -46,7 +46,7 @@ namespace AstralTest.Domain.Services
         {
             if (userModel == null)
             {
-                throw new Exception($"Ссылка на пользователя указывате на Null.");
+                throw new NullReferenceException($"Ссылка на пользователя указывате на Null.");
             }
             //Передаем пароль сразу с солью(сначала пароль, потом соль)!!!
             var passwordSalt = Randomizer.GetString(8);
@@ -70,12 +70,12 @@ namespace AstralTest.Domain.Services
 
             if (user == null || id == null || id == Guid.Empty)
             {
-                throw new Exception("User is null");
+                throw new NullReferenceException("Ссылка на пользователя равна null");
             }
             var result = await _context.Users.SingleOrDefaultAsync(x => x.UserId == id);
             if (result == null)
             {
-                throw new Exception("User with same Id is not exist");
+                throw new NullReferenceException($"Пользователя с таким id{id} нету");
             }
             //Обновление значений пользователя
 
@@ -112,19 +112,14 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Удаляет пользователя из БД
         /// </summary>
-        /// <param name="user">Пользователь для удаления(у пользователя можно указать только id)</param>
+        /// <param name="idUser">Пользователь для удаления(у пользователя можно указать только id)</param>
         /// <returns></returns>
         public async Task DeleteAsync(Guid idUser)
         {
-            if (idUser == null)
-            {
-                throw new Exception("User is null");
-            }
-
             var result = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idUser);
             if (result == null)
             {
-                throw new Exception("User with same Id is not exist");
+                throw new NullReferenceException($"Пользователя с таким id{idUser} нету");
             }
             _context.Users.Remove(result);
             await _context.SaveChangesAsync();

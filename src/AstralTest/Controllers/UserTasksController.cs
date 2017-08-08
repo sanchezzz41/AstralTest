@@ -20,8 +20,7 @@ namespace AstralTest.Controllers
     [Route("Tasks")]
     [Authorize(Roles = nameof(RolesOption.User))]
     public class UserTasksController : Controller
-    {
-
+    {    
         private readonly IUserTaskService _userTaskService;
 
         public UserTasksController(IUserTaskService userTaskService)
@@ -40,7 +39,7 @@ namespace AstralTest.Controllers
 
         //Добавляет задачу в контейнер
         [HttpPost("{idContainer}")]
-        public async Task<Guid> AddTask([FromBody] UserTaskModel model, Guid idContainer)
+        public async Task<object> AddTask([FromBody] UserTaskModel model, Guid idContainer)
         {
             return await _userTaskService.AddAsync(idContainer, model);
         }
@@ -55,8 +54,6 @@ namespace AstralTest.Controllers
         public async Task DeleteTask(Guid idTask)
         {
             await _userTaskService.DeleteAsync(idTask);
-        }
-
-       
+        } 
     }
 }

@@ -17,7 +17,7 @@ namespace AstralTest.FileStore
         Task Create(Stream stream, string nameFile);
 
         /// <summary>
-        /// Загружает файл с указанным именем 
+        /// Возвращает файл по указанному имени  
         /// </summary>
         /// <param name="nameFile">Название файла, который будет загружаться</param>
         /// <returns></returns>

@@ -62,7 +62,7 @@ namespace AstralTest.FileStore
         }
 
         /// <summary>
-        /// Загружает файл с указанным именем 
+        /// Возвращает файл по указанному имени 
         /// </summary>
         /// <param name="nameFile">Название файла, который будет загружаться</param>
         /// <returns></returns>

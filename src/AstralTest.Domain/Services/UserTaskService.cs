@@ -47,12 +47,12 @@ namespace AstralTest.Domain.Services
         {
             if (task == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("Модель ссылается на Null");
             }
             var taskContainer = await _context.TasksContainers.SingleOrDefaultAsync(x => x.ListId == idContainer);
             if (taskContainer == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException($"Контейнера с Id{idContainer} не существует");
             }
             var resultTask = new UserTask(taskContainer.ListId, task.TextTask, task.EndTime);
             await _context.Tasks.AddAsync(resultTask);
@@ -72,12 +72,12 @@ namespace AstralTest.Domain.Services
         {
             if (task == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("Модель ссылается на Null");
             }
             var result = await _context.Tasks.SingleOrDefaultAsync(x => x.TaskId == idTask);
             if (result == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException($"Задачи с Id{idTask} не существует");
             }
 
             if (!string.IsNullOrEmpty(task.TextTask))
