@@ -18,8 +18,8 @@ namespace AstralTest.Controllers
     /// <summary>
     /// Контроллер для работы с файлами
     /// </summary>
-    //[Authorize(Roles = nameof(RolesOption.User))]
     [Route("Files")]
+    [Authorize(Roles = nameof(RolesOption.User))]
     public class FilesController : Controller
     {
         private readonly IFileService _service;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AstralTest.Domain.Interfaces;
 using AstralTest.XSSFConverter;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.AspNetCore.Authorization;
+using AstralTest.Domain.Entities;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +13,7 @@ namespace AstralTest.Controllers.Admin
     /// Контроллер для конвертации данных в Excel формат
     /// </summary>
     [Route("Admin/Converter")]
+    [Authorize(Roles = nameof(RolesOption.Admin))]
     public class ConvertToExcelController : Controller
     {
         private readonly IXssfConverter _xssfConverter;
