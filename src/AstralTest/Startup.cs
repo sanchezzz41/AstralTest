@@ -14,6 +14,7 @@ using AstralTest.Extensions;
 using AstralTest.FileStore;
 using AstralTest.XSSFConverter;
 using Microsoft.Extensions.Options;
+using AstralTest.GeoLocation;
 
 namespace AstralTest
 {
@@ -85,6 +86,7 @@ namespace AstralTest
                 opt.RootPath = "C:/Users/Alexander/Desktop/AstralRepositoy";
             });
             services.AddConvertereServices();
+            services.AddGeoService();
 
 
         }

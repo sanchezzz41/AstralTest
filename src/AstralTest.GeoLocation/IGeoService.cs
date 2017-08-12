@@ -12,13 +12,13 @@ namespace AstralTest.GeoLocation
         /// </summary>
         /// <param name="adress"></param>
         /// <returns></returns>
-        Task<LatLonModel> GetLatLon(string adress);
+        Task<LatLon> GetLatLon(string adress);
 
         /// <summary>
         /// Возвращает массив байтов содержащий картинку по данной  широте и долготе
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<byte[]> GetImage(LatLonModel model);
+        Task<byte[]> GetImage(LatLon model);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AstralTest.GeoLocation
 {
+    //Классы для работы с запросами к яндекс карта
     public class GeocoderResponseMetaData
     {
         public string request { get; set; }

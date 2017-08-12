@@ -5,9 +5,9 @@ using System.Text;
 namespace AstralTest.GeoLocation
 {
     /// <summary>
-    /// Модель содержащая широту и долготу
+    /// Класс содержащий широту и долготу
     /// </summary>
-    public class LatLonModel
+    public class LatLon
     {
         /// <summary>
         /// Широта

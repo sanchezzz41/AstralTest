@@ -7,14 +7,17 @@ using Newtonsoft.Json;
 
 namespace AstralTest.GeoLocation
 {
-    public class GeoService:IGeoService
+    /// <summary>
+    /// Класс для работы с яндекс картой
+    /// </summary>
+    public class YandexGeoService : IGeoService
     {
         /// <summary>
         /// Возвращает модель содержащию долготу и широту
         /// </summary>
         /// <param name="adress"></param>
         /// <returns></returns>
-        public async Task<LatLonModel> GetLatLon(string adress)
+        public async Task<LatLon> GetLatLon(string adress)
         {
             var urlAdress = $"https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + adress.Replace(' ', '+');
             using (var client = new HttpClient())
@@ -29,7 +32,7 @@ namespace AstralTest.GeoLocation
                     throw new NullReferenceException($"Адрес {adress} не найден.");
                 }
                 var points = getItem.GeoObject.Point.pos.Split(' ');
-                return new LatLonModel {Latitude = points[1], Longitude = points[0]};
+                return new LatLon { Latitude = points[1], Longitude = points[0] };
             }
         }
 
@@ -38,8 +41,12 @@ namespace AstralTest.GeoLocation
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<byte[]> GetImage(LatLonModel model)
+        public async Task<byte[]> GetImage(LatLon model)
         {
+            if (model == null)
+            {
+                throw new NullReferenceException($"Переданная модель ссылается на Null.");
+            }
             var points = $"{model.Longitude},{model.Latitude}";
             var urlAdress = $"https://static-maps.yandex.ru/1.x/?" +
                             $"ll={points}&l=map&size=450,450&z=16&pt={points},pmwtm1";
@@ -52,12 +59,7 @@ namespace AstralTest.GeoLocation
                 {
                     throw new NullReferenceException($"Не удалось получить изображение по данным {points} координатам.");
                 }
-                using (var stream = new FileStream("C:\\Users\\Alexander\\Desktop\\test\\test.jpg", FileMode.Create,
-                    FileAccess.Write))
-                {
-                   await stream.WriteAsync(resultBytes, 0, resultBytes.Length);
-                }
-                    return null;
+                return resultBytes;
             }
         }
     }
