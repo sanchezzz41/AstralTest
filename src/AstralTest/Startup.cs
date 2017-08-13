@@ -98,8 +98,14 @@ namespace AstralTest
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
-
+          
             app.UseIdentity();
+
+            //app.Use((x, task) =>
+            //{
+            //    return task.Invoke();
+            //});
+
 
             //Используем swagger для проверки контроллеров
             if (env.IsDevelopment())
