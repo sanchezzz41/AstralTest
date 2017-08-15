@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Interfaces;
-using AstralTest.Domain.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -68,6 +67,8 @@ namespace AstralTest.Controllers
                 await _signManager.SignInAsync(user, model.RememberMe);
                 return "Авторизация прошла успешна.";
             }
+
+
             return "Авторизация не удалась.";
         }
 

@@ -10,6 +10,8 @@ using AstralTest.Domain.Models;
 using AstralTest.FileStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Npoi.Core.SS.UserModel;
+using Npoi.Core.XSSF.UserModel;
 using File = AstralTest.Domain.Entities.File;
 
 namespace AstralTest.Domain.Services
@@ -109,6 +111,50 @@ namespace AstralTest.Domain.Services
         {
             return await _context.Files
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public async Task<byte[]> FilesConvertToXssfAsync(IEnumerable<File> list)
+        {
+            IWorkbook workbook = new XSSFWorkbook();
+
+            ISheet sheet = workbook.CreateSheet("Users");
+
+            var rowIndex = 0;
+            IRow row = sheet.CreateRow(rowIndex);
+            row.CreateCell(0).SetCellValue("Название файла");
+            row.CreateCell(1).SetCellValue("Тип файла");
+            row.CreateCell(2).SetCellValue("Время создания");
+            row.CreateCell(3).SetCellValue("Id файла");
+
+            rowIndex++;
+
+            foreach (var file in list)
+            {
+                IRow newRow = sheet.CreateRow(rowIndex);
+                newRow.CreateCell(0).SetCellValue(file.NameFile);
+                newRow.CreateCell(1).SetCellValue(file.TypeFile);
+                newRow.CreateCell(2).SetCellValue(file.CreatedTime);
+                newRow.CreateCell(3).SetCellValue(file.FileId.ToString());
+                rowIndex++;
+            }
+
+
+            for (int i = 0; i < 4; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+            byte[] result;
+            using (var ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                result = ms.ToArray();
+            }
+            return await Task.FromResult(result);
         }
     }
 }

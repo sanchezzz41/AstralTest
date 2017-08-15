@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AstralTest.Database;
@@ -10,6 +11,8 @@ using AstralTest.Domain.Utilits;
 using AstralTest.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npoi.Core.SS.UserModel;
+using Npoi.Core.XSSF.UserModel;
 
 namespace AstralTest.Domain.Services
 {
@@ -137,6 +140,55 @@ namespace AstralTest.Domain.Services
                 .Include(x=>x.TasksContainers)
                 .ToListAsync();
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public async Task<byte[]> UsersConvertToXssfAsync(IEnumerable<User> list)
+        {
+            IWorkbook workbook = new XSSFWorkbook();
+
+            ISheet sheet = workbook.CreateSheet("Users");
+
+            var rowIndex = 0;
+            IRow row = sheet.CreateRow(rowIndex);
+            row.CreateCell(0).SetCellValue("Имя");
+            row.CreateCell(1).SetCellValue("Роль");
+            row.CreateCell(2).SetCellValue("Email");
+            row.CreateCell(3).SetCellValue("Хэш пароля");
+            row.CreateCell(4).SetCellValue("Соль");
+            row.CreateCell(5).SetCellValue("Id");
+            rowIndex++;
+
+            foreach (var user in list)
+            {
+                IRow newRow = sheet.CreateRow(rowIndex);
+                newRow.CreateCell(0).SetCellValue(user.UserName);
+                newRow.CreateCell(1).SetCellValue(user.RoleId.ToString());
+                newRow.CreateCell(2).SetCellValue(user.Email);
+                newRow.CreateCell(3).SetCellValue(user.PasswordHash);
+                newRow.CreateCell(4).SetCellValue(user.PasswordSalt);
+                newRow.CreateCell(5).SetCellValue(user.UserId.ToString());
+                rowIndex++;
+            }
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+
+            byte[] result;
+            using (var ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                result = ms.ToArray();
+            }
+            return await Task.FromResult(result);
+
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace AstralTest.Domain.Entities
 {
@@ -59,13 +57,15 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Иницилизирует новый экземпляр класса
         /// </summary>
+        /// <param name="idEntereUser">Id пользователя, который обращается к приложению</param>
         /// <param name="nameController">Название контроллера</param>
         /// <param name="nameAction">Название действия</param>
         /// <param name="paremetrsAction">Параметры передаваемые методу действия</param>
-        public InfoAboutEnteredUser(string nameController, string nameAction, string paremetrsAction)
+        public InfoAboutEnteredUser(Guid idEntereUser,string nameController, string nameAction, string paremetrsAction)
         {
             Id = Guid.NewGuid();
             EnteredTime = DateTime.Now;
+            IdEnteredUser = idEntereUser;
             NameOfController = nameController;
             NameOfAction = nameAction;
             ParametrsToAction = paremetrsAction;

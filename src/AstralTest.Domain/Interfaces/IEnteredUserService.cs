@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AstralTest.Domain.Entities;
 
@@ -19,9 +18,9 @@ namespace AstralTest.Domain.Interfaces
         /// <summary>
         /// Добавляет пользователя, который входил в приложение
         /// </summary>
-        /// <param name="idUser">Id пользователя</param>
+        /// <param name="userName">Имя пользователя</param>
         /// <returns></returns>
-        Task<Guid> AddAsync(Guid idUser);
+        Task<Guid> AddAsync(string userName);
 
         /// <summary>
         /// Удаляет пользователя, который обращался к приложению
@@ -35,6 +34,5 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<List<EnteredUser>> GetAsync();
-
     }
 }

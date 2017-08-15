@@ -46,5 +46,13 @@ namespace AstralTest.Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<List<File>> GetInfoAboutAllFilesAsync();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+
+        Task<byte[]> FilesConvertToXssfAsync(IEnumerable<File> list);
     }
 }

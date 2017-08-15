@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using AstralTest.Extensions;
-using AstralTest.XSSFConverter;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AstralTest.Controllers
 {

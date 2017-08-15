@@ -44,5 +44,13 @@ namespace AstralTest.Domain.Interfaces
         /// <param name="idTask"></param>
         /// <returns></returns>
         Task<List<Attachment>> GetAllattachmentsAsync(Guid idTask);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        Task<byte[]> AttachmentsConvertToXssfAsync(IEnumerable<Attachment> list);
     }
 }

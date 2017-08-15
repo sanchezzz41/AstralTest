@@ -36,14 +36,20 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Добавляет пользователя, который входил в приложение
         /// </summary>
-        /// <param name="idUser">Id пользователя</param>
+        /// <param name="userName"></param>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(Guid idUser)
+        public async Task<Guid> AddAsync(string userName)
         {
-            var resultUser = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idUser);
+
+            var resultUser = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
             if (resultUser == null)
             {
-                throw new NullReferenceException($"Пользователя с таким id {idUser} не существует.");
+                throw new NullReferenceException($"Пользователя с таким именем {userName} не существует.");
+            }
+            var testEntuser = await _context.EnteredUsers.SingleOrDefaultAsync(x => x.User.UserName == userName);
+            if (testEntuser != null)
+            {
+                return testEntuser.Id;
             }
             var resuleEnteredUser = new EnteredUser(resultUser.UserId);
             await _context.EnteredUsers.AddAsync(resuleEnteredUser);

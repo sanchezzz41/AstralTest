@@ -42,5 +42,12 @@ namespace AstralTest.Domain.Interfaces
         /// <returns></returns>
         Task<List<Note>> GetAsync();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+
+        Task<byte[]> NotesConvertToXssfAsync(IEnumerable<Note> list);
     }
 }

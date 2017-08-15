@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AstralTest.Domain.Interfaces;
-using AstralTest.XSSFConverter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
@@ -16,7 +15,6 @@ namespace AstralTest.Controllers.Admin
     [Authorize(Roles = nameof(RolesOption.Admin))]
     public class ConvertToExcelController : Controller
     {
-        private readonly IXssfConverter _xssfConverter;
         private readonly IUserService _userService;
         private readonly IUserTaskService _userTaskService;
         private readonly INoteService _noteService;
@@ -26,7 +24,7 @@ namespace AstralTest.Controllers.Admin
 
         private static string typeXssf = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        public ConvertToExcelController(IXssfConverter converter,
+        public ConvertToExcelController(
             IUserService userService,
             IUserTaskService taskService,
             INoteService noteService,
@@ -35,7 +33,6 @@ namespace AstralTest.Controllers.Admin
             IAttachmentsService attachmentsService
             )
         {
-            _xssfConverter = converter;
             _userService = userService;
             _userTaskService = taskService;
             _noteService = noteService;
@@ -49,7 +46,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetUsers()
         {
             var resultList = await _userService.GetAsync();
-            var resultMass = await _xssfConverter.UsersConvertToXssfAsync(resultList);
+            var resultMass = await _userService.UsersConvertToXssfAsync(resultList);
             return File(resultMass,typeXssf,"Users.xlsx");
         }
 
@@ -58,7 +55,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetNotes()
         {
             var resultList = await _noteService.GetAsync();
-            var resultMass = await _xssfConverter.NotesConvertToXssfAsync(resultList);
+            var resultMass = await _noteService.NotesConvertToXssfAsync(resultList);
             return File(resultMass, typeXssf, "Notes.xlsx");
         }
 
@@ -67,7 +64,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetTasks()
         {
             var resultList = await _userTaskService.GetAsync();
-            var resultMass = await _xssfConverter.TasksConvertToXssfAsync(resultList);
+            var resultMass = await _userTaskService.TasksConvertToXssfAsync(resultList);
             return File(resultMass, typeXssf, "Tasks.xlsx");
         }
 
@@ -76,7 +73,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetFiles()
         {
             var resultList = await _fileService.GetInfoAboutAllFilesAsync();
-            var resultMass = await _xssfConverter.FilesConvertToXssfAsync(resultList);
+            var resultMass = await _fileService.FilesConvertToXssfAsync(resultList);
             return File(resultMass, typeXssf, "Files.xlsx");
         }
 
@@ -85,7 +82,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetAttachments()
         {
             var resultList = await _attachmentsService.GetAllattachmentsAsync();
-            var resultMass = await _xssfConverter.AttachmentsConvertToXssfAsync(resultList);
+            var resultMass = await _attachmentsService.AttachmentsConvertToXssfAsync(resultList);
             return File(resultMass, typeXssf, "Attachments.xlsx");
         }
 
@@ -94,7 +91,7 @@ namespace AstralTest.Controllers.Admin
         public async Task<object> GetTasksContainer()
         {
             var resultList = await _tasksContainerService.GetAsync();
-            var resultMass = await _xssfConverter.TaskContainersConvertToXssfAsync(resultList);
+            var resultMass = await _tasksContainerService.TaskContainersConvertToXssfAsync(resultList);
             return File(resultMass, typeXssf, "TaskContainers.xlsx");
         }
     }

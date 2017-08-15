@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using AstralTest.Identity;
 using AstralTest.Extensions;
 using AstralTest.FileStore;
-using AstralTest.XSSFConverter;
-using Microsoft.Extensions.Options;
 using AstralTest.GeoLocation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AstralTest
 {
@@ -74,10 +74,15 @@ namespace AstralTest
                 });
             }
             services.AddMvc().AddMvcOptions(opt =>
-                 opt.Filters.AddService(typeof(ErrorFilter))
+                {
+                    opt.Filters.Add(typeof(ErrorFilter));
+                    opt.Filters.Add(typeof(LoggerUsersFilter));
+                }
             );
 
-            services.AddScoped<ErrorFilter>();
+            //services.AddScoped<ErrorFilter>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             //Тут добавляются наши биндинги интерфейсов
             services.AddServices();
@@ -85,7 +90,6 @@ namespace AstralTest
             {
                 opt.RootPath = "C:/Users/Alexander/Desktop/AstralRepositoy";
             });
-            services.AddConvertereServices();
             services.AddGeoService();
 
 
@@ -101,10 +105,6 @@ namespace AstralTest
           
             app.UseIdentity();
 
-            //app.Use((x, task) =>
-            //{
-            //    return task.Invoke();
-            //});
 
 
             //Используем swagger для проверки контроллеров

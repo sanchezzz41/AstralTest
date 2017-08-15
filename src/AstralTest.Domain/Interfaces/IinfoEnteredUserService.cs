@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AstralTest.Domain.Entities;
+using AstralTest.Domain.Models;
 
 namespace AstralTest.Domain.Interfaces
 {
@@ -11,13 +11,30 @@ namespace AstralTest.Domain.Interfaces
     /// </summary>                                                              
     public interface IInfoEnteredUserService
     {
-      /// <summary>
-      /// Содержит информацию о том, к чему обращались пользователи
-      /// </summary>
-      List<InfoAboutEnteredUser> InfoUsers { get; }
+        /// <summary>
+        /// Содержит информацию о том, к чему обращались пользователи
+        /// </summary>
+        List<InfoAboutEnteredUser> InfoUsers { get; }
 
-        Task<Guid> AddAsync();
+        /// <summary>
+        /// Добавляет информацию о том, к чему обращается пользователь
+        /// </summary>
+        /// <param name="infoModel"></param>
+        /// <param name="idEntUser">Id обращаегося пользователя</param>
+        /// <returns></returns>
+        Task<Guid> AddAsync(InfoEntUserModel infoModel, Guid idEntUser);
 
+        /// <summary>
+        /// Удаляет информацию
+        /// </summary>
+        /// <param name="idInfo"></param>
+        /// <returns></returns>
+        Task Delete(Guid idInfo);
 
+        /// <summary>
+        /// Возвращает всю информацию о том, кто и когда обращался к приложению
+        /// </summary>
+        /// <returns></returns>
+        Task<List<InfoAboutEnteredUser>> GetAsync();
     }
 }

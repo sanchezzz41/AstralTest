@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AstralTest.Database;
@@ -7,6 +8,8 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Npoi.Core.SS.UserModel;
+using Npoi.Core.XSSF.UserModel;
 
 namespace AstralTest.Domain.Services
 {
@@ -110,6 +113,48 @@ namespace AstralTest.Domain.Services
                 .Include(x => x.Master)
                 .Include(x => x.Tasks)
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public async Task<byte[]> TaskContainersConvertToXssfAsync(IEnumerable<TasksContainer> list)
+        {
+            IWorkbook workbook = new XSSFWorkbook();
+
+            ISheet sheet = workbook.CreateSheet("TasksContainer");
+
+            var rowIndex = 0;
+            IRow row = sheet.CreateRow(rowIndex);
+            row.CreateCell(0).SetCellValue("Название");
+            row.CreateCell(1).SetCellValue("Id списка");
+            row.CreateCell(2).SetCellValue("Id пользователя");
+
+            rowIndex++;
+
+            foreach (var tasksContainer in list)
+            {
+                IRow newRow = sheet.CreateRow(rowIndex);
+                newRow.CreateCell(0).SetCellValue(tasksContainer.Name);
+                newRow.CreateCell(1).SetCellValue(tasksContainer.ListId.ToString());
+                newRow.CreateCell(2).SetCellValue(tasksContainer.UserId.ToString());
+                rowIndex++;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+
+            byte[] result;
+            using (var ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                result = ms.ToArray();
+            }
+            return await Task.FromResult(result);
         }
     }
 }
