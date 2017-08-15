@@ -21,6 +21,11 @@ namespace AstralTest.Domain.Models
         public string Email { get; set; }
 
         /// <summary>
+        /// Телефон 
+        /// </summary>
+        [Display(Name = "Телефон")]
+        public string PhoneNumber { get; set; }
+        /// <summary>
         /// Роль пользователя
         /// </summary>
         [Display(Name ="Роль")]

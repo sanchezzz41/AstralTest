@@ -23,6 +23,13 @@ namespace AstralTest.Domain.Models
         public string Email { get; set; }
 
         /// <summary>
+        /// Номер телефона
+        /// </summary>
+        [Required]
+        [Display(Name = "Номер телефона")]
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
         /// Пароль
         /// </summary>
         [Required]

@@ -28,10 +28,7 @@ namespace AstralTest.Domain.Services
 
         public IEnumerable<User> Users
         {
-            get
-            {
-                return _context.Users.Include(x => x.Notes).ToList();
-            }
+            get { return _context.Users.Include(x => x.Notes).ToList(); }
         }
 
         public UserService(DatabaseContext context, IPasswordHasher<User> passwordHasher)
@@ -54,7 +51,8 @@ namespace AstralTest.Domain.Services
             //Передаем пароль сразу с солью(сначала пароль, потом соль)!!!
             var passwordSalt = Randomizer.GetString(8);
             var passworhHash = _passwordHasher.HashPassword(null, userModel.Password + passwordSalt);
-            var resultUser=new User(userModel.UserName,userModel.Email,passwordSalt,passworhHash,userModel.RoleId);
+            var resultUser = new User(userModel.UserName, userModel.Email, userModel.PhoneNumber, passwordSalt,
+                passworhHash, userModel.RoleId);
             //Сохраняем пользователя
             await _context.AddAsync(resultUser);
             await _context.SaveChangesAsync();
@@ -136,10 +134,29 @@ namespace AstralTest.Domain.Services
         {
             var result = await _context.Users
                 .Include(x => x.Notes)
-                .Include(x=>x.Role)
-                .Include(x=>x.TasksContainers)
+                .Include(x => x.Role)
+                .Include(x => x.TasksContainers)
                 .ToListAsync();
             return result;
+        }
+
+        /// <summary>
+        /// Меняет пароль пользователя на новый
+        /// </summary>
+        /// <param name="idUser">ID пользователя, которому надо сменить пароль</param>
+        /// <param name="newPassword">Новый пароль</param>
+        /// <returns></returns>
+        public async Task ResetPassword(Guid idUser, string newPassword)
+        {
+            var result = await _context.Users.SingleOrDefaultAsync(x => x.UserId == idUser);
+            if (result == null)
+            {
+                throw new NullReferenceException($"Пользователя с таким id{idUser} нету");
+            }
+            var resultPasswordHash = _passwordHasher.HashPassword(result, newPassword);
+            result.PasswordHash = resultPasswordHash;
+            await _context.SaveChangesAsync();
+
         }
 
         /// <summary>

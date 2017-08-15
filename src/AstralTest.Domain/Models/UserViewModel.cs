@@ -18,7 +18,11 @@ namespace AstralTest.Domain.Models
         [Display(Name = "Email пользователя")]
         public string Email { get; set; }
 
-        
+        [Required]
+        [Display(Name = "Телефон пользователя")]
+        public string ProneNumber { get; set; }
+
+
         public Guid Id { get; set; }
 
         

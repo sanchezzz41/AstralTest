@@ -28,6 +28,7 @@ namespace AstralTest.Domain
             service.AddScoped<IAttachmentsService, AttachmentsService>();
             service.AddScoped<IEnteredUserService, EnteredUserService>();
             service.AddScoped<IInfoEnteredUserService,InfoEnteredUserService>();
+            service.AddScoped<ISmsService, SmsService>();
             return service;
         }
     }

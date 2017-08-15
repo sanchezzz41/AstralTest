@@ -9,15 +9,15 @@ namespace AstralTest.Domain.Services
     /// </summary>
     public class EmailSenderService : IEmailSender
     {
-        private ILogger _logs;
-        public int MyProperty { get; set; }
+        private readonly ILogger _logs;
         public EmailSenderService(ILogger<EmailSenderService> log)
         {
             _logs = log;
         }
         public async Task SendEmail(string email, string name, string text)
         {
-            _logs.LogInformation(2, $"Сообщение на адрес {email}(получатель:{name}) с текстом {text} отправленно!");
+            await Task.Run(() => _logs.LogInformation(2,
+                $"Сообщение на адрес {email}(получатель:{name}) с текстом {text} отправленно!"));
         }
     }
 }

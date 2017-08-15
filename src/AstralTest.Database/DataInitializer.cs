@@ -19,7 +19,8 @@ namespace AstralTest.Database
                     context.Roles.Add(new Role(RolesOption.User, nameof(RolesOption.User)));
                 }
 
-                var roleAdmin = await context.Roles.SingleOrDefaultAsync(x => x.RoleName == RolesOption.Admin.ToString());
+                var roleAdmin =
+                    await context.Roles.SingleOrDefaultAsync(x => x.RoleName == RolesOption.Admin.ToString());
                 if (roleAdmin == null)
                 {
                     context.Roles.Add(new Role(RolesOption.Admin, nameof(RolesOption.Admin)));
@@ -35,7 +36,14 @@ namespace AstralTest.Database
                 if (await context.Users.SingleOrDefaultAsync(x => x.UserName == "admin") == null)
                 {
                     var resRole = await context.Roles.SingleAsync(x => x.RoleName == RolesOption.Admin.ToString());
-                    var resultUser = new User {Email = "admin@mail.com", UserName = "admin", RoleId = resRole.RoleId, PasswordSalt = "qwer98kj" };
+                    var resultUser = new User
+                    {
+                        Email = "admin@mail.com",
+                        UserName = "admin",
+                        PhoneNumber = "99999999999",
+                        RoleId = resRole.RoleId,
+                        PasswordSalt = "qwer98kj"
+                    };
                     var hashProvider = serviceProvider.GetRequiredService<IPasswordHasher<User>>();
                     var resultHash = hashProvider.HashPassword(resultUser, "admin");
                     resultUser.PasswordHash = resultHash;

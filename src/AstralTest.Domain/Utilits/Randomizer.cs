@@ -23,5 +23,16 @@ namespace AstralTest.Domain.Utilits
             }
             return result.ToString();
         }
+
+        public static string GetNumbers(int lenght)
+        {
+            StringBuilder result = new StringBuilder();
+            Random rand = new Random();
+            for (int i = 0; i < lenght; i++)
+            {
+                result.Append(rand.Next(0,9));
+            }
+            return result.ToString();
+        }
     }
 }

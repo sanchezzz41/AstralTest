@@ -40,6 +40,12 @@ namespace AstralTest.Domain.Entities
         public string PasswordHash { get; set; }
 
         /// <summary>
+        /// Номер телефона
+        /// </summary>
+        [Required]
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
         /// Id роли
         /// </summary>
         [ForeignKey(nameof(Role))]
@@ -77,11 +83,13 @@ namespace AstralTest.Domain.Entities
         /// <param name="passwordSalt">Cоль для пароля</param>
         /// <param name="passworhHash">Хэш пароля</param>
         /// <param name="role">Роль</param>
-        public User(string userName,string email, string passwordSalt,string passworhHash,RolesOption role)
+        public User(string userName, string email, string phoneNumber, string passwordSalt, string passworhHash,
+            RolesOption role)
         {
             UserId = Guid.NewGuid();
             UserName = userName;
             Email = email;
+            PhoneNumber = phoneNumber;
             PasswordSalt = passwordSalt;
             PasswordHash = passworhHash;
             RoleId = role;

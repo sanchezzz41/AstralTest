@@ -79,6 +79,7 @@ namespace AstralTest
                     opt.Filters.Add(typeof(LoggerUsersFilter));
                 }
             );
+            services.AddMemoryCache();
 
             //services.AddScoped<ErrorFilter>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

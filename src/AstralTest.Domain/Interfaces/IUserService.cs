@@ -43,6 +43,14 @@ namespace AstralTest.Domain.Interfaces
         Task<List<User>> GetAsync();
 
         /// <summary>
+        /// Меняет пароль пользователя на новый
+        /// </summary>
+        /// <param name="idUser">ID пользователя, которому надо сменить пароль</param>
+        /// <param name="newPassword">Новый пароль</param>
+        /// <returns></returns>
+        Task ResetPassword(Guid idUser, string newPassword);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="list"></param>
