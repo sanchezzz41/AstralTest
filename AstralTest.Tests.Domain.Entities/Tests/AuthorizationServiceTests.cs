@@ -42,7 +42,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             var userService = new UserService(_context, passwordHasher);
 
             //Services
-            _service = new AuthorizationService(userService, passwordHasher);
+            //_service = new AuthorizationService(userService, passwordHasher);
         }
 
         [TearDown]

@@ -48,7 +48,7 @@ namespace AstralTest.Controllers
         [HttpGet("Map")]
         public async Task<object> GetImageMap([FromQuery]string latitude, [FromQuery]string longitude)
         {
-            var geoModel = new LatLon { Latitude = latitude, Longitude = longitude };
+            var geoModel = new GeoPosition { Latitude = latitude, Longitude = longitude };
             var resultBytes = await _geoService.GetImage(geoModel);
             return File(resultBytes, "image/jpeg","Map.jpg");
         }

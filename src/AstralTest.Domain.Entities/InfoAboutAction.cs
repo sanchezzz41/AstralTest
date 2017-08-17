@@ -16,13 +16,6 @@ namespace AstralTest.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
-
-        /// <summary>
-        /// Время обращения пользователя к приложению
-        /// </summary>
-        [Required]
-        public DateTime EnteredTime { get; set; }
-
         /// <summary>
         /// Параметры для передачи методу в контроллере
         /// </summary>
@@ -31,30 +24,26 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Внешний ключ который ссылается на пользователя, который обращается к приложению
         /// </summary>
-        [ForeignKey(nameof(EnteredUser))]
-        public Guid IdEnteredUser { get; set; }
+        [ForeignKey(nameof(Action))]
+        public Guid IdAction { get; set; }
 
 
-        public ActionLog EnteredUser { get; set; }
+        public ActionLog Action { get; set; }
 
         public InfoAboutAction()
         {
             Id = Guid.NewGuid();
-            EnteredTime = DateTime.Now;
         }
 
         /// <summary>
         /// Иницилизирует новый экземпляр класса
         /// </summary>
-        /// <param name="idEntereUser">Id пользователя, который обращается к приложению</param>
-        /// <param name="nameController">Название контроллера</param>
-        /// <param name="nameAction">Название действия</param>
+        /// <param name="idAction">Id действия для приложения</param>
         /// <param name="paremetrsAction">Параметры передаваемые методу действия</param>
-        public InfoAboutAction(Guid idEntereUser,string nameController, string nameAction, string paremetrsAction)
+        public InfoAboutAction(Guid idAction, string paremetrsAction)
         {
             Id = Guid.NewGuid();
-            EnteredTime = DateTime.Now;
-            IdEnteredUser = idEntereUser;
+            IdAction = idAction;
             JsonParametrs = paremetrsAction;
         }
     }

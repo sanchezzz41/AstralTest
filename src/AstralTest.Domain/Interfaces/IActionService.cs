@@ -8,7 +8,7 @@ namespace AstralTest.Domain.Interfaces
     /// <summary>
     /// Интферфейс для работы с пользователями, которые обращаются к приложение
     /// </summary>
-    public interface IEnteredUserService
+    public interface IActionService
     {
         /// <summary>
         /// Содержит входивших пользователей
@@ -16,18 +16,13 @@ namespace AstralTest.Domain.Interfaces
         List<ActionLog> EnteredUsers { get; }
 
         /// <summary>
-        /// Добавляет пользователя, который входил в приложение
+        /// Добавляет действие, которое сделал пользователь в приложение
         /// </summary>
         /// <param name="userName">Имя пользователя</param>
+        /// <param name="controllerName">Название контроллера</param>
+        /// <param name="actionName">Название действия</param>
         /// <returns></returns>
-        Task<Guid> AddAsync(string userName);
-
-        /// <summary>
-        /// Удаляет пользователя, который обращался к приложению
-        /// </summary>
-        /// <param name="idEnteredUser"></param>
-        /// <returns></returns>
-        Task DeleteAsync(Guid idEnteredUser);
+        Task<Guid> AddAsync(string userName, string controllerName, string actionName);
 
         /// <summary>
         /// Возвращает список входивших пользователей

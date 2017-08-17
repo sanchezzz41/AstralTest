@@ -40,22 +40,34 @@ namespace AstralTest.Domain.Entities
         public Guid IdUser { get; set; }
 
         /// <summary>
+        /// Время обращения пользователя к приложению
+        /// </summary>
+        [Required]
+        public DateTime EnteredTime { get; set; }
+
+        /// <summary>
         /// Пользователь, который обращается к приложению
         /// </summary>
         [Required]
         public User User { get; set; }
 
-        public List<InfoAboutAction> InfoAboutEnteredUsers { get; set; }
+        public List<InfoAboutAction> InfoAboutActions { get; set; }
+
+
 
         public ActionLog()
         {
             Id = Guid.NewGuid();
+            EnteredTime = DateTime.Now;
         }
 
-        public ActionLog(Guid idUser)
+        public ActionLog(Guid idUser, string nameController, string nameAction)
         {
             Id = Guid.NewGuid();
+            EnteredTime = DateTime.Now;
             IdUser = idUser;
+            NameOfController = nameController;
+            NameOfAction = nameAction;
         }
     }
 }

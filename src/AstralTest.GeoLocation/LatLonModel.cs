@@ -7,7 +7,7 @@ namespace AstralTest.GeoLocation
     /// <summary>
     /// Класс содержащий широту и долготу
     /// </summary>
-    public class LatLon
+    public class GeoPosition
     {
         /// <summary>
         /// Широта

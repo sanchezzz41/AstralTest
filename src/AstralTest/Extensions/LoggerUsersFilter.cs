@@ -15,13 +15,11 @@ namespace AstralTest.Extensions
     /// </summary>
     public class LoggerUsersFilter : IAsyncActionFilter
     {
-        private readonly IEnteredUserService _enteredUserService;
-        private readonly IInfoEnteredUserService _infoEnteredUserService;
+        private readonly ILogService _logService;
 
-        public LoggerUsersFilter(IInfoEnteredUserService infoEnteredUserService, IEnteredUserService enteredUserService)
+        public LoggerUsersFilter(ILogService logService)
         {
-            _infoEnteredUserService = infoEnteredUserService;
-            _enteredUserService = enteredUserService;
+            _logService = logService;
         }
 
         /// <summary>
@@ -47,17 +45,14 @@ namespace AstralTest.Extensions
                 {
                     parameters += JsonConvert.SerializeObject(context.RouteData.Values.First());
                 }
-
-                Guid resultId = _enteredUserService.AddAsync(resultName).Result;
-
-                var infoModel = new InfoEntUserModel
+                var resultModel = new LogModel
                 {
                     NameAction = actionName,
                     NameController = controllerName,
-                    Parametrs = parameters
+                    Parametrs = parameters,
+                    UserName = resultName
                 };
-
-                await _infoEnteredUserService.AddAsync(infoModel, resultId);
+                await _logService.Log(resultModel);
             }
             await next();
         }

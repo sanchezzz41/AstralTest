@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AstralTest.Domain.Services
 {
-    public class InfoEnteredUserService : IInfoEnteredUserService
+    public class InfoActionService : IInfoActionService
     {
         /// <summary>
         /// Содержит информацию о том, к чему обращались пользователи
@@ -20,15 +20,15 @@ namespace AstralTest.Domain.Services
             get
             {
                 return _context.InfoAboutAction
-                    .Include(x => x.EnteredUser)
+                    .Include(x => x.Action)
                     .ToList();
             }
         }
 
         private readonly DatabaseContext _context;
-        private readonly IEnteredUserService _enteredService;
+        private readonly IActionService _enteredService;
 
-        public InfoEnteredUserService(DatabaseContext context, IEnteredUserService enteredService)
+        public InfoActionService(DatabaseContext context, IActionService enteredService)
         {
             _context = context;
             _enteredService = enteredService;
@@ -37,40 +37,24 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Добавляет информацию о том, к чему обращается пользователь
         /// </summary>
-        /// <param name="infoModel"></param>
-        /// <param name="idEntUser">Id обращаегося пользователя</param>
+        /// <param name="paramets">Параметры метода</param>
+        /// <param name="idAction">Id обращаегося пользователя</param>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(InfoEntUserModel infoModel, Guid idEntUser)
+        public async Task<Guid> AddAsync(string paramets, Guid idAction)
         {
-            var resultEntUser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.Id == idEntUser);
+            var resultEntUser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.Id == idAction);
 
             if (resultEntUser == null)
             {
                 throw new NullReferenceException(
-                    $"Пользователя, который обращается к приложению с таким Id{idEntUser} не существует.");
+                    $"Пользователя, который обращается к приложению с таким Id{idAction} не существует.");
             }
-            var result = new InfoAboutAction(idEntUser, infoModel.NameController, infoModel.NameAction,
-                infoModel.Parametrs);
+            var result = new InfoAboutAction(idAction, paramets);
             await _context.InfoAboutAction.AddAsync(result);
             await _context.SaveChangesAsync();
             return result.Id;
         }
 
-        /// <summary>
-        /// Удаляет информацию
-        /// </summary>
-        /// <param name="idInfo"></param>
-        /// <returns></returns>
-        public async Task Delete(Guid idInfo)
-        {
-            var resultInfo = await _context.InfoAboutAction.SingleOrDefaultAsync(x => x.Id == idInfo);
-            if (resultInfo == null)
-            {
-                throw new NullReferenceException($"Информации с таким Id{idInfo} не существует.");
-            }
-            _context.InfoAboutAction.Remove(resultInfo);
-            await _context.SaveChangesAsync();
-        }
 
         /// <summary>
         /// Возвращает всю информацию о том, кто и когда обращался к приложению
@@ -79,7 +63,7 @@ namespace AstralTest.Domain.Services
         public async Task<List<InfoAboutAction>> GetAsync()
         {
             return await _context.InfoAboutAction
-                .Include(x => x.EnteredUser)
+                .Include(x => x.Action)
                 .ToListAsync();
         }
     }

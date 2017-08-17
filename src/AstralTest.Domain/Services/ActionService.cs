@@ -12,11 +12,11 @@ namespace AstralTest.Domain.Services
     /// <summary>
     /// Класс для работы с пользователями, которые входили в приложение
     /// </summary>
-    public class EnteredUserService : IEnteredUserService
+    public class ActionService : IActionService
     {
         private readonly DatabaseContext _context;
 
-        public EnteredUserService(DatabaseContext context)
+        public ActionService(DatabaseContext context)
         {
             _context = context;
         }
@@ -24,23 +24,26 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Содержит входивших пользователей
         /// </summary>
-        public List<ActionLog> EnteredUsers {
+        public List<ActionLog> EnteredUsers
+        {
             get
             {
                 return _context.ActionsLogs
                     .Include(x => x.User)
-                    .Include(x => x.InfoAboutEnteredUsers)
+                    .Include(x => x.InfoAboutActions)
                     .ToList();
-            } }
+            }
+        }
 
         /// <summary>
-        /// Добавляет пользователя, который входил в приложение
+        /// Добавляет действие, которое сделал пользователь в приложение
         /// </summary>
-        /// <param name="userName"></param>
+        /// <param name="userName">Имя пользователя</param>
+        /// <param name="controllerName">Название контроллера</param>
+        /// <param name="actionName">Название действия</param>
         /// <returns></returns>
-        public async Task<Guid> AddAsync(string userName)
+        public async Task<Guid> AddAsync(string userName, string controllerName, string actionName)
         {
-
             var resultUser = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
             if (resultUser == null)
             {
@@ -51,27 +54,10 @@ namespace AstralTest.Domain.Services
             {
                 return testEntuser.Id;
             }
-            var resuleEnteredUser = new ActionLog(resultUser.UserId);
-            await _context.ActionsLogs.AddAsync(resuleEnteredUser);
+            var resuleAction = new ActionLog(resultUser.UserId, controllerName, actionName);
+            await _context.ActionsLogs.AddAsync(resuleAction);
             await _context.SaveChangesAsync();
-            return resuleEnteredUser.Id;
-        }
-
-        /// <summary>
-        /// Удаляет пользователя, который обращался к приложению
-        /// </summary>
-        /// <param name="idEnteredUser"></param>
-        /// <returns></returns>
-        public async Task DeleteAsync(Guid idEnteredUser)
-        {
-            var resultEnteredUser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.Id == idEnteredUser);
-            if (resultEnteredUser == null)
-            {
-                throw new NullReferenceException(
-                    $"Информации о пользователе по такому id {idEnteredUser} не существует.");
-            }
-            _context.ActionsLogs.Remove(resultEnteredUser);
-            await _context.SaveChangesAsync();
+            return resuleAction.Id;
         }
 
         /// <summary>
@@ -82,7 +68,7 @@ namespace AstralTest.Domain.Services
         {
             return await _context.ActionsLogs
                 .Include(x => x.User)
-                .Include(x => x.InfoAboutEnteredUsers)
+                .Include(x => x.InfoAboutActions)
                 .ToListAsync(); ;
         }
     }

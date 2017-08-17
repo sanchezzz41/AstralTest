@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace AstralTest.GeoLocation
         /// </summary>
         /// <param name="adress"></param>
         /// <returns></returns>
-        public async Task<LatLon> GetLatLon(string adress)
+        public async Task<GeoPosition> GetLatLon(string adress)
         {
             var urlAdress = $"https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + adress.Replace(' ', '+');
             using (var client = new HttpClient())
@@ -32,7 +31,7 @@ namespace AstralTest.GeoLocation
                     throw new NullReferenceException($"Адрес {adress} не найден.");
                 }
                 var points = getItem.GeoObject.Point.pos.Split(' ');
-                return new LatLon { Latitude = points[1], Longitude = points[0] };
+                return new GeoPosition { Latitude = points[1], Longitude = points[0] };
             }
         }
 
@@ -41,7 +40,7 @@ namespace AstralTest.GeoLocation
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<byte[]> GetImage(LatLon model)
+        public async Task<byte[]> GetImage(GeoPosition model)
         {
             if (model == null)
             {
