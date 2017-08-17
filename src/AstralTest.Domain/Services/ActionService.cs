@@ -49,11 +49,7 @@ namespace AstralTest.Domain.Services
             {
                 throw new NullReferenceException($"Пользователя с таким именем {userName} не существует.");
             }
-            var testEntuser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.User.UserName == userName);
-            if (testEntuser != null)
-            {
-                return testEntuser.Id;
-            }
+
             var resuleAction = new ActionLog(resultUser.UserId, controllerName, actionName);
             await _context.ActionsLogs.AddAsync(resuleAction);
             await _context.SaveChangesAsync();

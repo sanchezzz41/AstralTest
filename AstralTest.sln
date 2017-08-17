@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.FileStore", "Ast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.GeoLocation", "src\AstralTest.GeoLocation\AstralTest.GeoLocation.csproj", "{9E648ED3-5804-4171-8DE1-5547CB17291D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstralTest.Sms", "src\AstralTest.Sms\AstralTest.Sms.csproj", "{22547E93-2511-4C20-93DF-548953E6564E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{9E648ED3-5804-4171-8DE1-5547CB17291D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E648ED3-5804-4171-8DE1-5547CB17291D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E648ED3-5804-4171-8DE1-5547CB17291D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22547E93-2511-4C20-93DF-548953E6564E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22547E93-2511-4C20-93DF-548953E6564E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22547E93-2511-4C20-93DF-548953E6564E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22547E93-2511-4C20-93DF-548953E6564E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{401A3100-048D-4A47-95C3-1785872C9A39} = {083F02BD-FD3A-42F2-B9CA-B72B3FB0C300}
 		{5A62EEDF-C2F6-4F87-80FA-69DF500B12CF} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 		{9E648ED3-5804-4171-8DE1-5547CB17291D} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
+		{22547E93-2511-4C20-93DF-548953E6564E} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 	EndGlobalSection
 EndGlobal

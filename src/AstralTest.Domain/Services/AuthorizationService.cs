@@ -5,6 +5,7 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Utilits;
+using AstralTest.Sms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 

@@ -13,6 +13,7 @@ using AstralTest.Identity;
 using AstralTest.Extensions;
 using AstralTest.FileStore;
 using AstralTest.GeoLocation;
+using AstralTest.Sms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -92,6 +93,7 @@ namespace AstralTest
                 opt.RootPath = "C:/Users/Alexander/Desktop/AstralRepositoy";
             });
             services.AddGeoService();
+            services.AddSmsService();
 
 
         }

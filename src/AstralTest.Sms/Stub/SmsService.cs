@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using AstralTest.Domain.Interfaces;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace AstralTest.Domain.Services
+namespace AstralTest.Sms.Stub
 {
     /// <summary>
     /// Класс реализующий интефрфейс для отправки smc
@@ -13,7 +9,7 @@ namespace AstralTest.Domain.Services
     public class SmsService:ISmsService
     {
         private readonly ILogger _logs;
-        public SmsService(ILogger<EmailSenderService> log)
+        public SmsService(ILogger<SmsService> log)
         {
             _logs = log;
         }
