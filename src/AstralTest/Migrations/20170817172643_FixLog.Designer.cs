@@ -9,9 +9,10 @@ using AstralTest.Domain.Entities;
 namespace AstralTest.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170817172643_FixLog")]
+    partial class FixLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -33,7 +34,7 @@ namespace AstralTest.Migrations
 
                     b.HasIndex("IdUser");
 
-                    b.ToTable("ActionsLogs");
+                    b.ToTable("EnteredUsers");
                 });
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Attachment", b =>
@@ -84,7 +85,7 @@ namespace AstralTest.Migrations
 
                     b.HasIndex("IdEnteredUser");
 
-                    b.ToTable("InfoAboutAction");
+                    b.ToTable("InfoAboutEnteredUsers");
                 });
 
             modelBuilder.Entity("AstralTest.Domain.Entities.Note", b =>

@@ -24,10 +24,10 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Содержит входивших пользователей
         /// </summary>
-        public List<EnteredUser> EnteredUsers {
+        public List<ActionLog> EnteredUsers {
             get
             {
-                return _context.EnteredUsers
+                return _context.ActionsLogs
                     .Include(x => x.User)
                     .Include(x => x.InfoAboutEnteredUsers)
                     .ToList();
@@ -46,13 +46,13 @@ namespace AstralTest.Domain.Services
             {
                 throw new NullReferenceException($"Пользователя с таким именем {userName} не существует.");
             }
-            var testEntuser = await _context.EnteredUsers.SingleOrDefaultAsync(x => x.User.UserName == userName);
+            var testEntuser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.User.UserName == userName);
             if (testEntuser != null)
             {
                 return testEntuser.Id;
             }
-            var resuleEnteredUser = new EnteredUser(resultUser.UserId);
-            await _context.EnteredUsers.AddAsync(resuleEnteredUser);
+            var resuleEnteredUser = new ActionLog(resultUser.UserId);
+            await _context.ActionsLogs.AddAsync(resuleEnteredUser);
             await _context.SaveChangesAsync();
             return resuleEnteredUser.Id;
         }
@@ -64,13 +64,13 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task DeleteAsync(Guid idEnteredUser)
         {
-            var resultEnteredUser = await _context.EnteredUsers.SingleOrDefaultAsync(x => x.Id == idEnteredUser);
+            var resultEnteredUser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.Id == idEnteredUser);
             if (resultEnteredUser == null)
             {
                 throw new NullReferenceException(
                     $"Информации о пользователе по такому id {idEnteredUser} не существует.");
             }
-            _context.EnteredUsers.Remove(resultEnteredUser);
+            _context.ActionsLogs.Remove(resultEnteredUser);
             await _context.SaveChangesAsync();
         }
 
@@ -78,9 +78,9 @@ namespace AstralTest.Domain.Services
         /// Возвращает список входивших пользователей
         /// </summary>
         /// <returns></returns>
-        public async Task<List<EnteredUser>> GetAsync()
+        public async Task<List<ActionLog>> GetAsync()
         {
-            return await _context.EnteredUsers
+            return await _context.ActionsLogs
                 .Include(x => x.User)
                 .Include(x => x.InfoAboutEnteredUsers)
                 .ToListAsync(); ;

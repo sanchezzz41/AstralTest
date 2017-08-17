@@ -14,7 +14,7 @@ namespace AstralTest.Domain.Interfaces
         /// <summary>
         /// Содержит информацию о том, к чему обращались пользователи
         /// </summary>
-        List<InfoAboutEnteredUser> InfoUsers { get; }
+        List<InfoAboutAction> InfoUsers { get; }
 
         /// <summary>
         /// Добавляет информацию о том, к чему обращается пользователь
@@ -35,6 +35,6 @@ namespace AstralTest.Domain.Interfaces
         /// Возвращает всю информацию о том, кто и когда обращался к приложению
         /// </summary>
         /// <returns></returns>
-        Task<List<InfoAboutEnteredUser>> GetAsync();
+        Task<List<InfoAboutAction>> GetAsync();
     }
 }

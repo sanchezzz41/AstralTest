@@ -7,7 +7,7 @@ namespace AstralTest.Domain.Entities
     /// <summary>
     /// Класс предоставляющий информацию о том, к чему обращается пользователь
     /// </summary>
-    public class InfoAboutEnteredUser
+    public class InfoAboutAction
     {
         /// <summary>
         /// Первичный ключ
@@ -16,17 +16,6 @@ namespace AstralTest.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Название контроллера к которому общараются
-        /// </summary>
-        [Required]
-        public string NameOfController { get; set; }
-
-        /// <summary>
-        /// Название метода действия, к которому обращаются
-        /// </summary>
-        [Required]
-        public string NameOfAction { get; set; }
 
         /// <summary>
         /// Время обращения пользователя к приложению
@@ -37,7 +26,7 @@ namespace AstralTest.Domain.Entities
         /// <summary>
         /// Параметры для передачи методу в контроллере
         /// </summary>
-        public string ParametrsToAction { get; set; }
+        public string JsonParametrs { get; set; }
 
         /// <summary>
         /// Внешний ключ который ссылается на пользователя, который обращается к приложению
@@ -46,9 +35,9 @@ namespace AstralTest.Domain.Entities
         public Guid IdEnteredUser { get; set; }
 
 
-        public EnteredUser EnteredUser { get; set; }
+        public ActionLog EnteredUser { get; set; }
 
-        public InfoAboutEnteredUser()
+        public InfoAboutAction()
         {
             Id = Guid.NewGuid();
             EnteredTime = DateTime.Now;
@@ -61,14 +50,12 @@ namespace AstralTest.Domain.Entities
         /// <param name="nameController">Название контроллера</param>
         /// <param name="nameAction">Название действия</param>
         /// <param name="paremetrsAction">Параметры передаваемые методу действия</param>
-        public InfoAboutEnteredUser(Guid idEntereUser,string nameController, string nameAction, string paremetrsAction)
+        public InfoAboutAction(Guid idEntereUser,string nameController, string nameAction, string paremetrsAction)
         {
             Id = Guid.NewGuid();
             EnteredTime = DateTime.Now;
             IdEnteredUser = idEntereUser;
-            NameOfController = nameController;
-            NameOfAction = nameAction;
-            ParametrsToAction = paremetrsAction;
+            JsonParametrs = paremetrsAction;
         }
     }
 }

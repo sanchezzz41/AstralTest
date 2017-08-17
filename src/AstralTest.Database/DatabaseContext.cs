@@ -20,8 +20,8 @@ namespace AstralTest.Database
         public DbSet<UserTask> Tasks { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
-        public DbSet<EnteredUser> EnteredUsers { get; set; }
-        public DbSet<InfoAboutEnteredUser> InfoAboutEnteredUsers { get; set; }
+        public DbSet<ActionLog> ActionsLogs { get; set; }
+        public DbSet<InfoAboutAction> InfoAboutAction { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

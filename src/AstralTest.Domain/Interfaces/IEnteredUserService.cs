@@ -13,7 +13,7 @@ namespace AstralTest.Domain.Interfaces
         /// <summary>
         /// Содержит входивших пользователей
         /// </summary>
-        List<EnteredUser> EnteredUsers { get; }
+        List<ActionLog> EnteredUsers { get; }
 
         /// <summary>
         /// Добавляет пользователя, который входил в приложение
@@ -33,6 +33,6 @@ namespace AstralTest.Domain.Interfaces
         /// Возвращает список входивших пользователей
         /// </summary>
         /// <returns></returns>
-        Task<List<EnteredUser>> GetAsync();
+        Task<List<ActionLog>> GetAsync();
     }
 }

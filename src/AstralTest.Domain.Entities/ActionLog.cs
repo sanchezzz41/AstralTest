@@ -10,7 +10,7 @@ namespace AstralTest.Domain.Entities
     /// <summary>
     /// Класс предоставляющий пользователя, который обращаются к приложению
     /// </summary>
-    public class EnteredUser
+    public class ActionLog
     {
         /// <summary>
         /// Первичный ключ
@@ -18,6 +18,19 @@ namespace AstralTest.Domain.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
+
+
+        /// <summary>
+        /// Название контроллера к которому общараются
+        /// </summary>
+        [Required]
+        public string NameOfController { get; set; }
+
+        /// <summary>
+        /// Название метода действия, к которому обращаются
+        /// </summary>
+        [Required]
+        public string NameOfAction { get; set; }
 
 
         /// <summary>
@@ -32,14 +45,14 @@ namespace AstralTest.Domain.Entities
         [Required]
         public User User { get; set; }
 
-        public List<InfoAboutEnteredUser> InfoAboutEnteredUsers { get; set; }
+        public List<InfoAboutAction> InfoAboutEnteredUsers { get; set; }
 
-        public EnteredUser()
+        public ActionLog()
         {
             Id = Guid.NewGuid();
         }
 
-        public EnteredUser(Guid idUser)
+        public ActionLog(Guid idUser)
         {
             Id = Guid.NewGuid();
             IdUser = idUser;

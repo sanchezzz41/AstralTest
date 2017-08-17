@@ -15,11 +15,11 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Содержит информацию о том, к чему обращались пользователи
         /// </summary>
-        public List<InfoAboutEnteredUser> InfoUsers
+        public List<InfoAboutAction> InfoUsers
         {
             get
             {
-                return _context.InfoAboutEnteredUsers
+                return _context.InfoAboutAction
                     .Include(x => x.EnteredUser)
                     .ToList();
             }
@@ -42,16 +42,16 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task<Guid> AddAsync(InfoEntUserModel infoModel, Guid idEntUser)
         {
-            var resultEntUser = await _context.EnteredUsers.SingleOrDefaultAsync(x => x.Id == idEntUser);
+            var resultEntUser = await _context.ActionsLogs.SingleOrDefaultAsync(x => x.Id == idEntUser);
 
             if (resultEntUser == null)
             {
                 throw new NullReferenceException(
                     $"Пользователя, который обращается к приложению с таким Id{idEntUser} не существует.");
             }
-            var result = new InfoAboutEnteredUser(idEntUser, infoModel.NameController, infoModel.NameAction,
+            var result = new InfoAboutAction(idEntUser, infoModel.NameController, infoModel.NameAction,
                 infoModel.Parametrs);
-            await _context.InfoAboutEnteredUsers.AddAsync(result);
+            await _context.InfoAboutAction.AddAsync(result);
             await _context.SaveChangesAsync();
             return result.Id;
         }
@@ -63,12 +63,12 @@ namespace AstralTest.Domain.Services
         /// <returns></returns>
         public async Task Delete(Guid idInfo)
         {
-            var resultInfo = await _context.InfoAboutEnteredUsers.SingleOrDefaultAsync(x => x.Id == idInfo);
+            var resultInfo = await _context.InfoAboutAction.SingleOrDefaultAsync(x => x.Id == idInfo);
             if (resultInfo == null)
             {
                 throw new NullReferenceException($"Информации с таким Id{idInfo} не существует.");
             }
-            _context.InfoAboutEnteredUsers.Remove(resultInfo);
+            _context.InfoAboutAction.Remove(resultInfo);
             await _context.SaveChangesAsync();
         }
 
@@ -76,9 +76,9 @@ namespace AstralTest.Domain.Services
         /// Возвращает всю информацию о том, кто и когда обращался к приложению
         /// </summary>
         /// <returns></returns>
-        public async Task<List<InfoAboutEnteredUser>> GetAsync()
+        public async Task<List<InfoAboutAction>> GetAsync()
         {
-            return await _context.InfoAboutEnteredUsers
+            return await _context.InfoAboutAction
                 .Include(x => x.EnteredUser)
                 .ToListAsync();
         }
