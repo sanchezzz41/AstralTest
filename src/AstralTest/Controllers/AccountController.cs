@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Interfaces;
+using AstralTest.Identity.JWTModel;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,13 +22,18 @@ namespace AstralTest.Controllers
         private readonly IEmailSender _emailService;
         private readonly Domain.Interfaces.IAuthorizationService _authorizationService;
 
+        //Временно для тестирования
+        private readonly IJWTService _jwtService;
+
         public AccountController(SignInManager<User> sign, Domain.Interfaces.IAuthorizationService authService,
-            IUserService userService, IEmailSender email)
+            IUserService userService, IEmailSender email, IJWTService jwtService)
         {
             _signManager = sign;
             _userService = userService;
             _emailService = email;
             _authorizationService = authService;
+
+            _jwtService = jwtService;
         }
 
 
@@ -69,8 +75,15 @@ namespace AstralTest.Controllers
                 return "Авторизация прошла успешна.";
             }
 
-
             return "Авторизация не удалась.";
+        }
+
+        [HttpPost("Token")]
+        [AllowAnonymous]
+        public async Task<object> GetToken(string userName,string password)
+        {
+            var result = await _jwtService.CreateToken(userName, password);
+            return result;
         }
 
         //Выход из приложения

@@ -159,5 +159,28 @@ namespace AstralTest.Extensions
             }
             return null;
         }
+
+        /// <summary>
+        /// Метод расширения для отображения логов
+        /// </summary>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        public static object LogView(this ActionLog log)
+        {
+            if (log != null)
+            {
+                return new
+                {
+                    idLog = log.Id,
+                    idUser = log.IdUser,
+                    User = log.User.UserName,
+                    Controller = log.NameOfController,
+                    Action = log.NameOfAction,
+                    ActionTime = log.EnteredTime,
+                    Parametrs = log.InfoAboutActions.Select(x => x.JsonParametrs)
+                };
+            }
+            return null;
+        }
     }
 }

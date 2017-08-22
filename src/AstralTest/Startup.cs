@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +15,11 @@ using AstralTest.Identity;
 using AstralTest.Extensions;
 using AstralTest.FileStore;
 using AstralTest.GeoLocation;
+using AstralTest.Identity.JWTModel;
 using AstralTest.Sms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AstralTest
 {
@@ -30,10 +34,22 @@ namespace AstralTest
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            string secretKey = "9661278F-4F9F-4424-A004-ABCA7EDF584E";
+            var tokenOption = new TokenOption
+            {
+                Audince = "LocalServer",
+                Issuer = "LocalHost",
+                Key = secretKey,
+                LifeTime = 30
+            };
+            _tokenOption = tokenOption;
         }
 
         public IConfigurationRoot Configuration { get; }
         public IHostingEnvironment _env;
+
+        private readonly TokenOption _tokenOption;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -41,7 +57,7 @@ namespace AstralTest
             // Add framework services.
             services.AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
-                , x => x.MigrationsAssembly("AstralTest")));
+                    , x => x.MigrationsAssembly("AstralTest")));
 
             //Сервисы для аутификации и валидации пароля
             services.AddScoped<IHashProvider, Md5HashService>();
@@ -55,23 +71,10 @@ namespace AstralTest
 
             if (_env.IsDevelopment())
             {
-                //Временные настройки для авторизации
-                services.Configure<IdentityOptions>(opt =>
-                {
-                    opt.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
-                    opt.Cookies.ApplicationCookie.LogoutPath = "/Account/Logout";
-
-                    //Pass settings
-                    opt.Password.RequiredLength = 5;
-                    opt.Password.RequireDigit = false;
-                    opt.Password.RequireUppercase = false;
-                    opt.Password.RequireLowercase = false;
-                    opt.Password.RequireNonAlphanumeric = false;
-                });
-
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                    c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"});
+                    c.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
                 });
             }
             services.AddMvc().AddMvcOptions(opt =>
@@ -95,6 +98,14 @@ namespace AstralTest
             services.AddGeoService();
             services.AddSmsService();
 
+            services.AddJWTService(opt =>
+            {
+                opt.Audince = _tokenOption.Audince;
+                opt.Issuer = _tokenOption.Issuer;
+                opt.Key = _tokenOption.Key;
+                opt.LifeTime = _tokenOption.LifeTime;
+            });
+
 
         }
 
@@ -105,9 +116,9 @@ namespace AstralTest
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
-          
-            app.UseIdentity();
 
+            //Обычная аутификация с помощью куки
+            //app.UseIdentity();
 
 
             //Используем swagger для проверки контроллеров
@@ -120,6 +131,35 @@ namespace AstralTest
                     x.SwaggerEndpoint("/swagger/v1/swagger.json", "My api");
                 });
             }
+
+            //Аутификация на основе токена
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    // укзывает, будет ли валидироваться издатель при валидации токена
+                    ValidateIssuer = true,
+                    // строка, представляющая издателя
+                    ValidIssuer = _tokenOption.Issuer,
+
+                    // будет ли валидироваться потребитель токена
+                    ValidateAudience = true,
+                    // установка потребителя токена
+                    ValidAudience = _tokenOption.Audince,
+                    // будет ли валидироваться время существования
+                    ValidateLifetime = true,
+
+                    // установка ключа безопасности
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_tokenOption.Key)),
+                    // валидация ключа безопасности
+                    ValidateIssuerSigningKey = true,
+
+                    //ClockSkew = TimeSpan.Zero
+                }
+            });
+         
             app.UseMvc(route =>
             {
                 route.MapRoute("Default", "{controller=Account}/{action=Login}/{id?}");
@@ -131,4 +171,3 @@ namespace AstralTest
         }
     }
 }
-
