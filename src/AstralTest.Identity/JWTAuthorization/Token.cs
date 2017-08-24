@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AstralTest.Identity.JWTModel
+﻿namespace AstralTest.Identity.JWTAuthorization
 {
     /// <summary>
     /// Класс содержащий информацию о токене
@@ -16,6 +12,6 @@ namespace AstralTest.Identity.JWTModel
         /// <summary>
         /// Предоставляет имя пользователя, который владаеет токеном
         /// </summary>
-        public string UserName { get; set; }
+        public string TokenType { get; set; }
     }
 }

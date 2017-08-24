@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
-using AstrelTestWithToken.Extensions;
+using AstrelTestApi.Extensions;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace AstrelTestWithToken.Controllers.Admin
+namespace AstrelTestApi.Controllers.Admin
 {
     /// <summary>
     /// Контроллер для просмотра логов

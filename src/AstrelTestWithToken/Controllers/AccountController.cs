@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Interfaces;
-using AstralTest.Identity.JWTModel;
+using AstralTest.Identity.JWTAuthorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace AstrelTestWithToken.Controllers
+namespace AstrelTestApi.Controllers
 {
     //Контроллер для авторизации пользователей
     [Authorize]
@@ -19,9 +19,9 @@ namespace AstrelTestWithToken.Controllers
     {
         private readonly IUserService _userService;
         private readonly IEmailSender _emailService;
-        private readonly IJWTService _jwtService;
+        private readonly IJwtService _jwtService;
 
-        public AccountController(IUserService userService, IEmailSender email, IJWTService jwtService)
+        public AccountController(IUserService userService, IEmailSender email, IJwtService jwtService)
         {
             _userService = userService;
             _emailService = email;

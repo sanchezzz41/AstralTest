@@ -4,9 +4,9 @@ using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using AstralTest.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using AstrelTestWithToken.Extensions;
+using AstrelTestApi.Extensions;
 
-namespace AstrelTestWithToken.Controllers
+namespace AstrelTestApi.Controllers
 {
     /// <summary>
     /// Контроллер для редактирования пользователя, самим собой

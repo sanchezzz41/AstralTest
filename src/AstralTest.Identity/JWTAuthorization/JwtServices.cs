@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AstralTest.Identity.JWTModel
+namespace AstralTest.Identity.JWTAuthorization
 {
     /// <summary>
     /// Класс добавляющий сервис для работы с JWT
@@ -14,10 +14,10 @@ namespace AstralTest.Identity.JWTModel
         /// <param name="service"></param>
         /// <param name="configure">Конфигурации для FileStore</param>
         /// <returns></returns>
-        public static IServiceCollection AddJWTService(this IServiceCollection service,
+        public static IServiceCollection AddJwtService(this IServiceCollection service,
             Action<TokenOption> configure)
         {
-            service.AddScoped<IJWTService, JWTService>();
+            service.AddScoped<IJwtService, JwtService>();
 
             var tokenOption = new TokenOption();
             configure(tokenOption);

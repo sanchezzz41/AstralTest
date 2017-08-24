@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AstralTest.Identity.JWTModel
+﻿namespace AstralTest.Identity.JWTAuthorization
 {
     /// <summary>
     /// Класс для настройки токена

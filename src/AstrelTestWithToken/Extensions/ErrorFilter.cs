@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace AstrelTestWithToken.Extensions
+namespace AstrelTestApi.Extensions
 {
     public class ErrorFilter : IExceptionFilter
     {

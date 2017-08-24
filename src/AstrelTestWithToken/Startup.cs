@@ -11,16 +11,17 @@ using AstralTest.Domain;
 using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using AstralTest.Identity;
-using AstrelTestWithToken.Extensions;
+using AstrelTestApi.Extensions;
 using AstralTest.FileStore;
 using AstralTest.GeoLocation;
-using AstralTest.Identity.JWTModel;
+using AstralTest.Identity.JWTAuthorization;
 using AstralTest.Sms;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AstrelTestWithToken
+namespace AstrelTestApi
 {
     public class Startup
     {
@@ -56,7 +57,7 @@ namespace AstrelTestWithToken
             // Add framework services.
             services.AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
-                    , x => x.MigrationsAssembly("AstrelTestWithToken")));
+                    /*, x => x.MigrationsAssembly("AstrelTestWithToken")*/));
 
             //Сервисы для аутификации и валидации пароля
             services.AddScoped<IHashProvider, Md5HashService>();
@@ -91,13 +92,36 @@ namespace AstrelTestWithToken
             services.AddGeoService();
             services.AddSmsService();
 
-            services.AddJWTService(opt =>
+            services.AddJwtService(opt =>
             {
                 opt.Audince = _tokenOption.Audince;
                 opt.Issuer = _tokenOption.Issuer;
                 opt.Key = _tokenOption.Key;
                 opt.LifeTime = _tokenOption.LifeTime;
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    // укзывает, будет ли валидироваться издатель при валидации токена
+                    x.TokenValidationParameters.ValidateIssuer = true;
+                    // строка, представляющая издателя
+                    x.TokenValidationParameters.ValidIssuer = _tokenOption.Issuer;
+
+                    // будет ли валидироваться потребитель токена
+                    x.TokenValidationParameters.ValidateAudience = true;
+                    // установка потребителя токена
+                    x.TokenValidationParameters.ValidAudience = _tokenOption.Audince;
+                    // будет ли валидироваться время существования
+                    x.TokenValidationParameters.ValidateLifetime = true;
+
+                    // установка ключа безопасности
+                    x.TokenValidationParameters.IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes((string) _tokenOption.Key));
+                    // валидация ключа безопасности
+                    x.TokenValidationParameters.ValidateIssuerSigningKey = true;
+
+                });
 
 
         }
@@ -121,42 +145,17 @@ namespace AstrelTestWithToken
                 });
             }
 
-            //Аутификация на основе токена
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = new TokenValidationParameters
-                {
-                    // укзывает, будет ли валидироваться издатель при валидации токена
-                    ValidateIssuer = true,
-                    // строка, представляющая издателя
-                    ValidIssuer = _tokenOption.Issuer,
+            ////Аутификация на основе токена
+            app.UseAuthentication();
 
-                    // будет ли валидироваться потребитель токена
-                    ValidateAudience = true,
-                    // установка потребителя токена
-                    ValidAudience = _tokenOption.Audince,
-                    // будет ли валидироваться время существования
-                    ValidateLifetime = true,
-
-                    // установка ключа безопасности
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_tokenOption.Key)),
-                    // валидация ключа безопасности
-                    ValidateIssuerSigningKey = true,
-
-                    //ClockSkew = TimeSpan.Zero
-                }
-            });
-         
             app.UseMvc(route =>
             {
                 route.MapRoute("Default", "{controller=Account}/{action=Login}/{id?}");
             });
-            //Тут делается миграция бд, если бд не существует
-            app.ApplicationServices.GetService<DatabaseContext>().Database.Migrate();
-            //Иницилизурем 2 роли и 1го пользователя, если таковых нет
-            app.ApplicationServices.GetService<DatabaseContext>().Initialize(app.ApplicationServices).Wait();
+            ////Тут делается миграция бд, если бд не существует
+            //app.ApplicationServices.GetService<DatabaseContext>().Database.Migrate();
+            ////Иницилизурем 2 роли и 1го пользователя, если таковых нет
+            //app.ApplicationServices.GetService<DatabaseContext>().Initialize(app.ApplicationServices).Wait();
         }
     }
 }

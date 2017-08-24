@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace AstralTest.Identity.JWTModel
+namespace AstralTest.Identity.JWTAuthorization
 {
     /// <summary>
     /// Интерфейс для генирации JWT токена
     /// </summary>
-    public interface IJWTService
+    public interface IJwtService
     {
         /// <summary>
         /// Создаёт токен

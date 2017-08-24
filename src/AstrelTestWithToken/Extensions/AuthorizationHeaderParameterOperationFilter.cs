@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AstrelTestWithToken.Extensions
+namespace AstrelTestApi.Extensions
 {
     public class AuthorizationHeaderParameterOperationFilter : IOperationFilter
     {

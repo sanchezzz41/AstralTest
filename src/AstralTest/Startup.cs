@@ -39,10 +39,9 @@ namespace AstralTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddDbContext<DatabaseContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
-                    , x => x.MigrationsAssembly("AstralTest")));
+           services.AddDbContext<DatabaseContext>(opt =>
+               opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
+                   , x => x.MigrationsAssembly("AstralTest")));
 
             //Сервисы для аутификации и валидации пароля
             services.AddScoped<IHashProvider, Md5HashService>();
@@ -69,7 +68,6 @@ namespace AstralTest
             );
             services.AddMemoryCache();
 
-            //services.AddScoped<ErrorFilter>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -92,7 +90,7 @@ namespace AstralTest
             app.UseStaticFiles();
 
             //Обычная аутификация с помощью куки
-            app.UseIdentity();
+            app.UseAuthentication();
 
             //Используем swagger для проверки контроллеров
             if (env.IsDevelopment())
@@ -109,7 +107,7 @@ namespace AstralTest
             {
                 route.MapRoute("Default", "{controller=Account}/{action=Login}/{id?}");
             });
-            //Тут делается миграция бд, если бд не существует
+            ////Тут делается миграция бд, если бд не существует
             app.ApplicationServices.GetService<DatabaseContext>().Database.Migrate();
             //Иницилизурем 2 роли и 1го пользователя, если таковых нет
             app.ApplicationServices.GetService<DatabaseContext>().Initialize(app.ApplicationServices).Wait();

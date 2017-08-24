@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
-using AstrelTestWithToken.Extensions;
+using AstrelTestApi.Extensions;
 using AstralTest.FileStore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace AstrelTestWithToken.Controllers.Admin
+namespace AstrelTestApi.Controllers.Admin
 {
     /// <summary>
     /// Контроллер для работы с пользователем,

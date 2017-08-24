@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AstrelTestWithToken.Extensions
+namespace AstrelTestApi.Extensions
 {
     /// <summary>
     /// Статический класс, предоставляющий методы расширения

@@ -9,7 +9,7 @@ using AstralTest.GeoLocation;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace AstrelTestWithToken.Controllers
+namespace AstrelTestApi.Controllers
 {
     /// <summary>
     /// Контроллер для работы с гео данными

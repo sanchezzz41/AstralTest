@@ -8,7 +8,7 @@ using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace AstrelTestWithToken.Extensions
+namespace AstrelTestApi.Extensions
 {
     /// <summary>
     /// Фильтр для логгирования пользователей

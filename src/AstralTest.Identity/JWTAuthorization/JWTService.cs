@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AstralTest.Identity.JWTModel
+namespace AstralTest.Identity.JWTAuthorization
 {
     /// <summary>
     /// Сервис реализующий интерфейс IJWTService 
     /// </summary>
-    public class JWTService : IJWTService
+    public class JwtService : IJwtService
     {
         private readonly DatabaseContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly TokenOption _tokenOption;
 
-        public JWTService(DatabaseContext context, IPasswordHasher<User> passwordHasher, TokenOption tokenOption)
+        public JwtService(DatabaseContext context, IPasswordHasher<User> passwordHasher, TokenOption tokenOption)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -55,7 +55,7 @@ namespace AstralTest.Identity.JWTModel
             var result = new Token
             {
                 TokenContent = resultToken,
-                UserName = userName
+                TokenType = "Bearer"
             };
             return result;
         }

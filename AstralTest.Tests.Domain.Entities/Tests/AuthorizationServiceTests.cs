@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using AstralTest.Database;
 using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Services;
+using AstralTest.Sms;
 using AstralTest.Tests.Domain.Entities.Factory;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using Xunit;
+using Assert = NUnit.Framework.Assert;
+using Randomizer = AstralTest.Domain.Utilits.Randomizer;
 
 namespace AstralTest.Tests.Domain.Entities.Tests
 {
@@ -28,6 +35,10 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         //Контекст бд
         private DatabaseContext _context;
 
+        private List<User> _users;
+
+        private string _codeSms;
+
 
 
         [SetUp]
@@ -38,11 +49,15 @@ namespace AstralTest.Tests.Domain.Entities.Tests
 
             //Data
             await TestInitializer.Provider.GetService<UserDataFactory>().CreateUsers();
-            var passwordHasher = TestInitializer.Provider.GetService<IPasswordHasher<User>>();
+            _users = await _context.Users.ToListAsync();
+
+            var passwordHasher = GetPasswordHasher();
             var userService = new UserService(_context, passwordHasher);
+            var memoryService = TestInitializer.Provider.GetService<IMemoryCache>();
+            var smsService = GetSms();
 
             //Services
-            //_service = new AuthorizationService(userService, passwordHasher);
+            _service = new AuthorizationService(userService, passwordHasher, memoryService, smsService);
         }
 
         [TearDown]
@@ -51,11 +66,38 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             await TestInitializer.Provider.GetService<UserDataFactory>().Dispose();
         }
 
+        //Возвращает PassworhHasher 
+        public ISmsService GetSms()
+        {
+            Mock<ISmsService> result = new Mock<ISmsService>();
+
+            result.Setup(x => x.SendSmsAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns<string, string>(async (a, b) =>
+                {
+                    _codeSms = b;
+                    await Task.FromResult(_codeSms);
+                });
+
+            return result.Object;
+        }
+
+
+        public IPasswordHasher<User> GetPasswordHasher()
+        {
+            Mock<IPasswordHasher<User>> result = new Mock<IPasswordHasher<User>>();
+
+            result.Setup(x => x.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+                .Returns<User, string>((a, b) => (a.PasswordSalt + b));
+
+            return result.Object;
+        }
+
         /// <summary>
         /// Тест на авторизацию пользователя(ожидается успех)
         /// </summary>
         /// <returns></returns>
-        [Test]
+        [Fact]
+        [Trait("Category", "UI")]
         public async Task Authorization_User_Success()
         {
             //Пароль "admin"
