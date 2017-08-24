@@ -31,9 +31,9 @@ namespace AstralTest.Tests.Domain.Entities.Factory
             //При создание пароля, сначала пароль, потом соль
             var userList = new List<User>
             {
-                new User("testUser1", "testEmail1","88005553555", "qwert", _passwordHasher.HashPassword(null, "admin" + "qwert"),
+                new User("admin", "admin","88005553555", "qwert", "admin",
                     RolesOption.Admin),
-                new User("testUser2", "testEmail2","88005553555", "asd", _passwordHasher.HashPassword(null, "user" + "asd"),
+                new User("testUser2", "testEmail2","88005553555", "asd","user" ,
                     RolesOption.User),
             };
             await _context.Users.AddRangeAsync(userList);

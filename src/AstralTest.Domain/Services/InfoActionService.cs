@@ -26,12 +26,10 @@ namespace AstralTest.Domain.Services
         }
 
         private readonly DatabaseContext _context;
-        private readonly IActionService _enteredService;
 
-        public InfoActionService(DatabaseContext context, IActionService enteredService)
+        public InfoActionService(DatabaseContext context)
         {
             _context = context;
-            _enteredService = enteredService;
         }
 
         /// <summary>

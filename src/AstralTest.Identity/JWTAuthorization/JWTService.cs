@@ -70,7 +70,7 @@ namespace AstralTest.Identity.JWTModel
             var resultHash = _passwordHasher.HashPassword(user, password);
             if (user.PasswordHash != resultHash)
             {
-                throw new InvalidOperationException($"Пароль {password} не верный.");
+                throw new InvalidOperationException($"Пароль не верный.");
             }
             var claims = new List<Claim>
             {

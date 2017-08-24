@@ -17,7 +17,9 @@
     <ProjectReference Include="..\src\AstralTest.Database\AstralTest.Database.csproj" />
     <ProjectReference Include="..\src\AstralTest.Domain.Entities\AstralTest.Domain.Entities.csproj" />
     <ProjectReference Include="..\src\AstralTest.Domain\AstralTest.Domain.csproj" />
+    <ProjectReference Include="..\src\AstralTest.GeoLocation\AstralTest.GeoLocation.csproj" />
     <ProjectReference Include="..\src\AstralTest.Identity\AstralTest.Identity.csproj" />
+    <ProjectReference Include="..\src\AstralTest.Sms\AstralTest.Sms.csproj" />
   </ItemGroup>
 
   <ItemGroup>

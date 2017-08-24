@@ -6,9 +6,10 @@ namespace AstralTest.Sms.Stub
     /// <summary>
     /// Класс реализующий интефрфейс для отправки smc
     /// </summary>
-    public class SmsService:ISmsService
+    public class SmsService : ISmsService
     {
         private readonly ILogger _logs;
+
         public SmsService(ILogger<SmsService> log)
         {
             _logs = log;
