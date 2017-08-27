@@ -23,6 +23,7 @@
     <ProjectReference Include="..\AstralTest.Domain.Entities\AstralTest.Domain.Entities.csproj" />
     <ProjectReference Include="..\AstralTest.GeoLocation\AstralTest.GeoLocation.csproj" />
     <ProjectReference Include="..\AstralTest.Identity\AstralTest.Identity.csproj" />
+    <ProjectReference Include="..\AstralTest.Logs\AstralTest.Logs.csproj" />
     <ProjectReference Include="..\AstralTest.Sms\AstralTest.Sms.csproj" />
   </ItemGroup>
 

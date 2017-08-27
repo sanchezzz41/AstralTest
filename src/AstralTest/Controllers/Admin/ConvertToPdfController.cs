@@ -12,6 +12,9 @@ using AstralTest.Logs;
 
 namespace AstralTest.Web.Controllers.Admin
 {
+    /// <summary>
+    /// Контроллер для конвертации данных в пдф
+    /// </summary>
     [Route("ConverterToPdf")]
     [Authorize(Roles = nameof(RolesOption.Admin))]
     public class ConvertToPdfController : Controller
@@ -27,6 +30,7 @@ namespace AstralTest.Web.Controllers.Admin
             _actionService = actionSerivce;
         }
 
+        //Возвращает Pdf с пользователями
         [HttpGet("Users")]
         public async Task<object> GetUsers()
         {
@@ -40,6 +44,7 @@ namespace AstralTest.Web.Controllers.Admin
             return "Внутренная ошибка";
         }
 
+        //Возвращает Pdf с логами
         [HttpGet("Logs")]
         public async Task<object> GetLogs()
         {
