@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACA647DC-29D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CDC9FB6-2164-49DC-8E39-B2958C639965}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest", "src\AstralTest\AstralTest.csproj", "{5A0FB288-9739-412F-BC92-9CECA6A33DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.Web", "src\AstralTest\AstralTest.Web.csproj", "{5A0FB288-9739-412F-BC92-9CECA6A33DA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.Domain", "src\AstralTest.Domain\AstralTest.Domain.csproj", "{29322B51-9E1B-4E93-B808-28DE974DB8B0}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstralTest.Sms", "src\AstralTest.Sms\AstralTest.Sms.csproj", "{22547E93-2511-4C20-93DF-548953E6564E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstrelTestApi", "src\AstrelTestWithToken\AstrelTestApi.csproj", "{66F9A119-80A1-4165-BCAB-F4F45BAAFFC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstralTest.Logs", "src\AstralTest.Logs\AstralTest.Logs.csproj", "{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{66F9A119-80A1-4165-BCAB-F4F45BAAFFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66F9A119-80A1-4165-BCAB-F4F45BAAFFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66F9A119-80A1-4165-BCAB-F4F45BAAFFC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{9E648ED3-5804-4171-8DE1-5547CB17291D} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 		{22547E93-2511-4C20-93DF-548953E6564E} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 		{66F9A119-80A1-4165-BCAB-F4F45BAAFFC1} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
+		{7476CA6A-6DCE-487A-8B7A-D6CE94D7FCC2} = {ACA647DC-29D1-4FC6-904B-B86150FD59F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85593906-FE4C-4287-BC90-DC51955C338E}

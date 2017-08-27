@@ -3,21 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AstralTest.Domain.Interfaces;
-using AstralTest.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace AstralTest.Extensions
+namespace AstralTest.Logs
 {
     /// <summary>
     /// Фильтр для логгирования пользователей
     /// </summary>
     public class LoggerUsersFilter : IAsyncActionFilter
     {
-        private readonly ILogService _logService;
+        private readonly ILogService<LogModel> _logService;
 
-        public LoggerUsersFilter(ILogService logService)
+        public LoggerUsersFilter(ILogService<LogModel> logService)
         {
             _logService = logService;
         }

@@ -8,11 +8,15 @@ using AstralTest.Domain.Entities;
 using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Models;
 using AstralTest.Domain.Utilits;
-using AstralTest.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npoi.Core.SS.UserModel;
 using Npoi.Core.XSSF.UserModel;
+
+#if NET461
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+#endif
 
 namespace AstralTest.Domain.Services
 {
@@ -206,6 +210,35 @@ namespace AstralTest.Domain.Services
             }
             return await Task.FromResult(result);
 
+        }
+
+        public async Task<byte[]> ConvertToPdf(IEnumerable<User> List)
+        {
+#if NET461
+            PdfDocument document = new PdfDocument();
+
+            PdfPage page = document.AddPage();
+
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            XFont font = new XFont("Verdana", 14, XFontStyle.Italic);
+
+            string result = "";
+            int y = 20;
+            foreach (var item in List)
+            {
+                result = $"{item.UserName}|{item.Email}|{item.PhoneNumber}\n";
+                gfx.DrawString(result, font, XBrushes.Black, 20, y);
+                y += 20;
+            }
+
+            using (var stream = new MemoryStream()) {
+                document.Save(stream, false);
+                return await Task.FromResult(stream.GetBuffer());
+            }
+#else
+            return null;
+#endif
         }
     }
 }

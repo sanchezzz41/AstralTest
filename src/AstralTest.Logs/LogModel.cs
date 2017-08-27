@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AstralTest.Domain.Models
+namespace AstralTest.Logs
 {
     /// <summary>
     /// Модель содержащя информацию о пользователи, которого надо отследить

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using AstralTest.Logs;
 
 namespace AstralTest.Tests.Domain.Entities
 {
@@ -46,7 +47,7 @@ namespace AstralTest.Tests.Domain.Entities
             services.AddScoped<IFileStore, FileStore.FileStore>();
             services.AddScoped<ISmsService, SmsService>();
             services.AddScoped<IGeoService, YandexGeoService>();
-            services.AddScoped<ILogService, LogService>();
+            services.AddScoped<ILogService<LogModel>, LogService>();
             services.AddScoped<IAttachmentsService, AttachmentsService>();
             services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IInfoActionService, InfoActionService>();

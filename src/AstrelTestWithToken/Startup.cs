@@ -19,6 +19,7 @@ using AstralTest.Sms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
+using AstralTest.Logs;
 
 namespace AstrelTestWithToken
 {

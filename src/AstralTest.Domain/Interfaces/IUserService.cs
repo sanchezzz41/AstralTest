@@ -56,5 +56,12 @@ namespace AstralTest.Domain.Interfaces
         /// <param name="list"></param>
         /// <returns></returns>
         Task<byte[]> UsersConvertToXssfAsync(IEnumerable<User> list);
+
+        /// <summary>
+        /// Конверитирует список пользователей в пдф
+        /// </summary>
+        /// <param name="List"></param>
+        /// <returns></returns>
+        Task<byte[]> ConvertToPdf(IEnumerable<User> List);
     }
 }

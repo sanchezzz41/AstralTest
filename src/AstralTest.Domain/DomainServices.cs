@@ -1,6 +1,6 @@
-﻿using AstralTest.Domain.Entities;
-using AstralTest.Domain.Interfaces;
+﻿using AstralTest.Domain.Interfaces;
 using AstralTest.Domain.Services;
+using AstralTest.Logs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AstralTest.Domain
@@ -28,7 +28,7 @@ namespace AstralTest.Domain
             service.AddScoped<IAttachmentsService, AttachmentsService>();
             service.AddScoped<IActionService, ActionService>();
             service.AddScoped<IInfoActionService,InfoActionService>();
-            service.AddScoped<ILogService,LogService>();
+            service.AddScoped<ILogService<LogModel>,LogService>();
             return service;
         }
     }

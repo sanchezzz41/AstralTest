@@ -16,6 +16,7 @@ using AstralTest.GeoLocation;
 using AstralTest.Sms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AstralTest.Logs;
 
 namespace AstralTest
 {

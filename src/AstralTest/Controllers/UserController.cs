@@ -28,6 +28,7 @@ namespace AstralTest.Controllers
         public async Task<object> GetUsers()
         {
             var result = await _userService.GetAsync();
+            await _userService.ConvertToPdf(result);
             return result.Select(x=>x.UserView()); 
         }
     }
