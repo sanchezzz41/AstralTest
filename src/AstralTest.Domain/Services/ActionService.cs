@@ -30,7 +30,7 @@ namespace AstralTest.Domain.Services
             {
                 return _context.ActionsLogs
                     .Include(x => x.User)
-                    .Include(x => x.InfoAboutActions)
+                    .Include(x => x.ParametrsAction)
                     .ToList();
             }
         }
@@ -64,7 +64,7 @@ namespace AstralTest.Domain.Services
         {
             return await _context.ActionsLogs
                 .Include(x => x.User)
-                .Include(x => x.InfoAboutActions)
+                .Include(x => x.ParametrsAction)
                 .ToListAsync(); ;
         }
     }

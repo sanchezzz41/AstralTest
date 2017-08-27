@@ -7,7 +7,7 @@ namespace AstralTest.Domain.Entities
     /// <summary>
     /// Класс предоставляющий информацию о том, к чему обращается пользователь
     /// </summary>
-    public class InfoAboutAction
+    public class ParametrsAction
     {
         /// <summary>
         /// Первичный ключ
@@ -30,7 +30,7 @@ namespace AstralTest.Domain.Entities
 
         public ActionLog Action { get; set; }
 
-        public InfoAboutAction()
+        public ParametrsAction()
         {
             Id = Guid.NewGuid();
         }
@@ -40,7 +40,7 @@ namespace AstralTest.Domain.Entities
         /// </summary>
         /// <param name="idAction">Id действия для приложения</param>
         /// <param name="paremetrsAction">Параметры передаваемые методу действия</param>
-        public InfoAboutAction(Guid idAction, string paremetrsAction)
+        public ParametrsAction(Guid idAction, string paremetrsAction)
         {
             Id = Guid.NewGuid();
             IdAction = idAction;

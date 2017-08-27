@@ -177,7 +177,7 @@ namespace AstrelTestWithToken.Extensions
                     Controller = log.NameOfController,
                     Action = log.NameOfAction,
                     ActionTime = log.EnteredTime,
-                    Parametrs = log.InfoAboutActions.Select(x => x.JsonParametrs)
+                    Parametrs = log.ParametrsAction.JsonParametrs
                 };
             }
             return null;

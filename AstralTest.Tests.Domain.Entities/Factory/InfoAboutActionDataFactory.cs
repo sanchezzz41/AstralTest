@@ -26,12 +26,12 @@ namespace AstralTest.Tests.Domain.Entities.Factory
         public async Task CreateInfoActions()
         {
             var action = await _context.ActionsLogs.FirstAsync();
-            var actions = new List<InfoAboutAction>
+            var actions = new List<ParametrsAction>
             {
-                new InfoAboutAction(action.Id,"paramets1"),
-                new InfoAboutAction(action.Id,"parametrs2")
+                new ParametrsAction(action.Id,"paramets1"),
+                new ParametrsAction(action.Id,"parametrs2")
             };
-            await _context.InfoAboutAction.AddRangeAsync(actions);
+            await _context.ParametrsActions.AddRangeAsync(actions);
             await _context.SaveChangesAsync();
         }
 
@@ -41,8 +41,8 @@ namespace AstralTest.Tests.Domain.Entities.Factory
         /// <returns><see cref="Task"/></returns>
         public async Task Dispose()
         {
-            var infos = await _context.InfoAboutAction.ToListAsync();
-            _context.InfoAboutAction.RemoveRange(infos);
+            var infos = await _context.ParametrsActions.ToListAsync();
+            _context.ParametrsActions.RemoveRange(infos);
             await _context.SaveChangesAsync();
         }
     }

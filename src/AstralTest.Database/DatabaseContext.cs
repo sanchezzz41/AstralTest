@@ -21,7 +21,7 @@ namespace AstralTest.Database
         public DbSet<File> Files { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<ActionLog> ActionsLogs { get; set; }
-        public DbSet<InfoAboutAction> InfoAboutAction { get; set; }
+        public DbSet<ParametrsAction> ParametrsActions { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

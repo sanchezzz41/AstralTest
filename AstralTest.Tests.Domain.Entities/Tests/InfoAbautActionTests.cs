@@ -28,7 +28,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
         private DatabaseContext _context;
 
         //Хранилще для проверки
-        private List<InfoAboutAction> _infoAboutActions;
+        private List<ParametrsAction> _infoAboutActions;
 
 
         [SetUp]
@@ -41,7 +41,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             await TestInitializer.Provider.GetService<UserDataFactory>().CreateUsers();
             await TestInitializer.Provider.GetService<ActionDataFactory>().CreateActions();
             await TestInitializer.Provider.GetService<InfoAboutActionDataFactory>().CreateInfoActions();
-            _infoAboutActions = await _context.InfoAboutAction.ToListAsync();
+            _infoAboutActions = await _context.ParametrsActions.ToListAsync();
 
             //Services
             _service = new InfoActionService(_context);
@@ -67,7 +67,7 @@ namespace AstralTest.Tests.Domain.Entities.Tests
             var resultActin = await _context.ActionsLogs.FirstAsync();
             //act
             var resultId = await _service.AddAsync(param, resultActin.Id);
-            var resultInfo = await _context.InfoAboutAction.SingleOrDefaultAsync(x => x.Id == resultId);
+            var resultInfo = await _context.ParametrsActions.SingleOrDefaultAsync(x => x.Id == resultId);
             //assert
             Assert.AreEqual(param, resultInfo.JsonParametrs);
         }

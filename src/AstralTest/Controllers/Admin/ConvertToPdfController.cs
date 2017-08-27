@@ -20,10 +20,11 @@ namespace AstralTest.Web.Controllers.Admin
         private readonly ILogService<LogModel> _logService;
         private readonly IActionService _actionService;
 
-        public ConvertToPdfController(IUserService userService,IActionService actionSerivce,ILogService<LogModel> logService)
+        public ConvertToPdfController(IUserService userService, IActionService actionSerivce, ILogService<LogModel> logService)
         {
             _userService = userService;
             _logService = logService;
+            _actionService = actionSerivce;
         }
 
         [HttpGet("Users")]
@@ -33,7 +34,7 @@ namespace AstralTest.Web.Controllers.Admin
             var resultBytes = await _userService.ConvertToPdf(list);
             if (resultBytes != null)
             {
-                return File(resultBytes, "application/pdf","Users.pdf");
+                return File(resultBytes, "application/pdf", "Users.pdf");
             }
             Response.StatusCode = 501;
             return "Внутренная ошибка";
@@ -46,18 +47,28 @@ namespace AstralTest.Web.Controllers.Admin
             var resultList = new List<LogModel>();
             foreach (var item in list)
             {
-              if(item.InfoAboutActions!=null)
+                var resultModel = new LogModel
                 {
-                    resultList.Add(new LogModel { UserName=item.User.UserName,NameController=item.NameOfController,NameAction=item.NameOfAction,Parametrs=item.InfoAboutActions.pa})
+                    UserName = item.User.UserName,
+                    NameController = item.NameOfController,
+                    NameAction = item.NameOfAction,
+                    Parametrs = ""
+                };
+                if (item.ParametrsAction != null)
+                {
+                    resultModel.Parametrs = item.ParametrsAction.JsonParametrs;
                 }
+                resultList.Add(resultModel);
             }
-            var resultBytes = await _userService.ConvertToPdf(list);
+            var resultBytes = await _logService.ConvertToPdf(resultList);
+
             if (resultBytes != null)
             {
-                return File(resultBytes, "application/pdf", "Users.pdf");
+                return File(resultBytes, "application/pdf", "Logs.pdf");
             }
+
             Response.StatusCode = 501;
-            return "Внутренная ошибка";
+            return "Внутренния ошибка";
         }
     }
 }

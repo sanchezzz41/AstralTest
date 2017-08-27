@@ -41,6 +41,7 @@ namespace AstralTest
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            //Как тут поменять в MigrationsAssembly название? если мы его изменили в обозревателе решений?
             services.AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")
                     , x => x.MigrationsAssembly("AstralTest")));

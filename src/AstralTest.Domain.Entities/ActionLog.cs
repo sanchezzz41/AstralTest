@@ -51,7 +51,7 @@ namespace AstralTest.Domain.Entities
         [Required]
         public User User { get; set; }
 
-        public List<InfoAboutAction> InfoAboutActions { get; set; }
+        public ParametrsAction ParametrsAction { get; set; }
 
 
 

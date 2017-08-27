@@ -15,11 +15,11 @@ namespace AstralTest.Domain.Services
         /// <summary>
         /// Содержит информацию о том, к чему обращались пользователи
         /// </summary>
-        public List<InfoAboutAction> InfoUsers
+        public List<ParametrsAction> InfoUsers
         {
             get
             {
-                return _context.InfoAboutAction
+                return _context.ParametrsActions
                     .Include(x => x.Action)
                     .ToList();
             }
@@ -47,8 +47,8 @@ namespace AstralTest.Domain.Services
                 throw new NullReferenceException(
                     $"Пользователя, который обращается к приложению с таким Id{idAction} не существует.");
             }
-            var result = new InfoAboutAction(idAction, paramets);
-            await _context.InfoAboutAction.AddAsync(result);
+            var result = new ParametrsAction(idAction, paramets);
+            await _context.ParametrsActions.AddAsync(result);
             await _context.SaveChangesAsync();
             return result.Id;
         }
@@ -58,9 +58,9 @@ namespace AstralTest.Domain.Services
         /// Возвращает всю информацию о том, кто и когда обращался к приложению
         /// </summary>
         /// <returns></returns>
-        public async Task<List<InfoAboutAction>> GetAsync()
+        public async Task<List<ParametrsAction>> GetAsync()
         {
-            return await _context.InfoAboutAction
+            return await _context.ParametrsActions
                 .Include(x => x.Action)
                 .ToListAsync();
         }
